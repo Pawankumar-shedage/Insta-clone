@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { initializeApp } from "firebase/app";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { createContext, useContext } from "react";
 
 // Firebase Config/set-up
@@ -16,18 +17,37 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 const firebaseContext = createContext();
 export const FirebaseContext = ({ children }) => {
   // helper functions
-  const greet = () => {
-    return "wheo";
+  const greet = (val) => {
+    return "wheo" + val;
+  };
+
+  // Adding data to users collections
+  const addUser = async ({ username, email, profileImg, displayName, bio }) => {
+    console.log(email);
+    try {
+      const docRef = await addDoc(collection(db, "Users"), {
+        username: username,
+        email: email,
+        profileImg: profileImg,
+        displayName: displayName,
+        bio: bio,
+      });
+
+      console.log("User data added sucessfully");
+    } catch (error) {
+      console.log("Error in adding user data : ", error);
+    }
   };
 
   // -----------------------------------------------------------------------------------
   return (
     <>
-      <firebaseContext.Provider value={{ greet }}>
+      <firebaseContext.Provider value={{ greet, addUser }}>
         {children}
       </firebaseContext.Provider>
     </>
