@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useFirebase } from "./FirebaseSetUp/FirebaseContext";
 
 function App() {
-  // getting firebase properties
   // eslint-disable-next-line no-unused-vars
-  const { greet, addUser } = useFirebase();
+  // getting firebase properties
+  const { addUser, getUser, uploadProfilePhotos } = useFirebase();
 
   // add fields
   const [userData, setUserData] = useState({
@@ -15,6 +15,7 @@ function App() {
     displayName: "",
     bio: "",
   });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -24,14 +25,28 @@ function App() {
 
     console.log(userData);
   };
-  // useEffect(() => {
-  // }, []);
+
   const addUserData = (e) => {
     e.preventDefault();
-    console.log(userData);
     addUser(userData);
-    console.log("Added User sfly.");
   };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadProfilePhotos(file);
+    }
+    const url = await uploadProfilePhotos(file);
+    console.log("This url", url);
+  };
+
+  const getuserData = async () => {
+    const data = await getUser();
+    Object.entries(data).forEach(([key, value]) => {
+      console.log(key, value);
+    });
+  };
+
   return (
     <>
       <h1>My Insta clone</h1>
@@ -90,6 +105,11 @@ function App() {
         <br />
         <button type="submit">Submit</button>
       </form>
+      <div>
+        <input type="file" onChange={handleFileChange} />
+      </div>
+
+      <button onClick={getuserData}>Get user data</button>
     </>
   );
 }
