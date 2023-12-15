@@ -1,0 +1,48 @@
+*{
+    box-sizing: border-box;
+}
+.top{
+    height: 100vh;
+    width: 100vw;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80vh;
+    width: 50vw;
+    border: 1px solid gray;
+}
+
+.container-parent{
+    width: 80%;
+    margin-top: 10%;
+    max-width: 350px;
+}
+.container-parent>.login-div{
+    max-width: 350px;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+
+.contained-img{
+    background-position: 0px 0px;
+    background-size: 176px 258px;
+    width: 175px;
+    height: 51px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-image: url("https://static.cdninstagram.com/rsrc.php/v3/yW/r/cmOQpE9vFiR.png");
+}
+
+
+
+.meta-logo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
