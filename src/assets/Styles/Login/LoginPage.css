@@ -1,25 +1,31 @@
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 .top{
-    height: 100vh;
-    width: 100vw;
+    /* background-color: red; */
+    margin: 0;
+    max-height: 100%;
+    max-width: 100%;
 }
 .main{
     display: flex;
     justify-content: center;
-    margin-top: 5%;
+    margin-top: 12px;
     margin-left: auto;
     margin-right: auto;
-    height: 80vh;
-    width: 50vw;
-    border: 1px solid gray;
+    height: auto;
+    max-width: 350px;
+    border: 1px solid rgb(219,219,219);
 }
 
 .container-parent{
     width: 80%;
     margin-top: 10%;
     max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .container-parent>.login-div{
     max-width: 350px;
@@ -31,6 +37,7 @@
 .contained-img{
     background-position: 0px 0px;
     background-size: 176px 258px;
+    max-width: 100%;
     width: 175px;
     height: 51px;
     background-repeat: no-repeat;
@@ -46,3 +53,98 @@
     flex-direction: column;
     align-items: center;
 }
+
+.contained-meta-img{
+    background-position: 0px 0px;
+    background-size: 176px 258px;
+    max-width: 350px;
+    max-height: 100%;
+    width:100%;
+    height: 50px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-image: url("/src/IG_brand_asset_pack_2023/Meta\ Logo.png");
+    cursor: pointer;
+}
+
+.sign-up-shortcut{
+    border: 1px solid rgb(219,219,219);
+    max-width: 350px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+.sign-up-shortcut>.nav-link{
+    display: inline-flex;
+    color: blue;
+}
+
+.get-the-app{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 350px;
+}
+
+.center-elements{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content:space-around;
+}
+
+/* small text */
+.small-text{
+    font-size: 12px;
+}
+
+/* Footer */
+footer{
+    /* max-width: 719.2px;
+    max-height: 98px; */
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-content-frame{
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.footer-tags{
+    display: flex;
+    flex-wrap: wrap; /*main */
+    justify-content: center;
+    gap: 10px;
+    color: rgb(128,128,128);
+}
+
+.lang-copywrite{
+   width: 100vw;
+   display: flex;
+   justify-content: center;
+}
+#lang-select{
+    background-color: white;
+    font-size: 12px;
+    /* opacity: 0.9; */
+}
+
+/* Media Queries */
+@media only screen and (max-width: 600px) {
+    .form-control,
+    .btn-primary {
+      font-size: 14px;
+    }
+  }

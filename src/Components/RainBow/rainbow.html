@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow</title>
+</head>
+<style>
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+section {
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+}
+
+h2 {
+    color: #333;
+}
+.hidden {
+    display: none;
+}
+</style>
+<body>
+    <section id="before-droplet">
+        <h2>Before Droplet</h2>
+        <!-- ASCII art or placeholder for the straight rainbow -->
+        <pre>
+            🌈🌈🌈🌈🌈🌈🌈🌈🌈
+        </pre>
+    </section>
+
+    <section id="after-droplet">
+        <h2>After Droplet</h2>
+        <!-- ASCII art or placeholder for the curved rainbow -->
+    </section>
+
+    
+    <script>
+        console.log("This is rainbow formation.")
+        document.addEventListener('DOMContentLoaded', function () {
+        const beforeDropletSection = document.getElementById('before-droplet');
+        const afterDropletSection = document.getElementById('after-droplet');
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = 'Toggle Transformation';
+
+        toggleButton.addEventListener('click', function () {
+            // Toggle visibility of rainbow representations
+            beforeDropletSection.classList.toggle('hidden');
+            afterDropletSection.classList.toggle('hidden');
+        });
+
+        // Append the toggle button to the body
+        document.body.appendChild(toggleButton);
+});
+    </script>
+</body>
+</html>
