@@ -3,12 +3,18 @@
 /* eslint-disable no-unused-vars */
 import { initializeApp } from "firebase/app";
 import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import {
   addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
   getFirestore,
+  setDoc,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useContext, useState } from "react";
@@ -26,6 +32,7 @@ const firebaseConfig = {
 
 // REFERENCE OBJECTS
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
@@ -35,20 +42,50 @@ export const FirebaseContext = ({ children }) => {
   // HELPER FUNCTIONS
 
   // Adding data to users collections
-  const addUser = async ({ username, email, profileImg, displayName, bio }) => {
-    console.log(email);
+  const addUser = async ({ username, email, fullName, password }) => {
+    // console.log(email);
     try {
-      // addDoc(ref,{document}) -->Add Write data.
-      const docRef = await addDoc(collection(db, "Users"), {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      console.log(user);
+
+      const additionalData = {
         username: username,
-        email: email,
-        profileImg: profileImg,
-        displayName: displayName,
-        bio: bio,
-      });
+        fullName: fullName,
+      };
+
+      const userCollection = collection(db, "Users");
+      const docRef = await doc(userCollection, user.uid);
+
+      await setDoc(docRef, additionalData);
+
       console.log("Successful Addition-Document written with ID: ", docRef.id);
+
+      return user;
     } catch (error) {
       console.log("Error in adding user data : ", error);
+      throw error;
+    }
+  };
+
+  // Logging user in
+  const logInUser = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      return user;
+    } catch (error) {
+      console.log("Error Logging in: ", error);
+      throw error;
     }
   };
 
@@ -89,7 +126,7 @@ export const FirebaseContext = ({ children }) => {
   return (
     <>
       <firebaseContext.Provider
-        value={{ addUser, getUser, uploadProfilePhotos }}
+        value={{ addUser, getUser, uploadProfilePhotos, logInUser }}
       >
         {children}
       </firebaseContext.Provider>

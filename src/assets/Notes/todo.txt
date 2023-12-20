@@ -1,0 +1,18 @@
+
+⭐Current-Priority: 🚩
+    1.Home(Posts,stories,Action Button)
+
+⭐To add:➕🔼
+    1.Chat section(chats...(messages))
+
+⭐Done
+    1.Authentication ✅
+
+---------------------------------------------------------------
+🔨add-on-feature list:
+    4.Password look-up/hide.
+    3.add react-toastify on success/error messages.
+
+    --later
+    1.Add password generator.
+    2.Password manager. (in js)

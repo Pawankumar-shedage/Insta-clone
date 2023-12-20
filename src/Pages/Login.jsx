@@ -5,10 +5,60 @@ import { useState } from "react";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 // style
 import "/src/assets/Styles/Login/LoginPage.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Register } from "./Register";
+import { Footer } from "../Components/Common/Footer/Footer";
+import { GetTheApp } from "../Components/Common/Footer/GetTheApp";
 
 export const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isPasswordFocused, setPasswordFocus] = useState(false);
+
+  // Firebase 🦺
+  const { logInUser, getUser: getUserData } = useFirebase();
+
+  // redirect
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // **Main
+  const handleLogIn = async (e) => {
+    e.preventDefault();
+
+    try {
+      const user = await logInUser(formData.email, formData.password);
+      if (user) {
+        // User is authenticated, fetch additional data from Firestore
+        console.log(user);
+        const userData = await getUserData(user.uid);
+
+        if (userData) {
+          console.log("User authenticated:", user);
+          console.log("User data from Firestore:", userData);
+          // Now you have both authentication data and additional user data
+
+          // navigate
+          navigate("/");
+        } else {
+          console.error("User data not found in Firestore");
+          // Handle the case where user data is not found
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="top">
@@ -23,11 +73,14 @@ export const Login = () => {
 
               {/* Login credentials */}
               <div className="form-div w-100% text-center">
-                <form>
+                <form onSubmit={handleLogIn}>
                   <div className="form-elements">
                     <div className="form-group  mb-2">
                       <input
                         type="email"
+                        name="email"
+                        onChange={handleChange}
+                        value={formData.email}
                         className="form-control small-text"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
@@ -37,6 +90,11 @@ export const Login = () => {
                     <div className="form-group  mb-2">
                       <input
                         type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={formData.password}
+                        onFocus={() => setPasswordFocus(!isPasswordFocused)}
+                        onBlur={() => setPasswordFocus(!isPasswordFocused)}
                         className="form-control small-text"
                         id="exampleInputPassword1"
                         placeholder="Password"
@@ -77,139 +135,22 @@ export const Login = () => {
           {/* !main */}
         </div>
         <div className="sign-up-shortcut mt-2">
-          Don't have an account? &nbsp;
+          <span style={{ fontSize: "14px" }}>
+            Don't have an account? &nbsp;
+          </span>
           <Link to="/register" className="nav-link">
-            Sign up
+            <span style={{ fontSize: "14px" }}>Sign up</span>
           </Link>
         </div>
 
         {/* Get the app */}
-        <div className="get-the-app mt-4">
-          <p className="text-center small-text">Get the app</p>
-          <div className="center-elements">
-            {/* google play store */}
-            <Link to="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DsignupPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge%26original_referrer%3Dhttps%253A%252F%252Fwww.instagram.com%252Fdirect%252Finbox%252F">
-              <img
-                alt="Get it on Google Play"
-                className=""
-                src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png"
-                style={{ height: "40px" }}
-              />
-            </Link>
-
-            {/* go to microsoft store */}
-            <Link to="ms-windows-store://pdp/?productid=9nblggh5l9xt&referrer=appbadge&source=www.instagram.com&mode=mini&pos=7%2C10%2C1921%2C913&next=https%3A%2F%2Fwww.instagram.com%2Fdirect%2Ft%2F117111423003923%2F%3F__coig_login%3D1">
-              <img
-                alt="Get it from Microsoft"
-                className="_aa5q"
-                src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png"
-                style={{ height: "40px" }}
-              ></img>
-            </Link>
-          </div>
-        </div>
+        <GetTheApp />
 
         {/* !top */}
       </div>
 
-      <footer role="content-info" className="mt-5">
-        <div className="footer-content-frame">
-          {/* Tags */}
-          <div className="footer-tags small-text">
-            <div className="meta me-1">
-              <div>
-                <Link className="nav-link" to="/">
-                  Meta
-                </Link>
-              </div>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                About
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Blogs
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Job
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Help
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                API
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Privacy
-              </Link>
-            </div>
-            <div className="meta me-1 d-flex">
-              <Link className="nav-link" to="/">
-                <span>Cookie Settings</span>
-              </Link>
-            </div>
-            <div className="meta  me-3">
-              <Link className="nav-link" to="/">
-                Terms
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Locations
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Instagram Lite
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Threads
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Contact Uploading & Non-Users
-              </Link>
-            </div>
-            <div className="meta me-1">
-              <Link className="nav-link" to="/">
-                Meta Verified
-              </Link>
-            </div>
-
-            {/* !------- */}
-          </div>
-
-          {/* Language, to make a component */}
-          <div className="lang-copywrite mt-3">
-            <div>
-              <select className="form-select " name="lang" id="lang-select">
-                <option value="English">English</option>
-                <option value="Hindi">Hindi</option>
-                <option value="Marathi">Marathi</option>
-              </select>
-            </div>
-            &nbsp;
-            <div className="copyright">
-              <span className="small-text">
-                &#169; 2023 Instagram from Meta
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* FOOTER */}
+      <Footer />
     </>
   );
 };

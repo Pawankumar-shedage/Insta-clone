@@ -1,8 +1,61 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "/src/assets/Styles/Register/RegisterPage.css";
+import { Footer } from "../Components/Common/Footer/Footer";
+import { GetTheApp } from "../Components/Common/Footer/GetTheApp";
+import { useEffect, useState } from "react";
+import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 
 export const Register = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    fullName: "",
+    password: "",
+  });
+
+  //--- Firebase 🦺
+  const { addUser: registerUser } = useFirebase();
+
+  // navigation
+  const navigate = useNavigate();
+
+  const [isPasswordFocused, setPasswordFocus] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const getPasswordStrengthMessage = () => {
+    const length = formData.password.length;
+    if (length < 8)
+      return {
+        color: "red",
+        message: "Password must atleast contain 8 characters",
+      };
+    else if (length <= 10) return { color: "blue", message: "Good Password" };
+    else return { color: "green", message: "Strong Password" };
+  };
+  const { color, message } = getPasswordStrengthMessage();
+
+  // SUbmit data
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const dataSent = await registerUser(formData);
+
+    if (dataSent) {
+      navigate("/");
+    }
+    console.log("data sub", dataSent);
+  };
+
+  // Return
   return (
     <>
       <div className="top">
@@ -17,17 +70,21 @@ export const Register = () => {
 
               {/* Login credentials */}
               <div className="form-div w-100% text-center">
-                <form>
+                <form onSubmit={handleSubmit}>
                   {/* Email */}
                   <div className="form-elements">
                     <div className="form-group  mb-2">
                       <input
                         type="email"
+                        name="email"
+                        onChange={handleChange}
+                        value={formData.email}
                         className="form-control input-field"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         placeholder="Email"
                         required
+                        // autoComplete=""
                       />
                     </div>
 
@@ -35,6 +92,9 @@ export const Register = () => {
                     <div className="form-group  mb-2">
                       <input
                         type="text"
+                        name="fullName"
+                        onChange={handleChange}
+                        value={formData.fullName}
                         className="form-control input-field"
                         id="exampleInputEmail3"
                         aria-describedby="emailHelp"
@@ -46,8 +106,11 @@ export const Register = () => {
                     <div className="form-group  mb-2">
                       <input
                         type="text"
+                        name="username"
+                        onChange={handleChange}
+                        value={formData.username}
                         className="form-control input-field"
-                        id="exampleInputPassword1"
+                        id="username1"
                         placeholder="Username"
                       />
                     </div>
@@ -56,6 +119,11 @@ export const Register = () => {
                     <div className="form-group  mb-2">
                       <input
                         type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={formData.password}
+                        onFocus={() => setPasswordFocus(!isPasswordFocused)}
+                        onBlur={() => setPasswordFocus(!isPasswordFocused)}
                         className="form-control input-field"
                         id="exampleInputPassword1"
                         placeholder={"Password"}
@@ -63,19 +131,20 @@ export const Register = () => {
                       />
 
                       {/* conditional render after entering password.. */}
+
                       <small
                         className=""
                         style={{
-                          color: "blue",
+                          color: color,
                           float: "left",
                           fontSize: "9px",
                         }}
                       >
-                        <span className="">
-                          Must be of atleast 8 characters
-                        </span>
+                        {isPasswordFocused && message}
                       </small>
                     </div>
+
+                    {/* !form-elements */}
                   </div>
 
                   <br />
@@ -99,7 +168,6 @@ export const Register = () => {
                   <div className="text-center d-grid">
                     <button
                       type="submit"
-                      role="button"
                       className="btn btn-primary mt-3"
                       style={{ overflow: "hidden" }}
                     >
@@ -127,140 +195,22 @@ export const Register = () => {
         </div>
 
         <div className="sign-up-shortcut mt-2">
-          <span>Have an account? &nbsp;</span>
-          <Link to="/login" className="nav-link">
+          <span className="" style={{ fontSize: "14px" }}>
+            Have an account? &nbsp;
+          </span>
+          <Link to="/login" className="nav-link" style={{ fontSize: "14px" }}>
             Log in
           </Link>
         </div>
 
         {/* Get the app */}
-        <div className="get-the-app mt-4 mb-2">
-          <p className="text-center small-text">Get the app</p>
-          <div className="center-elements">
-            {/* google play store */}
-            <Link to="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DsignupPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge%26original_referrer%3Dhttps%253A%252F%252Fwww.instagram.com%252Fdirect%252Finbox%252F">
-              <img
-                alt="Get it on Google Play"
-                className=""
-                src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png"
-                style={{ height: "40px" }}
-              />
-            </Link>
-
-            {/* go to microsoft store */}
-            <Link to="ms-windows-store://pdp/?productid=9nblggh5l9xt&referrer=appbadge&source=www.instagram.com&mode=mini&pos=7%2C10%2C1921%2C913&next=https%3A%2F%2Fwww.instagram.com%2Fdirect%2Ft%2F117111423003923%2F%3F__coig_login%3D1">
-              <img
-                alt="Get it from Microsoft"
-                className="_aa5q"
-                src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png"
-                style={{ height: "40px" }}
-              ></img>
-            </Link>
-          </div>
-        </div>
+        <GetTheApp />
 
         {/* !top */}
       </div>
 
       {/* Footer */}
-      <footer role="content-info" className="mt-5">
-        <div className="footer-content-frame">
-          {/* Tags */}
-          <div className="footer-tags small-text">
-            <div className="meta me-3">
-              <div>
-                <Link className="nav-link" to="/">
-                  Meta
-                </Link>
-              </div>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                About
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Blogs
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Job
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Help
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                API
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Privacy
-              </Link>
-            </div>
-            <div className="meta me-3 d-flex">
-              <Link className="nav-link" to="/">
-                <span>Cookie Settings</span>
-              </Link>
-            </div>
-            <div className="meta  me-3">
-              <Link className="nav-link" to="/">
-                Terms
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Locations
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Instagram Lite
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Threads
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Threads
-              </Link>
-            </div>
-            <div className="meta me-3">
-              <Link className="nav-link" to="/">
-                Threads
-              </Link>
-            </div>
-
-            {/* !------- */}
-          </div>
-
-          {/* Language */}
-          <div className="lang-copywrite mt-3">
-            <div>
-              <select className="form-select" name="lang" id="lang-select">
-                <option value="English">English</option>
-                <option value="Hindi">Hindi</option>
-                <option value="Marathi">Marathi</option>
-              </select>
-            </div>
-            &nbsp;
-            <div className="copyright">
-              <span className="small-text">
-                &#169; 2023 Instagram from Meta
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 };
