@@ -1,6 +1,6 @@
 
 ⭐Current-Priority: 🚩
-    1.Home(Posts,stories,Action Button)
+    1.Home(Posts,stories,Action Buttons)
 
 ⭐To add:➕🔼
     1.Chat section(chats...(messages))
@@ -10,9 +10,11 @@
 
 ---------------------------------------------------------------
 🔨add-on-feature list:
+    5.Google Sign-Up
     4.Password look-up/hide.
     3.add react-toastify on success/error messages.
 
     --later
+    .Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
     1.Add password generator.
     2.Password manager. (in js)

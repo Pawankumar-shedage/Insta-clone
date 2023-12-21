@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import "/src/assets/Styles/Register/RegisterPage.css";
+import "/src/Styles/Register/RegisterPage.css";
 import { Footer } from "../Components/Common/Footer/Footer";
 import { GetTheApp } from "../Components/Common/Footer/GetTheApp";
 import { useEffect, useState } from "react";

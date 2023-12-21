@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 // style
-import "/src/assets/Styles/Login/LoginPage.css";
+import "/src/Styles/Login/LoginPage.css";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Register } from "./Register";
 import { Footer } from "../Components/Common/Footer/Footer";

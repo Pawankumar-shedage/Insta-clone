@@ -1,0 +1,73 @@
+
+
+
+
+.sidebar-mount{
+    height: 100vh;
+    width: fit-content;
+    display: block;
+    border: 1px solid rgb(var(--ig-seperator));
+    background-color: rgb(var(--ig-primary-color));
+    z-index: 1;
+}
+
+.button-group{
+   height: 100dvh;
+   width: var(--sidebar-narrow-width);
+   padding: 8px 12px 20px 12px;
+   box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+   justify-content:space-between;
+   overflow-x: hidden;
+}
+
+.top-btns{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.button-group>.sidebar-btn-grp-1{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+}
+
+.insta-log-div{
+    height: 64px;
+    width: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    margin:12px 0;
+}
+.sidebar-btn-grp-1>div{
+    /* color: rgb(var(--ig-secondary-color)); */
+    height: 64px;
+    width: 48px;
+    display: flex;
+    flex-direction: '';
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    
+}
+.sidebar-btn-grp-1>div>.sidebar-link{
+    text-decoration: none;
+    color: white;
+}
+.sidebar-btn-grp-1>div>.sidebar-link>span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:8px 0;
+    width:48px;
+    height: 48px;
+    color: white;
+}
