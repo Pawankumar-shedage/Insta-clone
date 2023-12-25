@@ -1,0 +1,37 @@
+.stories-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:flex-start;
+  margin: 20px auto;
+  /* margin-left: 10px; */
+  padding: 8px 40px;
+  width: 75%;
+  background-color: rgb(var(--ig-primary-color));
+  overflow-x: hidden;
+}
+
+.stories-container>div{
+  /* background-color: red; */
+  margin: 0px 5px;
+  width: 50px;
+  height: 50px;
+  padding: 12px 12px;
+  border-radius: 50%;
+  position: relative;
+  /* gradient border */
+  border: 2px solid rgb(0, 124, 128);
+}
+
+.stories-container>div>.profile-pic{
+  /* background-color: white ; */
+  position: absolute;
+  left: 2%;
+  top: 3%;
+  height: 45px;
+  width: 45px;
+  border-radius: 10%;
+}
+.profile-pic>img{
+  border-radius: 100%;
+}

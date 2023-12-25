@@ -122,6 +122,9 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
+  // Getting profile photo current-user
+  // const getProfilePic = async
+
   // -----------------------------------------------------------------------------------
   return (
     <>

@@ -18,3 +18,10 @@
     .Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
     1.Add password generator.
     2.Password manager. (in js)
+
+
+--to learn
+    <line>
+    <svg viewbox=" mix-x min-y width height "
+    -----------------------------------------------------
+    <svg aria-label="Home" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
