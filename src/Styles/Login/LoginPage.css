@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    color: black;
 }
 .top{
     /* background-color: red; */
@@ -78,6 +79,7 @@
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
+    color: black;
 }
 
 .sign-up-shortcut>.nav-link{

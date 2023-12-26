@@ -3,6 +3,6 @@
 }
 
 select>option{
-    
-    color: black;
+    background-color: white;
+    color: #000;
 }

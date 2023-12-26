@@ -4,7 +4,7 @@ export const GetTheApp = () => {
   return (
     <>
       <div className="get-the-app mt-4 mb-2">
-        <p className="text-center small-text">Get the app</p>
+        <p className="text-center small-text mb-3">Get the app</p>
         <div className="center-elements">
           {/* google play store */}
           <Link to="https://play.google.com/store/apps/details?id=com.instagram.android&referrer=ig_mid%3D0C826C21-17C3-444A-ABB7-EBABD37214D7%26utm_campaign%3DsignupPage%26utm_content%3Dlo%26utm_source%3Dinstagramweb%26utm_medium%3Dbadge%26original_referrer%3Dhttps%253A%252F%252Fwww.instagram.com%252Fdirect%252Finbox%252F">

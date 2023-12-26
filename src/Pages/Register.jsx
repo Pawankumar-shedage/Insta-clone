@@ -186,7 +186,7 @@ export const Register = () => {
               <div className="meta">
                 <img
                   className="contained-meta-img"
-                  src="/src/IG_brand_asset_pack_2023/Meta Logo.png"
+                  src="/src/assets/IG_brand_asset_pack_2023/Meta Logo.png"
                   alt=""
                 />
               </div>

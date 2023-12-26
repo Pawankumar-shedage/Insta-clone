@@ -1,3 +1,89 @@
-*{
-    background-color: rgb(var(--ig-primary-color))
+
+.messages-mount{
+    height: 100vh;
+    width:100vw;
+    display: flex;
+    background-color: rgb(var(--ig-primary-color));
+    z-index: 1;
 }
+
+.message-sidebar{
+    height: 100dvh;
+    width: var(--sidebar-narrow-width);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items:flex-start;
+    overflow-x: hidden;
+    padding: 8px 12px 20px 12px;
+    border-right: 1px solid rgb(var(--ig-seperator));
+}
+
+
+.message-top-btns{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 5%;
+    width: 100%;
+}
+
+.upper-insta-logo{
+    width: 100%px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    text-decoration: none;
+    color: white;
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+
+/* [2] */
+.message-profiles{
+    width:398px ;
+    height: 100vh;
+    border-right: 1px solid rgb(var(--ig-seperator));
+   
+}
+
+.msg-prof-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    padding: 25px 25px;
+}
+
+.msg-prof-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.msg-profile-chats{
+    margin:20px 0;
+}
+.msg-prof-profile-pic{
+ 
+  height: 50px;
+  width: 50px;
+}
+
+
+/* [3] */
+.message-chat{
+    flex-grow: 1;
+    display: flex;
+
+}
+.message-chat>.msg-base{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+

@@ -107,9 +107,14 @@ export const Login = () => {
                       type="submit"
                       role="button"
                       className="btn btn-primary mt-3"
-                      style={{ overflow: "hidden" }}
+                      style={{ overflow: "hidden", color: "white" }}
                     >
-                      <span className="small-text text-center">Log In</span>
+                      <span
+                        className="small-text text-center"
+                        style={{ color: "white" }}
+                      >
+                        Log In
+                      </span>
                     </button>
                   </div>
                 </form>
@@ -123,9 +128,8 @@ export const Login = () => {
               </span>
               <div className="meta me-1">
                 <img
-                  to="/"
                   className="contained-meta-img"
-                  src="/src/IG_brand_asset_pack_2023/Meta Logo.png"
+                  src="/src/assets/IG_brand_asset_pack_2023/Meta Logo.png"
                   alt=""
                 />
               </div>

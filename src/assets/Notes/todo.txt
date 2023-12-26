@@ -1,12 +1,18 @@
 
 ⭐Current-Priority: 🚩
+    1.Chat section(chats...(messages))
+        firebase logic:
     1.Home(Posts,stories,Action Buttons)
 
 ⭐To add:➕🔼
-    1.Chat section(chats...(messages))
+    2.Profile.(Follow,Message)
 
-⭐Done
-    1.Authentication ✅
+    //Modals for message,settings...
+
+⭐Done                                      Date
+    1.Authentication ✅                     22 - Dec
+    2.Home UI (Base Structure) ✅           25 - Dec
+
 
 ---------------------------------------------------------------
 🔨add-on-feature list:
@@ -18,7 +24,7 @@
     .Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
     1.Add password generator.
     2.Password manager. (in js)
-
+    . To add/remove fill att of svg of sidebar..
 
 --to learn
     <line>
