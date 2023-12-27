@@ -4,7 +4,8 @@
     width:100vw;
     display: flex;
     background-color: rgb(var(--ig-primary-color));
-    z-index: 1;
+    z-index: 0;
+    color: white;
 }
 
 .message-sidebar{
@@ -45,6 +46,7 @@
 /* [2] */
 .message-profiles{
     width:398px ;
+    max-width: 398px;
     height: 100vh;
     border-right: 1px solid rgb(var(--ig-seperator));
    
@@ -56,11 +58,14 @@
     margin-top: 10px;
     padding: 25px 25px;
 }
-
 .msg-prof-header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+.msg-prof-header>div{
+    display: flex;
+    flex-direction: row;
 }
 .msg-profile-chats{
     margin:20px 0;

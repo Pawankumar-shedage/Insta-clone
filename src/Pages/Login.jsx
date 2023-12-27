@@ -18,7 +18,11 @@ export const Login = () => {
   const [isPasswordFocused, setPasswordFocus] = useState(false);
 
   // Firebase 🦺
-  const { logInUser, getUser: getUserData } = useFirebase();
+  const {
+    logInUser,
+    getUser: getUserData,
+    updateUserInFirestore,
+  } = useFirebase();
 
   // redirect
   const navigate = useNavigate();
@@ -40,10 +44,15 @@ export const Login = () => {
       if (user) {
         // User is authenticated, fetch additional data from Firestore
         console.log(user);
+
+        // Updating "user uid" in users collection
+        const userId = user.uid;
+        updateUserInFirestore(userId);
+
         const userData = await getUserData(user.uid);
 
         if (userData) {
-          console.log("User authenticated:", user);
+          console.log("User authenticated:", user.uid);
           console.log("User data from Firestore:", userData);
           // Now you have both authentication data and additional user data
 
@@ -123,7 +132,7 @@ export const Login = () => {
 
             {/* From Meta */}
             <div className="meta-logo mt-5">
-              <span className="small-text" style={{ overflow: "hiden" }}>
+              <span className="small-text" style={{ overflow: "hidden" }}>
                 from
               </span>
               <div className="meta me-1">

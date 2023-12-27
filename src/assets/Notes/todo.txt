@@ -16,6 +16,7 @@
 
 ---------------------------------------------------------------
 🔨add-on-feature list:
+    Navbar-hover effects for buttons
     5.Google Sign-Up
     4.Password look-up/hide.
     3.add react-toastify on success/error messages.

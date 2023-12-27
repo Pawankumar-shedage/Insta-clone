@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import {
+  Firestore,
   addDoc,
   collection,
   doc,
@@ -15,6 +16,7 @@ import {
   getDocs,
   getFirestore,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { createContext, useContext, useState } from "react";
@@ -94,13 +96,29 @@ export const FirebaseContext = ({ children }) => {
     // storing documents from the collection (object(s)) in an array and returning it
     const userData = [];
 
-    const querySnapshot = await getDocs(collection(db, "Users"));
+    const userDocs = await getDocs(collection(db, "Users"));
 
-    querySnapshot.forEach((doc) => {
-      console.log(`doc id: ${doc.id}=> ${doc.data()}`);
+    userDocs.forEach((doc) => {
+      // console.log(`doc id: ${doc.id}=> ${doc.data()}`);
       userData.push(doc.data());
     });
-    return userData; //returning array of objects
+    return userData; //returning array of objects (users)
+  };
+
+  // Updating User
+  const updateUserInFirestore = async (userId) => {
+    try {
+      // getting user doc reference
+      const userCollection = collection(db, "Users");
+      const userDocRef = doc(userCollection, userId);
+
+      // updating uid of user
+      await updateDoc(userDocRef, {
+        uid: userId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Uploading Profile Pic (DP)
@@ -129,7 +147,14 @@ export const FirebaseContext = ({ children }) => {
   return (
     <>
       <firebaseContext.Provider
-        value={{ addUser, getUser, uploadProfilePhotos, logInUser }}
+        value={{
+          auth,
+          addUser,
+          getUser,
+          uploadProfilePhotos,
+          logInUser,
+          updateUserInFirestore,
+        }}
       >
         {children}
       </firebaseContext.Provider>

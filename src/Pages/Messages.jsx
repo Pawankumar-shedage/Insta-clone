@@ -1,7 +1,43 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
 import "/src/Styles/Messages/Messages.css";
 import "/src/index.css";
+import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
+import { useEffect, useState } from "react";
+import { useAuth } from "../AuthContext/AuthProvider";
+import { ChatComponent } from "../Components/Messages/ChatComponent";
 export const Messages = () => {
+  // Firestore 🦺
+  const { getUser } = useFirebase();
+
+  const { currentUser } = useAuth();
+  console.log("USer Signed in", currentUser.uid);
+
+  const [users, setUsers] = useState([]);
+  // Fetching users from firestore
+  const getUsers = async () => {
+    const users = await getUser();
+    console.log(users);
+    setUsers(users);
+    return users;
+  };
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  users.forEach((user) => {
+    console.log(user.fullName);
+  });
+
+  // start chat with
+  const [selectedUser, setSelectedUser] = useState(null);
+  const handleStartChat = (user) => {
+    setSelectedUser(user);
+    console.log("This", user);
+  };
+
+  //-------------------------------------------------RETURN MESSAGES.jsx---------------------------------------------------
   return (
     <>
       <div className="messages-mount">
@@ -397,24 +433,28 @@ export const Messages = () => {
             {/* header */}
             <div className="msg-prof-header">
               <div>
-                <span className="fw-bold fs-5 pe-2">pawankumar623824</span>
-                <span className="pt-2">
-                  <svg
-                    aria-label="Down chevron icon"
-                    className="x1lliihq x1n2onr6 x5n08af"
-                    fill="currentColor"
-                    height="12"
-                    role="img"
-                    viewBox="0 0 24 24"
-                    width="12"
-                  >
-                    <title>Down chevron icon</title>
-                    <path d="M12 17.502a1 1 0 0 1-.707-.293l-9-9.004a1 1 0 0 1 1.414-1.414L12 15.087l8.293-8.296a1 1 0 0 1 1.414 1.414l-9 9.004a1 1 0 0 1-.707.293Z"></path>
-                  </svg>
-                </span>
+                <Link className="nav-link">
+                  <span className="fw-bold fs-5 pe-2">pawankumar623824</span>
+                </Link>
+                <Link className="nav-link">
+                  <span className="pt-2">
+                    <svg
+                      aria-label="Down chevron icon"
+                      className="x1lliihq x1n2onr6 x5n08af"
+                      fill="currentColor"
+                      height="12"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="12"
+                    >
+                      <title>Down chevron icon</title>
+                      <path d="M12 17.502a1 1 0 0 1-.707-.293l-9-9.004a1 1 0 0 1 1.414-1.414L12 15.087l8.293-8.296a1 1 0 0 1 1.414 1.414l-9 9.004a1 1 0 0 1-.707.293Z"></path>
+                    </svg>
+                  </span>
+                </Link>
               </div>
               <div>
-                <Link>
+                <Link className="nav-link">
                   <span>
                     <svg
                       aria-label="New message"
@@ -480,25 +520,38 @@ export const Messages = () => {
             {/* chat-profiles-*/}
             <div className="msg-profile-chats">
               {/* single-profile */}
-              <div className="d-flex flex-row mb-3">
-                <div className="msg-prof-profile-pic me-2">
-                  <img
-                    src="/src/assets/Images/French-Croissants.jpg"
-                    alt="profile-pic"
-                    width="100%"
-                    height="100%"
-                    className="rounded-circle"
-                  />
-                </div>
-                <div className="d-flex flex-column">
-                  <div className="username">Soham</div>
-                  <div className="user-msg fw-light">
-                    <small style={{ color: "gray" }}>
-                      Soham sent an attachment
-                    </small>
-                  </div>
-                </div>
-              </div>
+              {users.map((user, index) => {
+                return (
+                  <>
+                    <div
+                      key={user.uid}
+                      onClick={() => handleStartChat(user)}
+                      className="d-flex flex-row mb-3"
+                    >
+                      <div className="msg-prof-profile-pic me-2">
+                        <img
+                          src="/src/assets/Images/French-Croissants.jpg"
+                          alt="profile-pic"
+                          width="100%"
+                          height="100%"
+                          className="rounded-circle"
+                        />
+                      </div>
+                      <div className="d-flex flex-column">
+                        <div className="username">
+                          <span key={index}>{user.fullName}</span>
+                        </div>
+                        <div className="user-msg fw-light">
+                          <small style={{ color: "gray" }}>
+                            <span>{user.fullName.split(" ")[0]}</span> sent an
+                            attachment
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
 
               {/* !profile */}
             </div>
@@ -507,42 +560,46 @@ export const Messages = () => {
 
         {/* Message-CHAT- [3] section, on click (2) */}
         <div className="message-chat">
-          {/* Base load ui send message btn */}
-          <div className="msg-base">
-            {/*  */}
-            <div className="message-icon-big mb-3">
-              <svg
-                aria-label=""
-                className="x1lliihq x1n2onr6 x5n08af"
-                fill="currentColor"
-                height="96"
-                role="img"
-                viewBox="0 0 96 96"
-                width="96"
-              >
-                <title></title>
-                <path d="M48 0C21.532 0 0 21.533 0 48s21.532 48 48 48 48-21.532 48-48S74.468 0 48 0Zm0 94C22.636 94 2 73.364 2 48S22.636 2 48 2s46 20.636 46 46-20.636 46-46 46Zm12.227-53.284-7.257 5.507c-.49.37-1.166.375-1.661.005l-5.373-4.031a3.453 3.453 0 0 0-4.989.921l-6.756 10.718c-.653 1.027.615 2.189 1.582 1.453l7.257-5.507a1.382 1.382 0 0 1 1.661-.005l5.373 4.031a3.453 3.453 0 0 0 4.989-.92l6.756-10.719c.653-1.027-.615-2.189-1.582-1.453ZM48 25c-12.958 0-23 9.492-23 22.31 0 6.706 2.749 12.5 7.224 16.503.375.338.602.806.62 1.31l.125 4.091a1.845 1.845 0 0 0 2.582 1.629l4.563-2.013a1.844 1.844 0 0 1 1.227-.093c2.096.579 4.331.884 6.659.884 12.958 0 23-9.491 23-22.31S60.958 25 48 25Zm0 42.621c-2.114 0-4.175-.273-6.133-.813a3.834 3.834 0 0 0-2.56.192l-4.346 1.917-.118-3.867a3.833 3.833 0 0 0-1.286-2.727C29.33 58.54 27 53.209 27 47.31 27 35.73 36.028 27 48 27s21 8.73 21 20.31-9.028 20.31-21 20.31Z"></path>
-              </svg>
-            </div>
+          {/*  Chat Component */}
+          {selectedUser ? (
+            <ChatComponent selectedUser={selectedUser} />
+          ) : (
+            // ({/* if profile is not selected] Base load ui send message btn */}
+            <div className="msg-base">
+              {/*  */}
+              <div className="message-icon-big mb-3">
+                <svg
+                  aria-label=""
+                  className="x1lliihq x1n2onr6 x5n08af"
+                  fill="currentColor"
+                  height="96"
+                  role="img"
+                  viewBox="0 0 96 96"
+                  width="96"
+                >
+                  <title></title>
+                  <path d="M48 0C21.532 0 0 21.533 0 48s21.532 48 48 48 48-21.532 48-48S74.468 0 48 0Zm0 94C22.636 94 2 73.364 2 48S22.636 2 48 2s46 20.636 46 46-20.636 46-46 46Zm12.227-53.284-7.257 5.507c-.49.37-1.166.375-1.661.005l-5.373-4.031a3.453 3.453 0 0 0-4.989.921l-6.756 10.718c-.653 1.027.615 2.189 1.582 1.453l7.257-5.507a1.382 1.382 0 0 1 1.661-.005l5.373 4.031a3.453 3.453 0 0 0 4.989-.92l6.756-10.719c.653-1.027-.615-2.189-1.582-1.453ZM48 25c-12.958 0-23 9.492-23 22.31 0 6.706 2.749 12.5 7.224 16.503.375.338.602.806.62 1.31l.125 4.091a1.845 1.845 0 0 0 2.582 1.629l4.563-2.013a1.844 1.844 0 0 1 1.227-.093c2.096.579 4.331.884 6.659.884 12.958 0 23-9.491 23-22.31S60.958 25 48 25Zm0 42.621c-2.114 0-4.175-.273-6.133-.813a3.834 3.834 0 0 0-2.56.192l-4.346 1.917-.118-3.867a3.833 3.833 0 0 0-1.286-2.727C29.33 58.54 27 53.209 27 47.31 27 35.73 36.028 27 48 27s21 8.73 21 20.31-9.028 20.31-21 20.31Z"></path>
+                </svg>
+              </div>
 
-            {/*  */}
-            <div className="mb-2">
-              <span className="fw-bold fs-5">Your Messages</span>
-            </div>
+              {/*  */}
+              <div className="mb-2">
+                <span className="fw-bold fs-5">Your Messages</span>
+              </div>
 
-            {/*  */}
-            <div className="mb-3">
-              <span>
-                Send private photos and messages to a friend or group{" "}
-              </span>
-            </div>
+              {/*  */}
+              <div className="mb-3">
+                <span>
+                  Send private photos and messages to a friend or group{" "}
+                </span>
+              </div>
 
-            {/*  */}
-            <div>
-              {/* To open modal with select person to msg. */}
-              <button className="btn btn-primary">Send Message</button>
+              <div>
+                {/* To open modal with select person to msg. */}
+                <button className="btn btn-primary">Send Message</button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* !message -mount */}

@@ -1,0 +1,34 @@
+
+.chat-mount{
+    width: 100%;
+    height: 100%;
+}
+
+.chat-header{
+    width: 100%;
+    height: 75px;
+    border-bottom: 1px solid rgb(var(--ig-seperator));
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 16px;
+}
+
+/* to deal with position fixed */
+.send-message{
+    width: 100%;
+    height: 75px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    position: fixed;
+    bottom: 0;
+}
+.send-message>div{
+    width: 100%;
+    min-height: 45px;
+    margin: 16px 16px;
+    padding: 16px;
+    border: 1px solid rgb(var(--ig-seperator));
+    border-radius: 22px;
+}
