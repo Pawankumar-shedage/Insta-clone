@@ -43,7 +43,7 @@ const firebaseContext = createContext();
 export const FirebaseContext = ({ children }) => {
   // HELPER FUNCTIONS
 
-  // Adding data to users collections
+  // ADDING DATA TO USERS COLLECTIONS
   const addUser = async ({ username, email, fullName, password }) => {
     // console.log(email);
     try {
@@ -75,7 +75,7 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
-  // Logging user in
+  // LOGGING USER IN
   const logInUser = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -91,7 +91,7 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
-  // Retreiving data. getDocs(ref)
+  // RETREIVING DATA. getDocs(ref)
   const getUser = async () => {
     // storing documents from the collection (object(s)) in an array and returning it
     const userData = [];
@@ -105,7 +105,7 @@ export const FirebaseContext = ({ children }) => {
     return userData; //returning array of objects (users)
   };
 
-  // Updating User
+  // UPDATING USER
   const updateUserInFirestore = async (userId) => {
     try {
       // getting user doc reference
@@ -121,7 +121,7 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
-  // Uploading Profile Pic (DP)
+  // UPLOADING PROFILE PIC (DP)
   const uploadProfilePhotos = async (file) => {
     const metadata = {
       contentType: "image/jpeg",
@@ -140,6 +140,19 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
+  // SENDING CONVERSATIONS MESSAGES
+  const sendConversation = async (conversationData) => {
+    const conversationRef = collection(db, "conversations");
+
+    /*use addDoc to create a new Document, and use setDoc is used to set the data of a specific document in a Firestore collection.
+      It can be used to update an existing document or create a new one if the document doesn't already exist.
+      */
+    const conversationDoc = await addDoc(conversationRef, conversationData);
+    console.log(conversationDoc.id);
+
+    return conversationDoc.id;
+  };
+
   // Getting profile photo current-user
   // const getProfilePic = async
 
@@ -154,6 +167,7 @@ export const FirebaseContext = ({ children }) => {
           uploadProfilePhotos,
           logInUser,
           updateUserInFirestore,
+          sendConversation,
         }}
       >
         {children}

@@ -12,7 +12,7 @@ export const Messages = () => {
   const { getUser } = useFirebase();
 
   const { currentUser } = useAuth();
-  console.log("USer Signed in", currentUser.uid);
+  // console.log("USer Signed in", currentUser.uid);
 
   const [users, setUsers] = useState([]);
   // Fetching users from firestore
@@ -527,6 +527,7 @@ export const Messages = () => {
                       key={user.uid}
                       onClick={() => handleStartChat(user)}
                       className="d-flex flex-row mb-3"
+                      style={{ cursor: "pointer" }}
                     >
                       <div className="msg-prof-profile-pic me-2">
                         <img

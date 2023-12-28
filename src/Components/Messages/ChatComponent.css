@@ -1,7 +1,10 @@
 
 .chat-mount{
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    position: relative;
+    /* align-items: center; */
 }
 
 .chat-header{
@@ -16,19 +19,46 @@
 
 /* to deal with position fixed */
 .send-message{
-    width: 100%;
-    height: 75px;
+    width:100% ;
+    min-height: 75px;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    position: fixed;
+    justify-content: center;
+    position: absolute;
     bottom: 0;
+    box-sizing: border-box;
 }
 .send-message>div{
-    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    height: 45px;
     min-height: 45px;
-    margin: 16px 16px;
+    margin: 10px;
     padding: 16px;
     border: 1px solid rgb(var(--ig-seperator));
     border-radius: 22px;
+    
+}
+
+.input-msg{
+   display: flex;
+   flex: 1;
+   width: auto;
+}
+
+.input-msg>textarea{
+    outline: none;
+    border: none;
+    color: white;
+    width: 100%;
+    height:35px;
+    padding-top: 5px;
+    line-height: 20px;
+    resize: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(var(--ig-primary-color));
 }
