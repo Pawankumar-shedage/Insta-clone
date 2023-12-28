@@ -20,7 +20,7 @@ export const ChatComponent = ({ selectedUser }) => {
 
   const [textMessage, setTextMessage] = useState("");
 
-  // Conversation sending to the server
+  // CONVERSATION sending to the server
   const conversationData = {
     // current logged in user (sender)
     user1: currentUser.uid,
@@ -32,8 +32,23 @@ export const ChatComponent = ({ selectedUser }) => {
   console.log(serverTimestamp());
 
   // sending conversation to firebase
-  const sendConversationData = sendConversation(conversationData);
-  console.log(sendConversationData);
+
+  const [conversationId, setConversationId] = useState("");
+  const getConversationId = async () => {
+    try {
+      const conversationDocId = await sendConversation(conversationData);
+      console.log("this", conversationDocId);
+      setConversationId(conversationDocId);
+
+      // cant return outside the fun.
+      return conversationDocId;
+    } catch (error) {
+      console.log("error fetching con id: ", error);
+      throw error;
+    }
+  };
+
+  console.log(conversationId);
 
   //-----
   const handleTextMessage = (e) => {
