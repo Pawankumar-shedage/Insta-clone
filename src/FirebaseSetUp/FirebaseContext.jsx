@@ -15,10 +15,17 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  query,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import {
+  connectStorageEmulator,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 import { createContext, useContext, useState } from "react";
 
 // FIREBASE CONFIG/SET-UP
@@ -140,7 +147,7 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
-  // SENDING CONVERSATIONS MESSAGES
+  // SENDING CONVERSATIONS (MESSAGES)
   const sendConversation = async (conversationData) => {
     const conversationRef = collection(db, "conversations");
 
@@ -148,9 +155,76 @@ export const FirebaseContext = ({ children }) => {
       It can be used to update an existing document or create a new one if the document doesn't already exist.
       */
     const conversationDoc = await addDoc(conversationRef, conversationData);
-    console.log(conversationDoc.id);
+    // console.log(conversationDoc.id);
 
     return conversationDoc.id;
+  };
+
+  // ADDING MESSAGES (inside single conversation doc.)
+  const addMessageToConversation = async (conversationId, messageData) => {
+    try {
+      // Ensure conversationId is defined and not an empty string
+      if (!conversationId) {
+        throw new Error("Conversation ID is invalid");
+      }
+
+      const collectionRef = collection(db, "conversations");
+      const docRef = doc(collectionRef, `${conversationId}`);
+
+      console.log(docRef);
+      const messagecollectionRef = collection(docRef, "messages");
+
+      const newMessage = await addDoc(messagecollectionRef, messageData);
+
+      // Updating with latest message
+      // Optionally, update the conversation document with the latest message details
+      await updateDoc(docRef, {
+        lastMessage: messageData,
+      });
+
+      console.log(
+        "Firebase Conversation id, ",
+        conversationId,
+        " Message id",
+        newMessage.id
+      );
+
+      return newMessage.id;
+    } catch (error) {
+      console.error("Error", error);
+      throw error;
+    }
+  };
+
+  // FETCH (GET) MESSAGES
+  const fetchMessagesFromAConversation = async (conversationId) => {
+    try {
+      // first make sure con id is valid
+      if (!conversationId) {
+        throw new Error("Conversation Id not Valid!");
+      }
+      const conversationDocRef = doc(db, "conversations", conversationId);
+      const messageCollectionRef = collection(conversationDocRef, "messages");
+
+      // querying messages collection to get all msg-docs
+      const querryMessages = query(messageCollectionRef);
+
+      const querySnapshot = await getDocs(querryMessages);
+
+      // now we have all messages (docs), putting each message into an array.
+      const message = [];
+
+      // now inserting each doc(msg) from message docs into message[]
+      querySnapshot.forEach((msg) => {
+        message.push({ id: msg.id, data: msg.data() });
+        console.log("Each msg", msg);
+      });
+
+      return message;
+    } catch (error) {
+      console.log("Error :", error);
+      throw error;
+    }
   };
 
   // Getting profile photo current-user
@@ -168,6 +242,8 @@ export const FirebaseContext = ({ children }) => {
           logInUser,
           updateUserInFirestore,
           sendConversation,
+          addMessageToConversation,
+          fetchMessagesFromAConversation,
         }}
       >
         {children}

@@ -9,18 +9,24 @@ import { collection, serverTimestamp } from "firebase/firestore";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 
 export const ChatComponent = ({ selectedUser }) => {
-  console.log("SElected user", selectedUser.uid);
+  // console.log("SElected user", selectedUser.uid);
 
   // get current logged in user
   const { currentUser } = useAuth();
 
-  console.log(currentUser.metadata.lastSignInTime);
+  // console.log(currentUser.metadata.lastSignInTime);
+
   // FIREBASE 🦺
-  const { sendConversation } = useFirebase();
+  const {
+    sendConversation,
+    addMessageToConversation,
+    fetchMessagesFromAConversation: fetchMessages,
+  } = useFirebase();
 
   const [textMessage, setTextMessage] = useState("");
 
   // CONVERSATION sending to the server
+
   const conversationData = {
     // current logged in user (sender)
     user1: currentUser.uid,
@@ -29,18 +35,18 @@ export const ChatComponent = ({ selectedUser }) => {
     user2: selectedUser.uid,
     timestamp: serverTimestamp(),
   };
-  console.log(serverTimestamp());
+
+  // console.log(serverTimestamp());
 
   // sending conversation to firebase
 
   const [conversationId, setConversationId] = useState("");
+
   const getConversationId = async () => {
+    console.log("Inside getConversation Id");
+
     try {
       const conversationDocId = await sendConversation(conversationData);
-      console.log("this", conversationDocId);
-      setConversationId(conversationDocId);
-
-      // cant return outside the fun.
       return conversationDocId;
     } catch (error) {
       console.log("error fetching con id: ", error);
@@ -48,19 +54,67 @@ export const ChatComponent = ({ selectedUser }) => {
     }
   };
 
-  console.log(conversationId);
+  // adding messages in conversation.
+  // 1.conversationId 2.Message Data
+  const messageData = {
+    sender: currentUser.uid,
+    content: textMessage,
+    timestamp: serverTimestamp(),
+  };
 
+  const addNewMessage = async () => {
+    try {
+      console.log(
+        "inside addNewMessage",
+        conversationId,
+        "MessageData: ",
+        messageData
+      );
+
+      // Ensure conversationId is fetched before proceeding
+      if (!conversationId) {
+        // If conversationId is not available, fetch it
+        const fetchedConversationId = await getConversationId();
+        setConversationId(fetchedConversationId);
+        console.log(conversationId);
+      }
+
+      const message = await addMessageToConversation(
+        conversationId,
+        messageData
+      );
+      console.log("Message sent successfully,Message doc id ", message);
+      return message;
+    } catch (error) {
+      console.log("Error occurred while adding message : ", error);
+    }
+  };
+
+  const [messages, setMessages] = useState([]);
+  const getMessages = async () => {
+    try {
+      const result = await fetchMessages(conversationId);
+      console.log(result);
+      setMessages(result);
+    } catch (error) {
+      console.log("Error :", error);
+    }
+  };
   //-----
-  const handleTextMessage = (e) => {
+  const handleTextMessage = async (e) => {
     setTextMessage(e.target.value);
     console.log(e.target.value);
   };
 
-  const sendMessage = (e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
+
+    await addNewMessage();
+
+    await getMessages();
     // console.log(e);message
     setTextMessage("");
-    console.log("pls");
+    return "success";
   };
   // ---------------------------------Return
   return (

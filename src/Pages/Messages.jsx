@@ -26,15 +26,15 @@ export const Messages = () => {
     getUsers();
   }, []);
 
-  users.forEach((user) => {
-    console.log(user.fullName);
-  });
+  // users.forEach((user) => {
+  //   console.log(user.fullName);
+  // });
 
   // start chat with
   const [selectedUser, setSelectedUser] = useState(null);
   const handleStartChat = (user) => {
     setSelectedUser(user);
-    console.log("This", user);
+    console.log("This User", user);
   };
 
   //-------------------------------------------------RETURN MESSAGES.jsx---------------------------------------------------
