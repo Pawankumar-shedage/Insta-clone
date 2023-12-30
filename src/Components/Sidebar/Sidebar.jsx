@@ -1,14 +1,19 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./sidebarStyle.css";
 import "/src/index.css";
 // icons
 import { AiFillHome } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
 import { useState } from "react";
+import { useAuth } from "../../AuthContext/AuthProvider";
 
 export const Sidebar = () => {
+  const { currentUser } = useAuth();
+
+  console.log(currentUser.uid);
+  const navigate = useNavigate();
   // getting Profile Img
   const [profileImg, setProfileImg] = useState("");
 
@@ -264,8 +269,17 @@ export const Sidebar = () => {
               {/*Messages  */}
               <div className="navigation-logo-div">
                 {/* Logo */}
-                <div>
-                  <Link className="sidebar-link" to="/messages">
+                <div
+                  onClick={() => {
+                    console.log("Clicked", currentUser.uid);
+                    const userId = currentUser.uid;
+                    navigate(`/messages/${userId}`);
+                  }}
+                >
+                  <Link
+                    className="sidebar-link nav-link"
+                    // to=`/messages/${currentUser.id}`
+                  >
                     <span>
                       <svg
                         aria-label="Messenger"
@@ -292,7 +306,7 @@ export const Sidebar = () => {
                 <div>
                   <div>
                     {/* to show badge */}
-                    <Link className="nav-link" to="/messages">
+                    <Link className="nav-link">
                       <span id="nav-text">Messages</span>
                     </Link>
                   </div>

@@ -9,6 +9,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Register } from "./Register";
 import { Footer } from "../Components/Common/Footer/Footer";
 import { GetTheApp } from "../Components/Common/Footer/GetTheApp";
+import { useAuth } from "../AuthContext/AuthProvider";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,9 @@ export const Login = () => {
     getUser: getUserData,
     updateUserInFirestore,
   } = useFirebase();
+
+  // auth provider
+  const { handleAuthStateChange } = useAuth();
 
   // redirect
   const navigate = useNavigate();
@@ -49,13 +53,15 @@ export const Login = () => {
         const userId = user.uid;
         updateUserInFirestore(userId);
 
-        const userData = await getUserData(user.uid);
+        const userData = await getUserData();
 
         if (userData) {
           console.log("User authenticated:", user.uid);
           console.log("User data from Firestore:", userData);
           // Now you have both authentication data and additional user data
 
+          // Providing user for all components.
+          handleAuthStateChange(user);
           // navigate
           navigate("/");
         } else {

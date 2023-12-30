@@ -1,20 +1,24 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "/src/Styles/Messages/Messages.css";
 import "/src/index.css";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 import { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext/AuthProvider";
 import { ChatComponent } from "../Components/Messages/ChatComponent";
-export const Messages = () => {
-  // Firestore 🦺
-  const { getUser } = useFirebase();
+import { serverTimestamp } from "firebase/firestore";
 
-  const { currentUser } = useAuth();
-  // console.log("USer Signed in", currentUser.uid);
+export const Messages = (props) => {
+  // Firestore 🦺
+  const { getUser, sendConversation } = useFirebase();
+
+  const { userId } = useParams();
+  console.log("CUrrent userId in Messages.jx", userId);
 
   const [users, setUsers] = useState([]);
+
   // Fetching users from firestore
   const getUsers = async () => {
     const users = await getUser();
@@ -23,18 +27,45 @@ export const Messages = () => {
     return users;
   };
   useEffect(() => {
+    //
+    console.log("Users are loading NOw");
     getUsers();
   }, []);
 
-  // users.forEach((user) => {
-  //   console.log(user.fullName);
-  // });
+  //-------------START CHAT WITH USER****
+  const [selectedUser, setSelectedUser] = useState();
 
-  // start chat with
-  const [selectedUser, setSelectedUser] = useState(null);
-  const handleStartChat = (user) => {
-    setSelectedUser(user);
-    console.log("This User", user);
+  console.log("Selected User", selectedUser);
+  // MAIN********
+  const [conversationId, setConversationId] = useState("");
+
+  const conversationData = {
+    // current logged in user (sender)
+    user1: userId,
+
+    // selected user (receiver)
+    user2: selectedUser.uid,
+    timestamp: serverTimestamp(),
+  };
+
+  // CONVERSATION ID
+  const getConversationId = async () => {
+    console.log("Inside getConversation Id");
+    console.log(conversationData);
+
+    try {
+      const conversationDocId = await sendConversation(conversationData);
+      return conversationDocId;
+    } catch (error) {
+      console.log("error fetching con id: ", error);
+      throw error;
+    }
+  };
+  const handleStartChat = async () => {
+    // Now generating conversation Id as well
+    const conId = await getConversationId();
+    setConversationId(conId);
+    console.log("This User", "Con id", conId);
   };
 
   //-------------------------------------------------RETURN MESSAGES.jsx---------------------------------------------------
@@ -525,11 +556,20 @@ export const Messages = () => {
                   <>
                     <div
                       key={user.uid}
-                      onClick={() => handleStartChat(user)}
+                      onClick={(e) => {
+                        // setSelectedUser(user);
+
+                        setSelectedUser(user);
+                        handleStartChat();
+                      }}
                       className="d-flex flex-row mb-3"
                       style={{ cursor: "pointer" }}
                     >
-                      <div className="msg-prof-profile-pic me-2">
+                      {/* PROFILE PIC */}
+                      <div
+                        key={user.email}
+                        className="msg-prof-profile-pic me-2"
+                      >
                         <img
                           src="/src/assets/Images/French-Croissants.jpg"
                           alt="profile-pic"
@@ -538,9 +578,11 @@ export const Messages = () => {
                           className="rounded-circle"
                         />
                       </div>
-                      <div className="d-flex flex-column">
+
+                      {/* USERNAME */}
+                      <div key={user.username} className="d-flex flex-column">
                         <div className="username">
-                          <span key={index}>{user.fullName}</span>
+                          <span>{user.fullName}</span>
                         </div>
                         <div className="user-msg fw-light">
                           <small style={{ color: "gray" }}>
@@ -549,6 +591,8 @@ export const Messages = () => {
                           </small>
                         </div>
                       </div>
+
+                      {/*  */}
                     </div>
                   </>
                 );
@@ -563,7 +607,10 @@ export const Messages = () => {
         <div className="message-chat">
           {/*  Chat Component */}
           {selectedUser ? (
-            <ChatComponent selectedUser={selectedUser} />
+            <ChatComponent
+              selectedUser={selectedUser}
+              conversationId={conversationId}
+            />
           ) : (
             // ({/* if profile is not selected] Base load ui send message btn */}
             <div className="msg-base">

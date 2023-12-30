@@ -16,6 +16,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  where,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
@@ -66,6 +67,7 @@ export const FirebaseContext = ({ children }) => {
       const additionalData = {
         username: username,
         fullName: fullName,
+        email: email,
       };
 
       const userCollection = collection(db, "Users");
@@ -197,30 +199,66 @@ export const FirebaseContext = ({ children }) => {
   };
 
   // FETCH (GET) MESSAGES
-  const fetchMessagesFromAConversation = async (conversationId) => {
+  const fetchMessagesFromAConversation = async (
+    currentUserId,
+    selectedUserId
+  ) => {
     try {
-      // first make sure con id is valid
-      if (!conversationId) {
-        throw new Error("Conversation Id not Valid!");
-      }
-      const conversationDocRef = doc(db, "conversations", conversationId);
-      const messageCollectionRef = collection(conversationDocRef, "messages");
+      // // first make sure con id is valid
+      // if (!conversationId) {
+      //   throw new Error("Conversation Id not Valid!");
+      // }
 
-      // querying messages collection to get all msg-docs
-      const querryMessages = query(messageCollectionRef);
+      const conversationsQuery = query(
+        collection(db, "conversations"),
+        where("users", "array-contains-any", [currentUserId, selectedUserId])
+      );
 
-      const querySnapshot = await getDocs(querryMessages);
+      const conversationSnapshot = await getDocs(conversationsQuery);
 
-      // now we have all messages (docs), putting each message into an array.
-      const message = [];
+      let conversationId;
 
-      // now inserting each doc(msg) from message docs into message[]
-      querySnapshot.forEach((msg) => {
-        message.push({ id: msg.id, data: msg.data() });
-        console.log("Each msg", msg);
+      conversationSnapshot.forEach((doc) => {
+        const users = doc.data().users;
+
+        if (users.includes(currentUserId) && users.includes(selectedUserId)) {
+          // now we found conversation between users.
+          conversationId = doc.id;
+        }
       });
 
-      return message;
+      const messages = [];
+      if (conversationId) {
+        const messageQuery = query(
+          collection(db, "conversations", conversationId, "messages")
+        );
+        const messageSnapshot = await getDocs(messageQuery);
+
+        // setting each message doc into arr[] of messages
+        messageSnapshot.forEach((doc) => {
+          messages.push({ id: doc.id, data: doc.data() });
+        });
+      }
+      console.log("MEssages", messages);
+      // OLD CODE:
+      // const conversationDocRef = doc(db, "conversations", conversationId);
+      // const messageCollectionRef = collection(conversationDocRef, "messages");
+
+      // // querying messages collection to get all msg-docs
+      // const querryMessages = query(messageCollectionRef);
+
+      // const querySnapshot = await getDocs(querryMessages);
+
+      // // now we have all messages (docs), putting each message into an array.
+      // const message = [];
+
+      // // now inserting each doc(msg) from message docs into message[]
+      // querySnapshot.forEach((msg) => {
+      //   message.push({ id: msg.id, data: msg.data() });
+      //   // console.log("Each msg", msg);
+      // });
+
+      return messages;
     } catch (error) {
       console.log("Error :", error);
       throw error;

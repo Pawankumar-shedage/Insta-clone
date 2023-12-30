@@ -1,20 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import "./ChatComponent.css";
 import "/src/index.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 
-export const ChatComponent = ({ selectedUser }) => {
-  // console.log("SElected user", selectedUser.uid);
-
+export const ChatComponent = ({ selectedUser, conversationId }) => {
   // get current logged in user
   const { currentUser } = useAuth();
-
-  // console.log(currentUser.metadata.lastSignInTime);
 
   // FIREBASE 🦺
   const {
@@ -25,22 +22,15 @@ export const ChatComponent = ({ selectedUser }) => {
 
   const [textMessage, setTextMessage] = useState("");
 
-  // CONVERSATION sending to the server
+  const textareaRef = useRef();
 
+  // CONVERSATION sending to the server
   const conversationData = {
-    // current logged in user (sender)
     user1: currentUser.uid,
 
-    // selected user (receiver)
     user2: selectedUser.uid,
     timestamp: serverTimestamp(),
   };
-
-  // console.log(serverTimestamp());
-
-  // sending conversation to firebase
-
-  const [conversationId, setConversationId] = useState("");
 
   const getConversationId = async () => {
     console.log("Inside getConversation Id");
@@ -67,51 +57,93 @@ export const ChatComponent = ({ selectedUser }) => {
       console.log(
         "inside addNewMessage",
         conversationId,
-        "MessageData: ",
+        ",   MessageData: ",
         messageData
       );
 
-      // Ensure conversationId is fetched before proceeding
-      if (!conversationId) {
-        // If conversationId is not available, fetch it
-        const fetchedConversationId = await getConversationId();
-        setConversationId(fetchedConversationId);
-        console.log(conversationId);
-      }
+      // // Ensure conversationId is fetched before proceeding
+      // if (!conversationId) {
+      //   // If conversationId is not available, fetch it
+      //   const fetchedConversationId = await getConversationId();
+      //   setConversationId(fetchedConversationId);
+      //   console.log(conversationId);
+      // }
 
       const message = await addMessageToConversation(
         conversationId,
         messageData
       );
       console.log("Message sent successfully,Message doc id ", message);
+
       return message;
     } catch (error) {
       console.log("Error occurred while adding message : ", error);
     }
   };
 
+  // GET MESSAGES
   const [messages, setMessages] = useState([]);
+
   const getMessages = async () => {
     try {
-      const result = await fetchMessages(conversationId);
-      console.log(result);
+      const result = await fetchMessages(
+        // conversationId,
+        currentUser.uid,
+        selectedUser.uid
+      );
+      console.log("Fetched Messages", result);
       setMessages(result);
     } catch (error) {
       console.log("Error :", error);
     }
   };
+
+  console.log("Messages", messages);
+
   //-----
   const handleTextMessage = async (e) => {
     setTextMessage(e.target.value);
     console.log(e.target.value);
   };
 
+  // KEY PRESS
+
+  const handleKeyDown = (e) => {
+    console.log(e);
+
+    // To enter line break
+    if (e.key === "Enter" && e.shiftKey) {
+      e.preventDefault();
+      // Insert a line break at the current cursor position
+      const textarea = textareaRef.current;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+
+      textarea.value = value.substring(0, start) + "\n" + value.substring(end);
+      console.log("THIS", value);
+      // Set the cursor position after the inserted line break
+      textarea.setSelectionRange(start + 1, start + 1);
+    }
+    // TO send message on ENTER
+    else if (e.key === "Enter") {
+      sendMessage();
+    }
+  };
+
+  useEffect(() => {
+    console.log("getMessages called");
+    getMessages();
+  }, []);
+
   const sendMessage = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     await addNewMessage();
 
-    await getMessages();
+    // await getMessages();
     // console.log(e);message
     setTextMessage("");
     return "success";
@@ -226,11 +258,14 @@ export const ChatComponent = ({ selectedUser }) => {
             </div>
             {/* Message */}
             <div className="ms-3 me-3 form-floating input-msg">
+              {/* MESSAGE-INPUT */}
               <textarea
-                className="  "
+                className=""
                 placeholder="Message..."
                 id="floatingTextarea"
+                ref={textareaRef}
                 value={textMessage}
+                onKeyDown={handleKeyDown}
                 onChange={(e) => handleTextMessage(e)}
               ></textarea>
             </div>

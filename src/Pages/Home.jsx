@@ -1,3 +1,4 @@
+import { useAuth } from "../AuthContext/AuthProvider";
 import { Footer } from "../Components/Common/Footer/Footer";
 import { Posts } from "../Components/Posts/Posts";
 import { Sidebar } from "../Components/Sidebar/Sidebar";
@@ -5,6 +6,9 @@ import Stories from "../Components/Stories/Stories";
 import "/src/index.css";
 import "/src/Styles/Home/Home.css";
 export const Home = () => {
+  const { currentUser } = useAuth();
+  console.log(currentUser);
+  // --------------------RETURN-----
   return (
     <>
       <div className="home-mount-0">
