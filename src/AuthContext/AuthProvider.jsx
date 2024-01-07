@@ -12,8 +12,12 @@ export const AuthProvider = ({ children }) => {
   // user object
   const [currentUser, setCurrentUser] = useState(null);
 
+  // Loading state
+  const [loading, setLoading] = useState(true);
+
   const handleAuthStateChange = (user) => {
     setCurrentUser(user);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -23,6 +27,11 @@ export const AuthProvider = ({ children }) => {
       unsubscribe();
     };
   }, []);
+
+  if (loading) {
+    // to add loading splash screen
+    return <div>Loading...</div>;
+  }
   // -------------------------------------------------
   return (
     <>

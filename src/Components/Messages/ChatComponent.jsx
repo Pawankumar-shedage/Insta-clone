@@ -24,26 +24,6 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
   const textareaRef = useRef();
 
-  // CONVERSATION sending to the server
-  const conversationData = {
-    user1: currentUser.uid,
-
-    user2: selectedUser.uid,
-    timestamp: serverTimestamp(),
-  };
-
-  const getConversationId = async () => {
-    console.log("Inside getConversation Id");
-
-    try {
-      const conversationDocId = await sendConversation(conversationData);
-      return conversationDocId;
-    } catch (error) {
-      console.log("error fetching con id: ", error);
-      throw error;
-    }
-  };
-
   // adding messages in conversation.
   // 1.conversationId 2.Message Data
   const messageData = {
@@ -61,14 +41,6 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
         messageData
       );
 
-      // // Ensure conversationId is fetched before proceeding
-      // if (!conversationId) {
-      //   // If conversationId is not available, fetch it
-      //   const fetchedConversationId = await getConversationId();
-      //   setConversationId(fetchedConversationId);
-      //   console.log(conversationId);
-      // }
-
       const message = await addMessageToConversation(
         conversationId,
         messageData
@@ -84,17 +56,16 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
   // GET MESSAGES
   const [messages, setMessages] = useState([]);
 
-  const getMessages = async () => {
+  const getMessages = async (conversationId) => {
     try {
-      const result = await fetchMessages(
-        // conversationId,
-        currentUser.uid,
-        selectedUser.uid
-      );
+      const result = await fetchMessages(conversationId);
+
       console.log("Fetched Messages", result);
+
       setMessages(result);
     } catch (error) {
-      console.log("Error :", error);
+      console.error("Error :", error);
+      throw error;
     }
   };
 
@@ -133,7 +104,7 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
   useEffect(() => {
     console.log("getMessages called");
-    getMessages();
+    getMessages(conversationId);
   }, []);
 
   const sendMessage = async (e) => {

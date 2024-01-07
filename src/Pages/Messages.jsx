@@ -15,58 +15,83 @@ export const Messages = (props) => {
   const { getUser, sendConversation } = useFirebase();
 
   const { userId } = useParams();
-  console.log("CUrrent userId in Messages.jx", userId);
+  console.log("Current userId in Messages.jx", userId);
 
   const [users, setUsers] = useState([]);
 
+  // Loading state
+  const [loading, setLoading] = useState(true);
+
   // Fetching users from firestore
-  const getUsers = async () => {
-    const users = await getUser();
-    console.log(users);
-    setUsers(users);
-    return users;
-  };
+  const [selectedUser, setSelectedUser] = useState(null);
+
   useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const users = await getUser();
+        console.log(users);
+
+        setUsers(users);
+        setLoading(false);
+
+        return users;
+      } catch (error) {
+        console.log("Error Fetching users:", error);
+
+        setLoading(false);
+      }
+    };
     //
     console.log("Users are loading NOw");
     getUsers();
   }, []);
 
   //-------------START CHAT WITH USER****
-  const [selectedUser, setSelectedUser] = useState();
 
   console.log("Selected User", selectedUser);
   // MAIN********
   const [conversationId, setConversationId] = useState("");
 
-  const conversationData = {
-    // current logged in user (sender)
-    user1: userId,
-
-    // selected user (receiver)
-    user2: selectedUser.uid,
-    timestamp: serverTimestamp(),
-  };
-
   // CONVERSATION ID
-  const getConversationId = async () => {
-    console.log("Inside getConversation Id");
-    console.log(conversationData);
-
+  const getConversationId = async (selectedUser) => {
     try {
-      const conversationDocId = await sendConversation(conversationData);
+      const conversationData = {
+        // current logged in user (sender)
+        users: [userId, selectedUser.uid],
+        timestamp: serverTimestamp(),
+      };
+
+      setSelectedUser(selectedUser);
+
+      console.log("Inside getConversation Id");
+      console.log("COnversation Data: ", conversationData);
+
+      //
+      const conversationDocId = await sendConversation(
+        conversationData,
+        userId,
+        selectedUser.uid
+      );
+
       return conversationDocId;
     } catch (error) {
       console.log("error fetching con id: ", error);
       throw error;
     }
   };
-  const handleStartChat = async () => {
-    // Now generating conversation Id as well
-    const conId = await getConversationId();
+
+  // START CHAT CONVERSATION.
+  const handleStartChat = async (selectedUser) => {
+    const conId = await getConversationId(selectedUser);
     setConversationId(conId);
     console.log("This User", "Con id", conId);
   };
+
+  // ***IMP ***
+  // Wait until users are initially loaded
+  if (loading) {
+    return <div>Loading users...</div>;
+  }
 
   //-------------------------------------------------RETURN MESSAGES.jsx---------------------------------------------------
   return (
@@ -553,48 +578,40 @@ export const Messages = (props) => {
               {/* single-profile */}
               {users.map((user, index) => {
                 return (
-                  <>
-                    <div
-                      key={user.uid}
-                      onClick={(e) => {
-                        // setSelectedUser(user);
-
-                        setSelectedUser(user);
-                        handleStartChat();
-                      }}
-                      className="d-flex flex-row mb-3"
-                      style={{ cursor: "pointer" }}
-                    >
-                      {/* PROFILE PIC */}
-                      <div
-                        key={user.email}
-                        className="msg-prof-profile-pic me-2"
-                      >
-                        <img
-                          src="/src/assets/Images/French-Croissants.jpg"
-                          alt="profile-pic"
-                          width="100%"
-                          height="100%"
-                          className="rounded-circle"
-                        />
-                      </div>
-
-                      {/* USERNAME */}
-                      <div key={user.username} className="d-flex flex-column">
-                        <div className="username">
-                          <span>{user.fullName}</span>
-                        </div>
-                        <div className="user-msg fw-light">
-                          <small style={{ color: "gray" }}>
-                            <span>{user.fullName.split(" ")[0]}</span> sent an
-                            attachment
-                          </small>
-                        </div>
-                      </div>
-
-                      {/*  */}
+                  <div
+                    key={user.uid}
+                    onClick={(e) => {
+                      handleStartChat(user);
+                    }}
+                    className="d-flex flex-row mb-3"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {/* PROFILE PIC */}
+                    <div className="msg-prof-profile-pic me-2">
+                      <img
+                        src="/src/assets/Images/French-Croissants.jpg"
+                        alt="profile-pic"
+                        width="100%"
+                        height="100%"
+                        className="rounded-circle"
+                      />
                     </div>
-                  </>
+
+                    {/* USERNAME */}
+                    <div className="d-flex flex-column">
+                      <div className="username">
+                        <span>{user.fullName}</span>
+                      </div>
+                      <div className="user-msg fw-light">
+                        <small style={{ color: "gray" }}>
+                          <span>{user.fullName.split(" ")[0]}</span> sent an
+                          attachment
+                        </small>
+                      </div>
+                    </div>
+
+                    {/*  */}
+                  </div>
                 );
               })}
 

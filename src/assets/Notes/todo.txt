@@ -6,7 +6,8 @@
 
 ⭐To add:➕🔼
     2.Profile.(Follow,Message)
-
+    3.To add Private Routes.
+    4.Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
     //Modals for message,settings...
 
 ⭐Done                                      Date
@@ -22,7 +23,7 @@
     3.add react-toastify on success/error messages.
 
     --later
-    .Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
+   
     1.Add password generator.
     2.Password manager. (in js)
     . To add/remove fill att of svg of sidebar..
