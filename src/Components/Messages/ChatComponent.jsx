@@ -13,6 +13,8 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
   // get current logged in user
   const { currentUser } = useAuth();
 
+  const [messages, setMessages] = useState([]);
+
   // FIREBASE 🦺
   const {
     sendConversation,
@@ -23,6 +25,19 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
   const [textMessage, setTextMessage] = useState("");
 
   const textareaRef = useRef();
+
+  useEffect(() => {
+    console.log("getMessages called");
+    console.log(conversationId);
+
+    // ***Initially it is falsy/undefined.
+    if (conversationId) {
+      getMessages();
+    } else {
+      // Loading Screen
+      console.log("Loading Messages");
+    }
+  }, [conversationId, setMessages]);
 
   // adding messages in conversation.
   // 1.conversationId 2.Message Data
@@ -54,22 +69,20 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
   };
 
   // GET MESSAGES
-  const [messages, setMessages] = useState([]);
-
-  const getMessages = async (conversationId) => {
+  const getMessages = async () => {
     try {
       const result = await fetchMessages(conversationId);
 
       console.log("Fetched Messages", result);
 
       setMessages(result);
+      return result;
     } catch (error) {
-      console.error("Error :", error);
+      console.error("Error Fetching messages:", error);
       throw error;
     }
   };
-
-  console.log("Messages", messages);
+  // console.log("Messages", messages);
 
   //-----
   const handleTextMessage = async (e) => {
@@ -102,17 +115,15 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     }
   };
 
-  useEffect(() => {
-    console.log("getMessages called");
-    getMessages(conversationId);
-  }, []);
-
   const sendMessage = async (e) => {
     if (e) {
       e.preventDefault();
     }
 
     await addNewMessage();
+
+    // after the message is added to the conversation, the latest message should appear as well
+    getMessages();
 
     // await getMessages();
     // console.log(e);message
@@ -203,7 +214,32 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
         </div>
 
         {/* content chat */}
-        <div className="chat-content-main"></div>
+        <div className="chat-content-main">
+          {messages.map((message) => (
+            <div key={message.id} className="message-div">
+              {message.data.sender !== selectedUser.author_uid ? (
+                <div id="msg-sender-text">
+                  <div>
+                    <div className="msg-sender-content">
+                      <span>{message.data.content}</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div id="msg-receiver-text">
+                  <div>
+                    <div className="msg-receiver-profile-pic">
+                      <img src="/src/assets/Images/French-Croissants.jpg"></img>
+                    </div>
+                    <div className="msg-receiver-content">
+                      <span>{message.data.content}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 
         {/* Send message input */}
         <div className="send-message">

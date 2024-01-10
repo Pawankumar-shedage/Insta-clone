@@ -1,7 +1,7 @@
 
 ⭐Current-Priority: 🚩
     1.Chat section(chats...(messages))
-        firebase logic:
+        firebase logic:Done ✅
     1.Home(Posts,stories,Action Buttons)
 
 ⭐To add:➕🔼
@@ -33,3 +33,7 @@
     <svg viewbox=" mix-x min-y width height "
     -----------------------------------------------------
     <svg aria-label="Home" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24">
+
+Logged Users Creds: 
+ 
+1> Email:  samalt@gmail.com |  username: sam@Alt | Fullname: Sam Altman | Password:  Sam@123456789

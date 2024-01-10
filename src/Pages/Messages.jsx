@@ -12,18 +12,26 @@ import { serverTimestamp } from "firebase/firestore";
 
 export const Messages = (props) => {
   // Firestore 🦺
-  const { getUser, sendConversation } = useFirebase();
+  const { getUser, sendConversation, getUserById } = useFirebase();
 
   const { userId } = useParams();
-  console.log("Current userId in Messages.jx", userId);
+  // console.log("Current userin Messages.jx", userId);
 
+  // Users
   const [users, setUsers] = useState([]);
+
+  // Single User
+  const [loggedUser, setLoggedUser] = useState(null);
 
   // Loading state
   const [loading, setLoading] = useState(true);
 
   // Fetching users from firestore
   const [selectedUser, setSelectedUser] = useState(null);
+
+  // console.log("Selected User", selectedUser);
+  // MAIN********
+  const [conversationId, setConversationId] = useState("");
 
   useEffect(() => {
     const getUsers = async () => {
@@ -36,42 +44,40 @@ export const Messages = (props) => {
 
         return users;
       } catch (error) {
-        console.log("Error Fetching users:", error);
-
         setLoading(false);
+        console.log("Error in fetching users", error);
+        throw error;
       }
     };
     //
-    console.log("Users are loading NOw");
+    console.log("Users are loading Now");
     getUsers();
+
+    // Single Logged in user
+    getLoggedInUser();
   }, []);
 
   //-------------START CHAT WITH USER****
 
-  console.log("Selected User", selectedUser);
-  // MAIN********
-  const [conversationId, setConversationId] = useState("");
-
   // CONVERSATION ID
   const getConversationId = async (selectedUser) => {
     try {
+      console.log(selectedUser.author_uid);
+
       const conversationData = {
-        // current logged in user (sender)
-        users: [userId, selectedUser.uid],
+        users: [userId, selectedUser.author_uid],
         timestamp: serverTimestamp(),
       };
 
-      setSelectedUser(selectedUser);
-
       console.log("Inside getConversation Id");
-      console.log("COnversation Data: ", conversationData);
-
-      //
-      const conversationDocId = await sendConversation(
-        conversationData,
-        userId,
-        selectedUser.uid
+      console.log(
+        "Conversation Data: before sending:: ",
+        conversationData.users
       );
+
+      const conversationDocId = await sendConversation(conversationData);
+
+      console.log("Con id", conversationDocId);
 
       return conversationDocId;
     } catch (error) {
@@ -80,11 +86,25 @@ export const Messages = (props) => {
     }
   };
 
+  // logged in USER
+  const getLoggedInUser = async () => {
+    const user = await getUserById(userId);
+
+    console.log("Logged User => ", user);
+    setLoggedUser(user[0]);
+  };
+
   // START CHAT CONVERSATION.
-  const handleStartChat = async (selectedUser) => {
-    const conId = await getConversationId(selectedUser);
-    setConversationId(conId);
-    console.log("This User", "Con id", conId);
+  const handleStartChat = async (user) => {
+    try {
+      const conId = await getConversationId(user);
+      setConversationId(conId);
+
+      console.log("This User", user.fullName, "Con id", conId);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   };
 
   // ***IMP ***
@@ -490,7 +510,9 @@ export const Messages = (props) => {
             <div className="msg-prof-header">
               <div>
                 <Link className="nav-link">
-                  <span className="fw-bold fs-5 pe-2">pawankumar623824</span>
+                  <span className="fw-bold fs-5 pe-2">
+                    {loggedUser.username}
+                  </span>
                 </Link>
                 <Link className="nav-link">
                   <span className="pt-2">
@@ -575,13 +597,19 @@ export const Messages = (props) => {
 
             {/* chat-profiles-*/}
             <div className="msg-profile-chats">
-              {/* single-profile */}
+              {/* USER-profile */}
               {users.map((user, index) => {
                 return (
                   <div
-                    key={user.uid}
+                    key={user.author_uid}
                     onClick={(e) => {
-                      handleStartChat(user);
+                      console.log("clicked user", user);
+                      setSelectedUser(() => {
+                        // Use the updated state to ensure it's the latest value
+                        handleStartChat(user);
+
+                        return user;
+                      });
                     }}
                     className="d-flex flex-row mb-3"
                     style={{ cursor: "pointer" }}

@@ -64,12 +64,14 @@ export const FirebaseContext = ({ children }) => {
       );
       const user = userCredential.user;
 
-      console.log(user);
+      console.log("Firebase User", user);
 
+      console.log("This", email);
       const additionalData = {
         username: username,
         fullName: fullName,
         email: email,
+        author_uid: user.uid,
       };
 
       const userCollection = collection(db, "Users");
@@ -102,18 +104,44 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
-  // RETREIVING DATA. getDocs(ref)
+  // RETREIVING ALL USERS DATA. getDocs(ref)
   const getUser = async () => {
-    // storing documents from the collection (object(s)) in an array and returning it
     const userData = [];
 
-    const userDocs = await getDocs(collection(db, "Users"));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    userDocs.forEach((doc) => {
-      // console.log(`doc id: ${doc.id}=> ${doc.data()}`);
-      userData.push(doc.data());
-    });
-    return userData; //returning array of objects (users)
+    try {
+      const userDocs = await getDocs(collection(db, "Users"));
+
+      userDocs.forEach((doc) => {
+        // console.log(`doc id: ${doc.id} => ${doc.data()}`);
+        userData.push(doc.data());
+      });
+
+      return userData; //returning array of objects (users)
+    } catch (error) {
+      console.error("Error in getting user data: ", error);
+      throw error;
+    }
+  };
+
+  // Getting Logged in USER by id
+  const getUserById = async (userId) => {
+    try {
+      const userDocQuery = query(
+        collection(db, "Users"),
+        where("author_uid", "==", userId)
+      );
+      const userDoc = await getDocs(userDocQuery);
+      const user = [];
+      userDoc.forEach((doc) => {
+        user.push(doc.data());
+      });
+      return user;
+    } catch (error) {
+      console.log("Error getting user by id: ", error);
+      throw error;
+    }
   };
 
   // UPDATING USER
@@ -151,19 +179,23 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
-  // SENDING CONVERSATIONS (MESSAGES)
-  const sendConversation = async (
-    conversationData,
-    currentUserId,
-    selectedUserId
-  ) => {
-    const conversationRef = collection(db, "conversations");
-
+  // SENDING CONVERSATIONS (MESSAGES):returns convId
+  const sendConversation = async (conversationData) => {
     try {
-      // Check if a conversation already exists between the two users
+      console.log(
+        "User IDs:",
+        conversationData.users[0],
+        conversationData.users[1],
+
+        conversationData.users
+      );
+
+      const sortedUserIds = conversationData.users.slice().sort();
+      console.log("Sorted users", sortedUserIds);
+
       const existingConversationQuery = query(
         collection(db, "conversations"),
-        where("users", "array-contains-any", [currentUserId, selectedUserId])
+        where("users", "==", sortedUserIds)
       );
 
       const existingConversationSnapshot = await getDocs(
@@ -172,16 +204,18 @@ export const FirebaseContext = ({ children }) => {
 
       let existingConversationId;
 
+      console.log(existingConversationSnapshot);
+
       if (!existingConversationSnapshot.empty) {
         // If a conversation already exists, retrieve its ID
         existingConversationId = existingConversationSnapshot.docs[0].id;
         console.log("Conversation already exists:", existingConversationId);
       } else {
-        // If no conversation exists, create a new conversation document
         const newConversationRef = await addDoc(
           collection(db, "conversations"),
           conversationData
         );
+        console.log(newConversationRef);
 
         existingConversationId = newConversationRef.id;
         console.log("New conversation created:", existingConversationId);
@@ -190,11 +224,12 @@ export const FirebaseContext = ({ children }) => {
       // Set the retrieved or created conversation ID
       // setConversationId(existingConversationId);
 
-      return existingConversationId;
+      console.log("Conversation Id SENT: ", existingConversationId);
 
-      // Now, you have the conversationId to use for messages
+      return existingConversationId;
     } catch (error) {
       console.error("Error starting or retrieving conversation:", error);
+      throw error;
     }
   };
 
@@ -237,9 +272,11 @@ export const FirebaseContext = ({ children }) => {
   // FETCH (GET) MESSAGES
   const fetchMessagesFromAConversation = async (conversationId) => {
     try {
+      console.log(conversationId);
+
       const messagesQuery = query(
-        collectionGroup(db, "conversations"),
-        where("conversationId", "==", conversationId)
+        collection(db, "conversations", `${conversationId}`, "messages"),
+        orderBy("timestamp")
       );
 
       const messagesSnapshot = await getDocs(messagesQuery);
@@ -277,6 +314,7 @@ export const FirebaseContext = ({ children }) => {
           sendConversation,
           addMessageToConversation,
           fetchMessagesFromAConversation,
+          getUserById,
         }}
       >
         {children}

@@ -16,6 +16,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const handleAuthStateChange = (user) => {
+    if (user) {
+      // User is signed in
+      console.log("User signed in:", user.uid);
+    } else {
+      // User is signed out
+      console.log("User signed out");
+    }
     setCurrentUser(user);
     setLoading(false);
   };
@@ -29,9 +36,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   if (loading) {
-    // to add loading splash screen
-    return <div>Loading...</div>;
+    return <div className="text-center">Loading...</div>;
   }
+
   // -------------------------------------------------
   return (
     <>

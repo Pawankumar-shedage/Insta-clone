@@ -6,15 +6,18 @@ import "/src/index.css";
 // icons
 import { AiFillHome } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
 
 export const Sidebar = () => {
   const { currentUser } = useAuth();
 
-  console.log(currentUser.uid);
+  useEffect(() => {
+    console.log(currentUser.uid);
+  }, [currentUser]);
+
   const navigate = useNavigate();
-  // getting Profile Img
+
   const [profileImg, setProfileImg] = useState("");
 
   // -----------------------------------RETURN--------------------------------------------------------
