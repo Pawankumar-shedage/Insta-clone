@@ -41,14 +41,15 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
   // adding messages in conversation.
   // 1.conversationId 2.Message Data
-  const messageData = {
-    sender: currentUser.uid,
-    content: textMessage,
-    timestamp: serverTimestamp(),
-  };
 
   const addNewMessage = async () => {
     try {
+      const messageData = {
+        sender: currentUser.uid,
+        content: textMessage,
+        timestamp: serverTimestamp(),
+      };
+
       console.log(
         "inside addNewMessage",
         conversationId,
@@ -82,12 +83,12 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
       throw error;
     }
   };
-  // console.log("Messages", messages);
 
-  //-----
   const handleTextMessage = async (e) => {
-    setTextMessage(e.target.value);
-    console.log(e.target.value);
+    const message = e.target.value;
+    console.log(message);
+
+    setTextMessage(message);
   };
 
   // KEY PRESS
@@ -112,7 +113,37 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     // TO send message on ENTER
     else if (e.key === "Enter") {
       sendMessage();
+    } else if (e.key === " ") {
+      e.preventDefault(); // Prevent the default behavior of the space key (e.g., scrolling)
+      setTextMessage((prevText) => prevText + " "); // Add a space to the existing message
     }
+  };
+
+  const addLineBreaks = (message, maxCharactersPerLine = 20) => {
+    const words = message.split(" ");
+    let currentLine = "";
+
+    const lines = words.reduce((result, word) => {
+      if (word.length > 20) {
+        console.log("long word", word);
+      }
+
+      if ((currentLine + word).length <= maxCharactersPerLine) {
+        currentLine += word + " ";
+      } else {
+        result.push(currentLine);
+        currentLine = word + " ";
+      }
+      console.log(result);
+      return result;
+    }, []);
+
+    // Add the last line
+    if (currentLine.trim()) {
+      lines.push(currentLine.trim());
+    }
+
+    return lines.join("\n");
   };
 
   const sendMessage = async (e) => {
@@ -120,15 +151,23 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
       e.preventDefault();
     }
 
-    await addNewMessage();
+    try {
+      // Formatting long messages.
+      const formattedMessage = addLineBreaks(textMessage);
+      console.log(formattedMessage);
+      setTextMessage(formattedMessage);
 
-    // after the message is added to the conversation, the latest message should appear as well
-    getMessages();
+      await addNewMessage();
 
-    // await getMessages();
-    // console.log(e);message
-    setTextMessage("");
-    return "success";
+      // after the message is added to the conversation, the latest message should appear as well
+      getMessages();
+
+      setTextMessage("");
+      return "success";
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   };
   // ---------------------------------Return
   return (

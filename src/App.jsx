@@ -7,6 +7,7 @@ import { Login } from "./Pages/Login";
 import { Register } from "./Pages/Register";
 import { Messages } from "./Pages/Messages";
 import { useAuth } from "./AuthContext/AuthProvider";
+import { Profile } from "./Components/Profile/Profile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" Component={Login}></Route>
           <Route path="/register" Component={Register}></Route>
           <Route path="/messages/:userId" element={<Messages />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Suspense>
     </>

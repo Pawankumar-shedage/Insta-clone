@@ -4,14 +4,36 @@
     flex: 1;
     flex-direction: column;
     position: relative;
+    overflow-y:scroll ;
     /* align-items: center; */
 }
 
+
+.chat-header{
+    width: 100%;
+    height: 75px;
+    border-bottom: 1px solid rgb(var(--ig-seperator));
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 16px;
+    /* position: sticky; */
+}
+
+
 /* chat-main */
+.chat-content-main{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
+    /* background-color: yellow; */
+}
 
 .message-div{
     /* background-color: red; */
-    padding: 20px;
+    padding: 5px;
 }
 
 #msg-sender-text{
@@ -21,7 +43,7 @@
     flex-direction: column;
 }
 #msg-sender-text>div{
-    background-color: red;
+    /* background-color: red; */
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -31,13 +53,11 @@
 
 .msg-sender-content{
     background-color: rgb(55,151,240);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    padding: 0px 10px;
-    height:fit-content;
-    width:max-content;   
+    display: inline-block;
+    white-space: pre-wrap;
+    padding:10px;
+    height:auto;
+    max-width:50%;   
     border-radius: 20px;
 }
 
@@ -73,27 +93,16 @@
 }
 .msg-receiver-content{
     background-color: rgb(var(--ig-seperator));
-    display: flex;
-    justify-content: start;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px 10px;
-    height: 35px;
-    width:max-content;
+    display: inline-block;
+    padding:10px;
+    height: auto;
+    max-width:50%;
     border-radius: 20px;
 }
 
 /* ---------------------------!chat-main */
 
-.chat-header{
-    width: 100%;
-    height: 75px;
-    border-bottom: 1px solid rgb(var(--ig-seperator));
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 15px 16px;
-}
+
 
 /* to deal with position fixed */
 .send-message{
@@ -102,8 +111,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: absolute;
-    bottom: 0;
+    align-items: stretch;
+    margin: 10px;
     box-sizing: border-box;
 }
 .send-message>div{
