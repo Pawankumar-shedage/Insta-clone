@@ -27,20 +27,26 @@
     flex-direction: column;
     height: 100%;
     overflow-y: scroll;
-    /* overflow-x: hidden; */
+    overflow-x: hidden;
     /* background-color: yellow; */
+}
+
+/* message-container-> */
+.message-container>.message-timestamp{
+    font-size: x-small;
+    font-weight: 700;
+    color: rgb(129, 128, 128);
 }
 
 .message-div{
     /* background-color: red; */
+    display: flex;
     padding: 5px;
 }
 
 #msg-sender-text{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-direction: column;
+    width: 100%;
+   
 }
 #msg-sender-text>div{
     /* background-color: red; */
@@ -53,12 +59,23 @@
 
 .msg-sender-content{
     background-color: rgb(55,151,240);
-    display: inline-block;
-    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
     padding:10px;
     height:auto;
-    max-width:50%;   
+    max-width:45%;   
+    white-space: pre-line; 
     border-radius: 20px;
+}
+
+/* Actual msg */
+.msg-sender-content>div{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 
@@ -68,7 +85,7 @@
     justify-content: flex-start;
     align-items: center;
     height: max-content;
-    /* padding: 10px; */
+    width: 100%;
 }
 
 /* outer div */
@@ -93,11 +110,20 @@
 }
 .msg-receiver-content{
     background-color: rgb(var(--ig-seperator));
-    display: inline-block;
+    display: flex;
     padding:10px;
     height: auto;
-    max-width:50%;
+    max-width:45%;
+    overflow-x: auto;
     border-radius: 20px;
+}
+
+/* actual msg div */
+.msg-receiver-content>div{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 /* ---------------------------!chat-main */
@@ -106,7 +132,7 @@
 
 /* to deal with position fixed */
 .send-message{
-    width:100% ;
+    max-width:100% ;
     min-height: 75px;
     display: flex;
     flex-direction: column;
@@ -126,6 +152,8 @@
     padding: 16px;
     border: 1px solid rgb(var(--ig-seperator));
     border-radius: 22px;
+    overflow-x: hidden;
+    overflow-y: hidden;
     
 }
 

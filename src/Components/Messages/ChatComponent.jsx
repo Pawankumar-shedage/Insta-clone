@@ -15,6 +15,8 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
   const [messages, setMessages] = useState([]);
 
+  const [showTimestamp, setShowTimestamp] = useState(false);
+
   // FIREBASE 🦺
   const {
     sendConversation,
@@ -42,18 +44,38 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
   // adding messages in conversation.
   // 1.conversationId 2.Message Data
 
-  const addNewMessage = async () => {
+  const addNewMessage = async (messageToAdd) => {
     try {
+      // Timestamp set
+      const currentTime = new Date();
+
+      const currentDate = {
+        day: currentTime.getDay(),
+        date: currentTime.getDate(),
+        month: currentTime.getMonth() + 1,
+        year: currentTime.getFullYear(),
+      };
+      const hours = currentTime.getHours();
+      const minutes = currentTime.getMinutes();
+      const seconds = currentTime.getSeconds();
+      console.log(currentTime);
+
       const messageData = {
         sender: currentUser.uid,
-        content: textMessage,
-        timestamp: serverTimestamp(),
+        content: messageToAdd,
+        timestamp: {
+          hours: hours,
+          minutes: minutes,
+          seconds,
+          currentDate,
+          serverTimestamp: serverTimestamp(),
+        },
       };
 
       console.log(
         "inside addNewMessage",
         conversationId,
-        ",   MessageData: ",
+        ",   Message content before sending: ",
         messageData
       );
 
@@ -86,15 +108,27 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
   const handleTextMessage = async (e) => {
     const message = e.target.value;
-    console.log(message);
+    // console.log(message);
 
     setTextMessage(message);
   };
 
-  // KEY PRESS
+  const addLineBreaks = async (message, maxChars = 40) => {
+    let result = "";
 
+    for (let i = 0; i < message.length; i++) {
+      result += message[i];
+      if ((i + 1) % maxChars === 0 && i !== 0) {
+        result += "\n";
+      }
+    }
+    setTextMessage(result);
+    return result;
+  };
+
+  // KEY PRESS
   const handleKeyDown = (e) => {
-    console.log(e);
+    // console.log(e);
 
     // To enter line break
     if (e.key === "Enter" && e.shiftKey) {
@@ -119,56 +153,42 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     }
   };
 
-  const addLineBreaks = (message, maxCharactersPerLine = 20) => {
-    const words = message.split(" ");
-    let currentLine = "";
-
-    const lines = words.reduce((result, word) => {
-      if (word.length > 20) {
-        console.log("long word", word);
-      }
-
-      if ((currentLine + word).length <= maxCharactersPerLine) {
-        currentLine += word + " ";
-      } else {
-        result.push(currentLine);
-        currentLine = word + " ";
-      }
-      console.log(result);
-      return result;
-    }, []);
-
-    // Add the last line
-    if (currentLine.trim()) {
-      lines.push(currentLine.trim());
-    }
-
-    return lines.join("\n");
-  };
-
   const sendMessage = async (e) => {
-    if (e) {
-      e.preventDefault();
-    }
-
     try {
-      // Formatting long messages.
-      const formattedMessage = addLineBreaks(textMessage);
-      console.log(formattedMessage);
-      setTextMessage(formattedMessage);
+      if (e) {
+        e.preventDefault();
+      }
 
-      await addNewMessage();
+      // No need to format msg explicitily as OVERFLOW-WRAP:BREAK-WORD property is there.
+      // ----Formatting message just before sending it. as we need to format complete msg at once
+      // const formattedMessage = await addLineBreaks(textMessage, 50);
+
+      // Adding this formatted Message to the DB!! not the textMessage(As state updation is asynchronous.!!)
+      await addNewMessage(textMessage);
 
       // after the message is added to the conversation, the latest message should appear as well
       getMessages();
 
       setTextMessage("");
-      return "success";
+
+      return "Message Sent";
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
+
+  const isTimeStampDiffrenceGreaterThan10Minutes = (message1, message2) => {
+    const tstmp1 = message1.data.timestamp.minutes;
+    const tstmp2 = message2.data.timestamp.minutes;
+
+    console.log(tstmp1, ":", tstmp2);
+    const timeDiffInMin = Math.abs(tstmp1 - tstmp2);
+
+    console.log(timeDiffInMin);
+    return timeDiffInMin >= 5;
+  };
+
   // ---------------------------------Return
   return (
     <>
@@ -254,28 +274,47 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
         {/* content chat */}
         <div className="chat-content-main">
-          {messages.map((message) => (
-            <div key={message.id} className="message-div">
-              {message.data.sender !== selectedUser.author_uid ? (
-                <div id="msg-sender-text">
-                  <div>
-                    <div className="msg-sender-content">
-                      <span>{message.data.content}</span>
+          {messages.map((message, index) => (
+            <div key={message.id} className="message-container">
+              {/* timestamp - n: to apply switch case for days,weeks,mothns,year.*/}
+              {index === 0 ||
+              isTimeStampDiffrenceGreaterThan10Minutes(
+                messages[index - 1],
+                message
+              ) ? (
+                <div className="message-timestamp mt-5 mb-5">
+                  <p className="text-center  ">
+                    <span>{message.data.timestamp.hours} </span> :
+                    <span> {message.data.timestamp.minutes}</span>
+                  </p>
+                </div>
+              ) : null}
+
+              {/* rendering text message, message-div */}
+              <div className="message-div">
+                {message.data.sender !== selectedUser.author_uid ? (
+                  <div id="msg-sender-text">
+                    <div>
+                      <div className="msg-sender-content">
+                        <div>{message.data.content}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div id="msg-receiver-text">
-                  <div>
-                    <div className="msg-receiver-profile-pic">
-                      <img src="/src/assets/Images/French-Croissants.jpg"></img>
-                    </div>
-                    <div className="msg-receiver-content">
-                      <span>{message.data.content}</span>
+                ) : (
+                  <div id="msg-receiver-text">
+                    <div>
+                      <div className="msg-receiver-profile-pic">
+                        <img src="/src/assets/Images/French-Croissants.jpg"></img>
+                      </div>
+                      <div className="msg-receiver-content">
+                        <div>{message.data.content}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+
+              {/* !message-container */}
             </div>
           ))}
         </div>

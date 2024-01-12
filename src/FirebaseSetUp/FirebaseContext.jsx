@@ -276,7 +276,7 @@ export const FirebaseContext = ({ children }) => {
 
       const messagesQuery = query(
         collection(db, "conversations", `${conversationId}`, "messages"),
-        orderBy("timestamp")
+        orderBy("timestamp.serverTimestamp")
       );
 
       const messagesSnapshot = await getDocs(messagesQuery);

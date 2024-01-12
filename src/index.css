@@ -5,6 +5,9 @@
   --ig-primary-color:0,0,0;
   --ig--secondary-color:18,18,18;
 }
+
+
+
 html, body {
   margin: 0;
   padding: 0;
@@ -18,4 +21,17 @@ body, h1, h2, p, ul, li {
 
 *, *:before, *:after {
   box-sizing: border-box;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width: 16px;
+}
+
+::-webkit-scrollbar-track{
+  background-color: rgb(87, 87, 87);
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: rgb(122, 122, 122);
 }
