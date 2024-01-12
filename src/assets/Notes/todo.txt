@@ -1,7 +1,6 @@
 
 ⭐Current-Priority: 🚩
-    1.Chat section(chats...(messages))
-        firebase logic:Done ✅
+    1.Profile Page
     1.Home(Posts,stories,Action Buttons)
 
 ⭐To add:➕🔼
@@ -13,6 +12,7 @@
 ⭐Done                                      Date
     1.Authentication ✅                     22 - Dec
     2.Home UI (Base Structure) ✅           25 - Dec
+    3.Messages Page/Chat Component BASE ✅  12 - Jan 2024
 
 
 ---------------------------------------------------------------

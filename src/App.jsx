@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Suspense, useEffect, useState } from "react";
 import { useFirebase } from "./FirebaseSetUp/FirebaseContext";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { Login } from "./Pages/Login";
 import { Register } from "./Pages/Register";
@@ -15,6 +15,8 @@ function App() {
       <Suspense fallback={<div>Loading content...</div>}>
         <Routes>
           <Route path="/" Component={Home}></Route>
+          {/* Default */}
+          <Route path="/*" element={<Navigate to={"/login"} />}></Route>
           <Route path="/login" Component={Login}></Route>
           <Route path="/register" Component={Register}></Route>
           <Route path="/messages/:userId" element={<Messages />} />
