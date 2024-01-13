@@ -70,7 +70,7 @@ export const Sidebar = () => {
               <div className="navigation-logo-div">
                 {/* Logo */}
                 <div>
-                  <Link className="sidebar-link">
+                  <Link className="sidebar-link" to={"/home"}>
                     <span>
                       <svg
                         aria-label="Home"

@@ -140,7 +140,7 @@ export const Messages = (props) => {
               <div className="navigation-logo-div">
                 {/* Logo */}
                 <div>
-                  <Link className="sidebar-link" to={"/"}>
+                  <Link className="sidebar-link" to={"/home"}>
                     <span>
                       <svg
                         aria-label="Home"

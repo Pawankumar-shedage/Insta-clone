@@ -36,3 +36,4 @@
 Logged Users Creds: 
  
 1> Email:  samalt@gmail.com |  username: sam@Alt | Fullname: Sam Altman | Password:  Sam@123456789
+2> Email:  setupathi@gmail.com |  username: setu1122 | Fullname: Setu Pati | Password:  Setu@12345

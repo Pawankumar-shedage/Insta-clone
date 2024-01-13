@@ -50,7 +50,7 @@ export const Register = () => {
     const dataSent = await registerUser(formData);
 
     if (dataSent) {
-      navigate("/");
+      navigate("/home");
     }
     console.log("data sub", dataSent);
   };
