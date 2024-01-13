@@ -63,7 +63,7 @@ export const Login = () => {
           // Providing user for all components.
           handleAuthStateChange(user);
           // navigate
-          navigate("/");
+          navigate("/home");
         } else {
           console.error("User data not found in Firestore");
           // Handle the case where user data is not found

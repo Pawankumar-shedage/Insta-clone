@@ -14,9 +14,9 @@ function App() {
     <>
       <Suspense fallback={<div>Loading content...</div>}>
         <Routes>
-          <Route path="/" Component={Home}></Route>
+          <Route path="/home" Component={Home}></Route>
           {/* Default */}
-          <Route path="/*" element={<Navigate to={"/login"} />}></Route>
+          <Route path="/*" element={<Navigate to={"/register"} />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" Component={Register}></Route>
           <Route path="/messages/:userId" element={<Messages />} />
