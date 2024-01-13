@@ -17,7 +17,7 @@ function App() {
           <Route path="/" Component={Home}></Route>
           {/* Default */}
           <Route path="/*" element={<Navigate to={"/login"} />}></Route>
-          <Route path="/login" Component={Login}></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/register" Component={Register}></Route>
           <Route path="/messages/:userId" element={<Messages />} />
           <Route path="/profile" element={<Profile />} />
