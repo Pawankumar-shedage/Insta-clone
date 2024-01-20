@@ -46,7 +46,6 @@
 /* [2] */
 .message-profiles{
     width:398px ;
-    /* max-width: 398px; */
     height: 100vh;
     border-right: 1px solid rgb(var(--ig-seperator));
    
@@ -97,6 +96,20 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    /* background-color: red; */
+}
+
+.msg-profile-names{
+    display: flex;
+    flex-direction: column;
     background-color: red;
 }
 
+
+/* ------MEDIA QUERIES */
+@media screen and (max-width:650px){
+    .msg-profile-names{  
+       display: none;
+       background-color: yellow;
+    }
+}

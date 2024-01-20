@@ -621,7 +621,7 @@ export const Messages = (props) => {
                     </div>
 
                     {/* USERNAME */}
-                    <div className="d-flex flex-column">
+                    <div className=" msg-profile-names">
                       <div className="username">
                         <span>{user.fullName}</span>
                       </div>
