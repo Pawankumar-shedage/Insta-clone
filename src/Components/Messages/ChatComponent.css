@@ -129,6 +129,23 @@
 /* ---------------------------!chat-main */
 
 
+/* EMOJI WINDOW */
+.ew-visible{
+    display: block;
+    height:250px;
+    width: fit-content;
+    background-color: transparent;
+    position: absolute;
+    /* top: 10%; */
+    bottom: 12%;
+    overflow: hidden;
+}
+.ew-hidden{
+    display: none;
+}
+
+
+
 
 /* to deal with position fixed */
 .send-message{
@@ -176,4 +193,14 @@
     justify-content: center;
     align-items: center;
     background-color:rgb(var(--ig-primary-color));
+}
+
+
+
+/* MEDIA - QUERIES */
+@media screen and (max-width:760px){
+    .ew-visible{
+        width: 80%;
+        height: 40%;
+    }
 }

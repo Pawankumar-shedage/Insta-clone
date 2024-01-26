@@ -48,7 +48,6 @@
     width:398px ;
     height: 100vh;
     border-right: 1px solid rgb(var(--ig-seperator));
-   
 }
 
 .msg-prof-container{
@@ -61,12 +60,24 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
 }
 .msg-prof-header>div{
     display: flex;
     flex-direction: row;
 }
+
+
+.msg-prof-heading{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;  
+}
+
+
+
 .msg-profile-chats{
     margin:20px 0;
 }
@@ -99,17 +110,36 @@
     /* background-color: red; */
 }
 
+
+/*  chats container */
+
+.m-prof-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.msg-prof-profile-pic{
+    /* width: 100%; */
+}
 .msg-profile-names{
     display: flex;
     flex-direction: column;
-    background-color: red;
+    /* background-color: red; */
 }
 
 
 /* ------MEDIA QUERIES */
 @media screen and (max-width:650px){
+
+    /* [2] */
+    .message-profiles{
+        width: 20%;
+    }
+    .m-prof-container{
+        /* width: 20%; */
+    }
     .msg-profile-names{  
        display: none;
-       background-color: yellow;
+       /* background-color: yellow; */
     }
 }

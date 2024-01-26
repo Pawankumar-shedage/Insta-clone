@@ -606,7 +606,7 @@ export const Messages = (props) => {
                         return user;
                       });
                     }}
-                    className="d-flex flex-row mb-3"
+                    className="m-prof-container mb-3"
                     style={{ cursor: "pointer" }}
                   >
                     {/* PROFILE PIC */}

@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
+import { EmojiDrawer } from "./EmojiDrawer";
 
 export const ChatComponent = ({ selectedUser, conversationId }) => {
   // get current logged in user
@@ -182,11 +183,18 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     const tstmp1 = message1.data.timestamp.minutes;
     const tstmp2 = message2.data.timestamp.minutes;
 
-    console.log(tstmp1, ":", tstmp2);
+    // console.log(tstmp1, ":", tstmp2);
     const timeDiffInMin = Math.abs(tstmp1 - tstmp2);
 
-    console.log(timeDiffInMin);
+    // console.log(timeDiffInMin);
     return timeDiffInMin >= 5;
+  };
+
+  // EMOJI WINDOW
+  const [showEmojiWindow, setShowEmojiWindow] = useState(false);
+  const handleEmojiWindow = () => {
+    setShowEmojiWindow((prevData) => !prevData);
+    console.log(showEmojiWindow);
   };
 
   // ---------------------------------Return
@@ -324,8 +332,15 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
           <div>
             <div className="d-flex flex-row justify-content-between align-items-center">
               {/* Emojis */}
+
+              <div
+                className={`${showEmojiWindow ? "ew-visible" : "ew-hidden"}`}
+              >
+                <EmojiDrawer />
+              </div>
+
               <div>
-                <span>
+                <span onClick={handleEmojiWindow} role="button">
                   <svg
                     aria-label="Choose an emoji"
                     className="x1lliihq x1n2onr6 x5n08af"
