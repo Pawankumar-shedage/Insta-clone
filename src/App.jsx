@@ -8,19 +8,29 @@ import { Register } from "./Pages/Register";
 import { Messages } from "./Pages/Messages";
 import { useAuth } from "./AuthContext/AuthProvider";
 import { Profile } from "./Components/Profile/Profile";
+import { ProtectedRoute } from "./Pages/ProtectedRoute";
 
 function App() {
   return (
     <>
       <Suspense fallback={<div>Loading content...</div>}>
         <Routes>
-          <Route path="/home" Component={Home}></Route>
           {/* Default */}
-          <Route path="/*" element={<Navigate to={"/register"} />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/register" Component={Register}></Route>
-          <Route path="/messages/:userId" element={<Messages />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/*" element={<Navigate to={"/register"} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" Component={Register} />
+
+          {/* Protected */}
+          <Route path="/home" element={<ProtectedRoute component={Home} />} />
+
+          <Route
+            path="/messages/:userId"
+            element={<ProtectedRoute component={Messages} />}
+          />
+          <Route
+            path="/profile"
+            element={<ProtectedRoute component={Profile} />}
+          />
         </Routes>
       </Suspense>
     </>

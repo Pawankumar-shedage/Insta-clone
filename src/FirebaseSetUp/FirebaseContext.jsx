@@ -133,10 +133,16 @@ export const FirebaseContext = ({ children }) => {
         where("author_uid", "==", userId)
       );
       const userDoc = await getDocs(userDocQuery);
-      const user = [];
+
+      let user = null;
+
       userDoc.forEach((doc) => {
-        user.push(doc.data());
+        user = doc.data();
+        // user.push(doc.data());
       });
+
+      console.log("USER:", user);
+
       return user;
     } catch (error) {
       console.log("Error getting user by id: ", error);

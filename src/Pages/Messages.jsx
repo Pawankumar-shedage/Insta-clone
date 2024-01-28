@@ -11,6 +11,8 @@ import { ChatComponent } from "../Components/Messages/ChatComponent";
 import { serverTimestamp } from "firebase/firestore";
 
 export const Messages = (props) => {
+  console.log(props.msg);
+
   // Firestore 🦺
   const { getUser, sendConversation, getUserById } = useFirebase();
 

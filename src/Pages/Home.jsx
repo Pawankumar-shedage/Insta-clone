@@ -7,7 +7,7 @@ import Stories from "../Components/Stories/Stories";
 import "/src/index.css";
 import "/src/Styles/Home/Home.css";
 
-export const Home = () => {
+export const Home = (props) => {
   const { currentUser } = useAuth();
 
   useEffect(() => {

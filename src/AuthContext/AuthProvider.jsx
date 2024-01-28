@@ -12,18 +12,26 @@ export const AuthProvider = ({ children }) => {
   // user object
   const [currentUser, setCurrentUser] = useState(null);
 
+  // is user Authenticated
+  const [isAuthenticated, setIsUserAuthenticated] = useState(false);
+
   // Loading state
   const [loading, setLoading] = useState(true);
 
   const handleAuthStateChange = (user) => {
     if (user) {
       // User is signed in
+      setIsUserAuthenticated(true);
+
+      setCurrentUser(user);
+
       console.log("User signed in:", user.uid);
     } else {
       // User is signed out
+      setIsUserAuthenticated(false);
       console.log("User signed out");
     }
-    setCurrentUser(user);
+    // setCurrentUser(user);
     setLoading(false);
   };
 
@@ -42,7 +50,9 @@ export const AuthProvider = ({ children }) => {
   // -------------------------------------------------
   return (
     <>
-      <authContext.Provider value={{ currentUser, handleAuthStateChange }}>
+      <authContext.Provider
+        value={{ currentUser, handleAuthStateChange, isAuthenticated }}
+      >
         {children}
       </authContext.Provider>
     </>
