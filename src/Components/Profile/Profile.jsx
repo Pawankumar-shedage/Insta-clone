@@ -4,6 +4,8 @@ import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import { Sidebar } from "../Sidebar/Sidebar";
 import "./Profile.css";
 import "/src/index.css";
+// icons
+import { BsGearWide } from "react-icons/bs";
 
 export const Profile = () => {
   const { currentUser } = useAuth();
@@ -64,7 +66,9 @@ export const Profile = () => {
                   {/* <button className="btn btn-secondary">Edit Profile</button> */}
                   {/* <button className="btn btn-secondary">Edit Profile</button> */}
 
-                  <button>Settings</button>
+                  <div className="ms-3">
+                    <BsGearWide style={{ fontSize: "24px" }} />
+                  </div>
                 </div>
               </div>
 
@@ -159,6 +163,14 @@ export const Profile = () => {
             {/* to add posts,saved,archived options bar */}
 
             <div className="user-posts">
+              <div>
+                <img
+                  src="/src/assets/Images/French-Croissants.jpg"
+                  height={"100%"}
+                  width={"100%"}
+                  alt="post"
+                />
+              </div>
               <div>
                 <img
                   src="/src/assets/Images/French-Croissants.jpg"

@@ -5,6 +5,11 @@
     width: 100vw;
 }
 
+/* sidebar */
+.profile-sidebar{
+    display: block;
+}
+
 .profile-container{
     height: 100vh;
     width: 100%;
@@ -15,9 +20,7 @@
    
 }
 
-.profile-sidebar{
-    
-}
+
 
 
 /* profile-display */
@@ -25,7 +28,7 @@
 .profile-display {
     flex: 1;
     height: 100vh;
-    overflow: auto;
+    overflow-y: auto;
     /* background-color: yellow; */
 }
 
@@ -52,7 +55,7 @@
 }
 
 .profile-user-details{
-    background-color: red;
+    /* background-color: red; */
     margin-left: 15%;
     /* height: 100%; */
     width: 100%;
@@ -106,21 +109,23 @@
 .user-highlights{
     display: flex;
     flex-direction: row;
-    width: 75%;
+    align-items: stretch;
     margin: 5% auto;
     padding:0 2%;
+    height: 100%;
+    width: 75%;
+    overflow-x: hidden;
+    position: relative;
     /* background-color: yellow; */
 }
 .user-highlights>div{
-    border-radius: 100%;
-    height: 80px;
-    width: 80px;
+    width: 500px;
+    border-radius: 50%;
     margin: 2%;
-    background-color: red;
+    border: 3px solid orange;
+    /* background-color: red; */
 }
-.user-highlights>div>img{
-    border-radius: 100%;
-}
+
 
 
 /* POSTS */
@@ -133,17 +138,49 @@
 
 .user-posts{
     width: 100%;
-    height: 100%;
+    height: calc(100% - 2px);
     margin: 5% auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr ;
-    row-gap: 0px;
-    /* grid-gap: 2px; */
-    /* overflow-y:scroll ; */
+    grid-template-columns: 1fr ;
+    row-gap: 0;
 
 }
 .user-posts>div{
     padding: 2px;
-    height: 300px;
-    width: 300px;
+    height: 0; /*maintain aspect ratio 1:1*/
+    position: relative;
+    padding-top: 100%;
+    margin: 2px;
+}
+
+.user-posts>div img{
+    top: 0;
+    left: 0;
+    position: absolute;
+    /* filling grid item */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ---MEDIA QUERIES */
+@media screen and (max-width:768px){
+    .user-posts{
+        /* 2 cols */
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .profile-sidebar{
+        display: none;
+    }
+    
+}
+
+@media screen and (min-width:768px){
+    .user-posts{
+        /* 3 cols */
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
 }
