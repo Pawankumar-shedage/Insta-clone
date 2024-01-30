@@ -109,17 +109,18 @@
 .user-highlights{
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    /* align-items: stretch; */
     margin: 5% auto;
     padding:0 2%;
-    height: 100%;
     width: 75%;
     overflow-x: hidden;
-    position: relative;
-    /* background-color: yellow; */
 }
 .user-highlights>div{
-    width: 500px;
+    overflow: hidden;
+    /* imp */
+    /* min-height: 50px; */
+    min-width: 40px;
+    overflow: auto;
     border-radius: 50%;
     margin: 2%;
     border: 3px solid orange;
