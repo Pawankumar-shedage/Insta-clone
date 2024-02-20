@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
@@ -5,10 +6,13 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import "./Profile.css";
 import "/src/index.css";
 // icons
-import { BsGearWide } from "react-icons/bs";
+import { ProfileHeader } from "./ProfileHeader";
+import { StoryHighlights } from "./StoryHighlights";
+import { ProfilePosts } from "./ProfilePosts";
 
 export const Profile = () => {
   const { currentUser } = useAuth();
+
   const { getUserById } = useFirebase();
 
   const [loading, setLoading] = useState(true);
@@ -22,7 +26,7 @@ export const Profile = () => {
       setLoading(false);
     } catch (e) {
       console.log("Error getting user: ", e);
-      throw new error();
+      throw new e();
     }
   };
 
@@ -40,190 +44,17 @@ export const Profile = () => {
   return (
     <div className="profile-mount">
       <div className="profile-container">
-        {/* Sidebar */}
         <div className="profile-sidebar">
           <Sidebar />
         </div>
-        {/* profile-display section */}
+
+        {/* MAIN */}
         <div className="profile-display ">
-          <div className="profile-header">
-            <div className="profile-pic-div">
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                alt="profile-pic"
-                height={"150px"}
-                width={"150px"}
-              />
-            </div>
-            <div className="profile-user-details">
-              <div className="d-flex flex-row">
-                <div className="user-name">
-                  <span className="fs-5 ">{user.username}</span>
-                </div>
+          <ProfileHeader user={user} />
 
-                <div className="user-action-btns">
-                  <button>Edit Profile</button>
-                  {/* <button className="btn btn-secondary">Edit Profile</button> */}
-                  {/* <button className="btn btn-secondary">Edit Profile</button> */}
+          <StoryHighlights />
 
-                  <div className="ms-3">
-                    <BsGearWide style={{ fontSize: "24px" }} />
-                  </div>
-                </div>
-              </div>
-
-              <div className="user-info">
-                <div>23 posts</div>
-                <div>23 followers</div>
-                <div>23 following</div>
-              </div>
-
-              <div className="user-fullname mt-3">
-                <span>{user.fullName}</span>
-              </div>
-
-              <div className="user-bio mt-3">
-                <p>✋🏻</p>
-              </div>
-            </div>
-
-            {/* !header */}
-          </div>
-
-          {/* Highlights (later to be added) */}
-          <div className="user-highlights">
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-            <div>
-              <img
-                src="/src/assets/Images/French-Croissants.jpg"
-                height={"100%"}
-                width={"100%"}
-                alt="highlight"
-              />
-            </div>
-          </div>
-
-          {/* Posts */}
-          <div className="user-posts-container d-flex flex-row justify-content-center">
-            <span className="text-center mb-3" style={{ color: "white" }}>
-              Posts
-            </span>
-            {/* to add posts,saved,archived options bar */}
-
-            <div className="user-posts">
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-              <div>
-                <img
-                  src="/src/assets/Images/French-Croissants.jpg"
-                  height={"100%"}
-                  width={"100%"}
-                  alt="post"
-                />
-              </div>
-            </div>
-          </div>
+          <ProfilePosts />
         </div>
       </div>
     </div>

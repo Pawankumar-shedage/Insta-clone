@@ -106,25 +106,52 @@
 
 
 /* HIGHLIGHTS */
-.user-highlights{
+
+.highlights{
+    position: relative;
+   
+}
+.highlight-container>div{
     display: flex;
     flex-direction: row;
-    /* align-items: stretch; */
+    justify-content: center;
     margin: 5% auto;
     padding:0 2%;
+    height: 100px;
     width: 75%;
-    overflow-x: hidden;
-}
-.user-highlights>div{
+    background-color: red;
     overflow: hidden;
-    /* imp */
-    /* min-height: 50px; */
-    min-width: 40px;
+}
+.highlight{
+    display: flex;
+    min-height: 80px;
+    min-width: 80px;
     overflow: auto;
     border-radius: 50%;
     margin: 2%;
     border: 3px solid orange;
-    /* background-color: red; */
+    
+}
+
+
+.prev, .next{
+    position: absolute;
+    cursor: pointer;
+    top: 35%;
+    padding: 5px;
+    border-radius: 50%;
+    width: auto;
+    color: #000;
+    background-color: #f8f8f8;
+}
+
+/* position */
+.prev{
+    left: 0px;
+}
+
+.next{
+    right: 0px;
 }
 
 

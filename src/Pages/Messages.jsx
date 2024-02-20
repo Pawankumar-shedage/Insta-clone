@@ -11,7 +11,7 @@ import { ChatComponent } from "../Components/Messages/ChatComponent";
 import { serverTimestamp } from "firebase/firestore";
 
 export const Messages = (props) => {
-  console.log(props.msg);
+  console.log(props);
 
   // Firestore 🦺
   const { getUser, sendConversation, getUserById } = useFirebase();
@@ -56,6 +56,7 @@ export const Messages = (props) => {
     getUsers();
 
     // Single Logged in user
+    console.log("Called");
     getLoggedInUser();
   }, []);
 
@@ -93,7 +94,7 @@ export const Messages = (props) => {
     const user = await getUserById(userId);
 
     console.log("Logged User => ", user);
-    setLoggedUser(user[0]);
+    setLoggedUser(user);
   };
 
   // START CHAT CONVERSATION.
