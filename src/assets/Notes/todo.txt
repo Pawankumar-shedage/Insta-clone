@@ -1,15 +1,21 @@
 
 ⭐Current-Priority: 🚩
-    1.Profile Page
-    1.Home(Posts,stories,Action Buttons)
+    🔴 Create Post (upload images with captions) ->  Storing posts on DB (Firebase) Storage Buckets for images.
+    1.Home->  Fetch Posts and show,Action Buttons)
+    1.Profile Page - 
+        followers count
+        Profile picture.
+        bio fetch.
+        posts fetch.
+    
 
 ⭐To add:➕🔼
-    3.To add Private Routes.
     4.Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
     //Modals for message,settings...
 
 ⭐Done                                      Date
     1.Authentication ✅                     22 - Dec
+    3.To add Private Routes.
     2.Home UI (Base Structure) ✅           25 - Dec
     3.Messages Page/Chat Component BASE ✅  12 - Jan 2024
 

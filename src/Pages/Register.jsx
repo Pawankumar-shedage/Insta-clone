@@ -179,15 +179,17 @@ export const Register = () => {
             </div>
 
             {/* From Meta */}
-            <div className="meta-logo mt-5">
+            <div className="meta-logo mt-3">
               <span className="small-text" style={{ overflow: "hiden" }}>
                 from
               </span>
               <div className="meta">
                 <img
                   className="contained-meta-img"
-                  src="/src/assets/IG_brand_asset_pack_2023/Meta Logo.png"
-                  alt=""
+                  src="https://scontent.fpnq2-2.fna.fbcdn.net/v/t39.8562-6/252294889_575082167077436_6034106545912333281_n.svg/meta-logo-primary_standardsize.svg?_nc_cat=1&amp;ccb=1-7&amp;_nc_sid=e280be&amp;_nc_ohc=Ls8R1KqboTkAb7C0G8l&amp;_nc_ht=scontent.fpnq2-2.fna&amp;oh=00_AfBtvwWNkU5wkCQnvAzoCKgnDVhw4rYncGqhuClCflHvTw&amp;oe=661FFD79"
+                  width="89"
+                  height="18"
+                  alt="Meta logo, back to home"
                 />
               </div>
             </div>
