@@ -1,7 +1,6 @@
 import { useRef } from "react";
-import "./CreatePostModal.css";
 
-export const CreatePost = () => {
+export const CreateNewPost = () => {
   const modalRef = useRef();
 
   console.log(modalRef.current);

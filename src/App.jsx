@@ -9,7 +9,7 @@ import { Messages } from "./Pages/Messages";
 import { useAuth } from "./AuthContext/AuthProvider";
 import { Profile } from "./Components/Profile/Profile";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
-import { CreatePost } from "./Components/Posts/createPost";
+import { CreateNewPost } from "./Components/Posts/CreateNewPost";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
           />
           <Route
             path="/createPost"
-            element={<ProtectedRoute component={CreatePost} />}
+            element={<ProtectedRoute component={CreateNewPost} />}
           />
         </Routes>
       </Suspense>

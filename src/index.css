@@ -13,6 +13,7 @@ html, body {
   padding: 0;
   /* This will hide the horizontal scrollbar */
   overflow-x: hidden; 
+  background: #fff;
 }
 body, h1, h2, p, ul, li {
   margin: 0;

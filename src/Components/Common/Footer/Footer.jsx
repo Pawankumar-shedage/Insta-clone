@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 export const Footer = () => {
+  const date = new Date();
+  const currYear = date.getFullYear();
+
   return (
     <>
       <footer role="content-info" className="mt-5">
@@ -96,7 +99,7 @@ export const Footer = () => {
             &nbsp;
             <div className="copyright">
               <span className="small-text">
-                &#169; 2023 Instagram from Meta
+                &#169; {currYear} Instagram from Meta
               </span>
             </div>
           </div>
