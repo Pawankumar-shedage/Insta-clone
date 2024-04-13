@@ -10,7 +10,6 @@ import { useAuth } from "./AuthContext/AuthProvider";
 import { Profile } from "./Components/Profile/Profile";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
 import { CreateNewPost } from "./Components/Posts/CreateNewPost";
-import { Test } from "./Components/RainBowTestFolder/test";
 
 function App() {
   return (

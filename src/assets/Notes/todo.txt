@@ -1,8 +1,8 @@
 
 ⭐Current-Priority: 🚩
     🔴 Create Post (upload images with captions) ->  Storing posts on DB (Firebase) Storage Buckets for images.
-    1.Home->  Fetch Posts and show,Action Buttons)
-    1.Profile Page - 
+    🔴Home->  Fetch Posts and show,Action Buttons)
+    🔴Profile Page - 
         followers count
         Profile picture.
         bio fetch.
