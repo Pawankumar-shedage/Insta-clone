@@ -3,10 +3,18 @@ import "/src/index.css";
 
 export const ProfilePosts = () => {
   return (
-    <div className="user-posts-container d-flex flex-row justify-content-center">
-      <span className="text-center mb-3" style={{ color: "white" }}>
-        Posts
-      </span>
+    <div className="user-posts-container d-flex flex-column justify-content-center">
+      <div className="posts-title">
+        <div>
+          <span role="button">POSTS</span>
+        </div>
+        <div>
+          <span role="button">SAVED</span>
+        </div>
+        <div>
+          <span role="button">TAGGED</span>
+        </div>
+      </div>
       {/* to add posts,saved,archived options bar */}
 
       <div className="user-posts">

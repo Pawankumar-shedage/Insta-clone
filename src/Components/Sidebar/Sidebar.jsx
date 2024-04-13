@@ -67,10 +67,14 @@ export const Sidebar = () => {
             {/* Group 1 */}
             <div className="sidebar-btn-grp-1">
               {/* Home */}
-              <div className="navigation-logo-div">
+              <div
+                className="navigation-logo-div"
+                role="button"
+                onClick={() => navigate("/home")}
+              >
                 {/* Logo */}
                 <div>
-                  <Link className="sidebar-link" to={"/home"}>
+                  <Link className="sidebar-link">
                     <span>
                       <svg
                         aria-label="Home"
@@ -345,7 +349,11 @@ export const Sidebar = () => {
               </div>
 
               {/* Create - New Post*/}
-              <div className="navigation-logo-div">
+              <div
+                className="navigation-logo-div"
+                role="button"
+                onClick={() => navigate("/createPost")}
+              >
                 {/* Logo */}
                 <div>
                   <Link className="sidebar-link">

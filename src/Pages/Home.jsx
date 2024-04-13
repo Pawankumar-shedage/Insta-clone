@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useAuth } from "../AuthContext/AuthProvider";
 import { Footer } from "../Components/Common/Footer/Footer";
-import { Posts } from "../Components/Posts/Posts";
+
 import { Sidebar } from "../Components/Sidebar/Sidebar";
 import Stories from "../Components/Stories/Stories";
 import "/src/index.css";
 import "/src/Styles/Home/Home.css";
 
-export const Home = (props) => {
+export const Home = () => {
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -34,7 +34,6 @@ export const Home = (props) => {
               <div className="main-feed-section">
                 <div className="feed">
                   {/* Posts = posts + reels videos.. */}
-                  <Posts />
                 </div>
 
                 {/* Footer */}

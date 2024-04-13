@@ -40,6 +40,16 @@ export const Profile = () => {
 
   console.log(user);
 
+  // Story-highlight slides
+  const slides = [
+    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  ];
+
   // -----------------RETURN-------
   return (
     <div className="profile-mount">
@@ -52,7 +62,7 @@ export const Profile = () => {
         <div className="profile-display ">
           <ProfileHeader user={user} />
 
-          <StoryHighlights />
+          <StoryHighlights slides={slides} />
 
           <ProfilePosts />
         </div>

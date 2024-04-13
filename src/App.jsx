@@ -9,6 +9,7 @@ import { Messages } from "./Pages/Messages";
 import { useAuth } from "./AuthContext/AuthProvider";
 import { Profile } from "./Components/Profile/Profile";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
+import { CreatePost } from "./Components/Posts/createPost";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <Suspense fallback={<div>Loading content...</div>}>
         <Routes>
           {/* Default */}
-          <Route path="/*" element={<Navigate to={"/register"} />} />
+          <Route path="/*" element={<Navigate to={"/login"} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" Component={Register} />
 
@@ -30,6 +31,10 @@ function App() {
           <Route
             path="/profile"
             element={<ProtectedRoute component={Profile} />}
+          />
+          <Route
+            path="/createPost"
+            element={<ProtectedRoute component={CreatePost} />}
           />
         </Routes>
       </Suspense>

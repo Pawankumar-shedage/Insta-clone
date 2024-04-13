@@ -108,24 +108,31 @@
 /* HIGHLIGHTS */
 
 .highlights{
-    position: relative;
+    overflow: hidden;
    
 }
-.highlight-container>div{
+.highlight-container{
+    position: relative;
+    width: 100%;
+    
+}
+
+.slides{
     display: flex;
+    transition: transform 0.5s ease;
     flex-direction: row;
-    justify-content: center;
+    justify-content: start;
     margin: 5% auto;
     padding:0 2%;
     height: 100px;
     width: 75%;
-    background-color: red;
     overflow: hidden;
 }
 .highlight{
+    /* flex: 0 0 100%; */
     display: flex;
     min-height: 80px;
-    min-width: 80px;
+    width: 80px;
     overflow: auto;
     border-radius: 50%;
     margin: 2%;
@@ -135,23 +142,28 @@
 
 
 .prev, .next{
-    position: absolute;
     cursor: pointer;
-    top: 35%;
+    position: absolute;
+    top: 50%;
+    /* width: auto; */
     padding: 5px;
-    border-radius: 50%;
-    width: auto;
+    margin-top: -22px;
     color: #000;
-    background-color: #f8f8f8;
+    background-color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.6s ease;
+    border-radius: 50%;
+    user-select: none;
 }
 
 /* position */
 .prev{
-    left: 0px;
+    left: 80px;
 }
 
 .next{
-    right: 0px;
+    right: 80px;
 }
 
 
@@ -164,10 +176,27 @@
    margin: 0px auto;
 }
 
+.posts-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding:10px;
+    height: 40px;
+}
+
+.posts-title>div{
+    font-size:smaller;
+    margin-right: 30px;
+    color: rgb(163, 160, 160);
+
+}
+
+
 .user-posts{
     width: 100%;
     height: calc(100% - 2px);
-    margin: 5% auto;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr ;
     row-gap: 0;
