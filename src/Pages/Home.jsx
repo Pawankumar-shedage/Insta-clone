@@ -46,8 +46,8 @@ export const Home = () => {
             </div>
           </section>
 
-          <suggest-section>
-            {/* Suggested profile section for desktop view */}
+          {/* Suggested profile section for desktop view */}
+          {/* <suggest-section>
             <div className="suggested-profile-section">
               <div className="user-prof-current">
                 <div className="current-user-profile-pic"></div>
@@ -57,7 +57,7 @@ export const Home = () => {
                 </div>
               </div>
             </div>
-          </suggest-section>
+          </suggest-section> */}
 
           {/* !home container */}
         </div>

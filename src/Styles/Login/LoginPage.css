@@ -4,7 +4,8 @@
     padding: 0;
 }
 .top{
-    background-color: #fff;
+    background-color: rgb(var(--ig-light-bg));
+    /* background-color: rgb(var(--ig-dark-bg)); */
     margin: 0;
     max-height: 100%;
     max-width: 100%;

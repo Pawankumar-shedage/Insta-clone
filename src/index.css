@@ -3,7 +3,10 @@
   --sidebar-narrow-width:72px;
   --sidebar-medium-width:244px;
   --ig-primary-color:0,0,0;
+  --ig-light-bg:255,255,255;
+  --ig-dark-bg:0,0,0;
   --ig--secondary-color:18,18,18;
+  --ig--primary-button:0,149,246;
 }
 
 

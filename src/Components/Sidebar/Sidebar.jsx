@@ -6,8 +6,11 @@ import "/src/index.css";
 // icons
 import { AiFillHome } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
+import { CreateNewPost } from "../Posts/CreateNewPost";
+import { createPortal } from "react-dom";
+import { Modal } from "../Modal/Modal";
 
 export const Sidebar = () => {
   const { currentUser } = useAuth();
@@ -19,6 +22,17 @@ export const Sidebar = () => {
   const navigate = useNavigate();
 
   const [profileImg, setProfileImg] = useState("");
+
+  // Create new  post modal
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const onOpen = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   // -----------------------------------RETURN--------------------------------------------------------
   return (
@@ -352,7 +366,7 @@ export const Sidebar = () => {
               <div
                 className="navigation-logo-div"
                 role="button"
-                onClick={() => navigate("/createPost")}
+                onClick={onOpen}
               >
                 {/* Logo */}
                 <div>
@@ -410,6 +424,20 @@ export const Sidebar = () => {
                   </div>
                 </div>
               </div>
+
+              {/* {modalOpen && <CreateNewPost closeModal={closeModal} />} */}
+              {modalOpen && (
+                <Modal closeModal={closeModal}>
+                  <CreateNewPost />
+                </Modal>
+              )}
+
+              {/* for avoid nesting of Modal and showing as sibling of main root component in body. */}
+              {/* {modalOpen &&
+                createPortal(
+                  <CreateNewPost closeModal={closeModal} />,
+                  document.body
+                )} */}
 
               {/*  Profile*/}
               <div

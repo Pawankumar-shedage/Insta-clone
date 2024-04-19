@@ -1,13 +1,17 @@
 
 ⭐Current-Priority: 🚩
-    🔴 Create Post (upload images with captions) ->  Storing posts on DB (Firebase) Storage Buckets for images.
-    🔴Home->  Fetch Posts and show,Action Buttons)
+    🔴 Create Post (upload images with captions)✅
+         ->  Storing posts on DB (Firebase) Storage Buckets for images.
+                Home->  Fetch Posts and show,Action Buttons)
     🔴Profile Page - 
         followers count
         Profile picture.
         bio fetch.
         posts fetch.
-    
+
+Responsive layout
+    create-post: 
+    home page,(sidebar) : 
 
 ⭐To add:➕🔼
     4.Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
