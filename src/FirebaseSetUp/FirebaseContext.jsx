@@ -26,6 +26,7 @@ import {
   connectStorageEmulator,
   getDownloadURL,
   getStorage,
+  listAll,
   ref,
   uploadBytes,
 } from "firebase/storage";
@@ -141,7 +142,7 @@ export const FirebaseContext = ({ children }) => {
         // user.push(doc.data());
       });
 
-      console.log("USER:", user);
+      // console.log("USER:", user);
 
       return user;
     } catch (error) {
@@ -183,6 +184,46 @@ export const FirebaseContext = ({ children }) => {
     } catch (error) {
       console.error("Error uploading file:", error);
     }
+  };
+
+  // STORING POSTS of user
+
+  const [postUploadDate, setPostUploadDate] = useState(" ");
+
+  const uploadPhotos = async (file, userId, username) => {
+    const metadata = {
+      contentType: "image/jpeg, image/png, image/jpg",
+    };
+    const storageRef = ref(
+      storage,
+      `user-posts/${userId}/${username}/${file.name}`
+    );
+    try {
+      const snapshot = await uploadBytes(storageRef, file, metadata);
+      console.log("Upload successfull @", snapshot);
+
+      //upload time
+      setPostUploadDate(snapshot.metadata.timeCreated);
+    } catch (error) {
+      console.log(error, " occurred while uploading photos");
+    }
+  };
+
+  // Fetch User Posts
+  const getUserPosts = async (userId, username) => {
+    const storageRef = ref(storage);
+    const filesRef = ref(storage, `user-posts/${userId}/${username}`);
+
+    const result = await listAll(filesRef);
+
+    console.log("User posts", result, username);
+    // listAll(filesRef)
+    //   .then((res) => {
+    //     res
+    //     console.log(res.items);
+    //   })
+    //   .catch((error) => console.log(error));
+    // console.log("result images ", result);
   };
 
   // SENDING CONVERSATIONS (MESSAGES):returns convId
@@ -315,6 +356,8 @@ export const FirebaseContext = ({ children }) => {
           addUser,
           getUser,
           uploadProfilePhotos,
+          uploadPhotos,
+          getUserPosts,
           logInUser,
           updateUserInFirestore,
           sendConversation,

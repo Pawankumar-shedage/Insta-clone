@@ -7,7 +7,7 @@ import "./Profile.css";
 import "/src/index.css";
 // icons
 import { ProfileHeader } from "./ProfileHeader";
-import { StoryHighlights } from "./StoryHighlights";
+// import { StoryHighlights } from "./StoryHighlights";
 import { ProfilePosts } from "./ProfilePosts";
 
 export const Profile = () => {
@@ -40,15 +40,15 @@ export const Profile = () => {
 
   console.log(user);
 
-  // Story-highlight slides
-  const slides = [
-    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
-    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
-    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
-    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
-    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
-    "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
-  ];
+  // // Later-Story-highlight slides
+  // const slides = [
+  //   "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  //   "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  //   "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  //   "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  //   "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  //   "/src/assets/Images/joker_4k_8k-7680x4320.jpg",
+  // ];
 
   // -----------------RETURN-------
   return (
@@ -62,7 +62,7 @@ export const Profile = () => {
         <div className="profile-display ">
           <ProfileHeader user={user} />
 
-          <StoryHighlights slides={slides} />
+          {/* <StoryHighlights slides={slides} /> */}
 
           <ProfilePosts />
         </div>

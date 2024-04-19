@@ -1,17 +1,41 @@
 /* eslint-disable react/prop-types */
 import "/src/index.css";
 import "./CreatePostModal.css";
+import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
+import { useAuth } from "../../AuthContext/AuthProvider";
+import { useEffect, useState } from "react";
 
 export const CreateNewPost = () => {
+  const { uploadPhotos, getUserById } = useFirebase();
+
+  //get current logged in user
+
+  const { currentUser } = useAuth();
+
+  console.log("Logged in User ", currentUser.uid);
+
+  const [user, setUser] = useState(null);
+
+  const getUserDetails = async () => {
+    setUser(await getUserById(currentUser.uid));
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+  console.log("User Det ", user.username);
+
   //SELECT PHOTO to upload
   const selectMedia = () => {
     document.getElementById("fileInput").click();
-    console.log("Clicked");
+    console.log("Clicked Select Photos btn");
   };
 
-  const handleMediaFileChange = (event) => {
+  const handleMediaFileChange = async (event) => {
     const file = event.target.files[0];
     console.log(file);
+
+    await uploadPhotos(file, user.uid, user.username);
   };
 
   return (
@@ -74,7 +98,7 @@ export const CreateNewPost = () => {
           <input
             type="file"
             id="fileInput"
-            accept="image/jpeg, image/png"
+            accept="image/jpeg, image/png, image/jpg"
             onChange={handleMediaFileChange}
             style={{ display: "none" }}
           />

@@ -1,7 +1,31 @@
+import { useEffect, useState } from "react";
+import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import "./Profile.css";
 import "/src/index.css";
+import { useAuth } from "../../AuthContext/AuthProvider";
 
 export const ProfilePosts = () => {
+  // User Posts (Images)
+  const { getUserPosts, getUserById } = useFirebase();
+
+  const { currentUser } = useAuth();
+
+  console.log("Ss", currentUser.uid);
+  const [user, setUser] = useState(null);
+  const getUserDetails = async () => {
+    const user = await getUserById(currentUser.uid);
+    setUser(user);
+  };
+
+  console.log(user);
+  // ***Imp
+  const getPosts = async () => await getUserPosts(user.uid, user.username);
+  //Fetch userPosts
+  useEffect(() => {
+    getUserDetails();
+    if (user !== null) getPosts();
+  }, []);
+
   return (
     <div className="user-posts-container d-flex flex-column justify-content-center">
       <div className="posts-title">
@@ -17,64 +41,7 @@ export const ProfilePosts = () => {
       </div>
       {/* to add posts,saved,archived options bar */}
 
-      <div className="user-posts">
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-        <div>
-          <img
-            src="/src/assets/Images/French-Croissants.jpg"
-            height={"100%"}
-            width={"100%"}
-            alt="post"
-          />
-        </div>
-      </div>
+      <div className="user-posts"></div>
     </div>
   );
 };

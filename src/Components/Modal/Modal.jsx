@@ -8,7 +8,6 @@ import { RxCross1 } from "react-icons/rx";
 export const Modal = ({ closeModal, children }) => {
   return (
     <>
-      {/* //Modal */}
       <div
         className="modal-container"
         onClick={(e) => {
