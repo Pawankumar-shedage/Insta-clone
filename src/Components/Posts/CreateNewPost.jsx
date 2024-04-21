@@ -21,9 +21,12 @@ export const CreateNewPost = () => {
   };
 
   useEffect(() => {
-    getUserDetails();
-  }, []);
-  console.log("User Det ", user.username);
+    const fetchData = async () => {
+      await getUserDetails();
+    };
+
+    if (!user) fetchData();
+  }, [user]);
 
   //SELECT PHOTO to upload
   const selectMedia = () => {

@@ -57,7 +57,7 @@ export const Login = () => {
 
         if (userData) {
           console.log("User authenticated:", user.uid);
-          console.log("User data from Firestore:", userData);
+          // console.log("User data from Firestore:", userData);
           // Now you have both authentication data and additional user data
 
           // Providing user for all components.

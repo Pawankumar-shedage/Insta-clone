@@ -191,17 +191,22 @@ export const FirebaseContext = ({ children }) => {
   const [postUploadDate, setPostUploadDate] = useState(" ");
 
   const uploadPhotos = async (file, userId, username) => {
-    const metadata = {
-      contentType: "image/jpeg, image/png, image/jpg",
-    };
+    //db location
     const storageRef = ref(
       storage,
-      `user-posts/${userId}/${username}/${file.name}`
+      `user-posts/${username}/${userId}/${file.name}`
     );
+
+    //file config(format, info)
+    const metadata = {
+      contentType: "image/jpeg,image/png,image/jpg,image/JPEG",
+    };
+
     try {
       const snapshot = await uploadBytes(storageRef, file, metadata);
       console.log("Upload successfull @", snapshot);
 
+      console.log("Uploaded at ", snapshot.metadata.timeCreated);
       //upload time
       setPostUploadDate(snapshot.metadata.timeCreated);
     } catch (error) {
@@ -211,19 +216,22 @@ export const FirebaseContext = ({ children }) => {
 
   // Fetch User Posts
   const getUserPosts = async (userId, username) => {
-    const storageRef = ref(storage);
-    const filesRef = ref(storage, `user-posts/${userId}/${username}`);
+    const filesRef = ref(storage, `user-posts/${username}/${userId}`);
 
+    const imgUrls = [];
+
+    //images list result.
     const result = await listAll(filesRef);
 
-    console.log("User posts", result, username);
-    // listAll(filesRef)
-    //   .then((res) => {
-    //     res
-    //     console.log(res.items);
-    //   })
-    //   .catch((error) => console.log(error));
-    // console.log("result images ", result);
+    const imgDownloadUrls = await Promise.all(
+      result.items.map(async (itemRef) => {
+        const url = await getDownloadURL(itemRef);
+        imgUrls.push(url);
+      })
+    );
+
+    return imgUrls;
+    // console.log();
   };
 
   // SENDING CONVERSATIONS (MESSAGES):returns convId
