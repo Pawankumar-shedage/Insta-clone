@@ -75,103 +75,97 @@ export const Login = () => {
   };
 
   return (
-    <>
-      <div className="top">
-        <div className="main">
-          <div className="container-parent">
-            {/* main login container with fields */}
-            <div className="login-div text-center">
-              {/* insta-Logo-words */}
-              <div className="logo-div text-center mb-5 ">
-                <i className="contained-img" />
-              </div>
-
-              {/* Login credentials */}
-              <div className="form-div w-100% text-center">
-                <form onSubmit={handleLogIn}>
-                  <div className="form-elements">
-                    <div className="form-group  mb-2">
-                      <input
-                        type="email"
-                        name="email"
-                        onChange={handleChange}
-                        value={formData.email}
-                        className="form-control small-text"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        placeholder="Email or username"
-                      />
-                    </div>
-                    <div className="form-group  mb-2">
-                      <input
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                        value={formData.password}
-                        onFocus={() => setPasswordFocus(!isPasswordFocused)}
-                        onBlur={() => setPasswordFocus(!isPasswordFocused)}
-                        className="form-control small-text"
-                        id="exampleInputPassword1"
-                        placeholder="Password"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="text-center d-grid">
-                    <button
-                      type="submit"
-                      role="button"
-                      className="btn btn-primary mt-3"
-                      style={{ overflow: "hidden", color: "white" }}
-                    >
-                      <span
-                        className="small-text text-center"
-                        style={{ color: "white" }}
-                      >
-                        Log In
-                      </span>
-                    </button>
-                  </div>
-                </form>
-              </div>
+    <div className="login-mount">
+      <div className="main">
+        <div className="container-parent">
+          {/* main login container with fields */}
+          <div className="login-div text-center">
+            {/* insta-Logo-words */}
+            <div className="logo-div text-center mb-5 ">
+              <i className="contained-img" />
             </div>
 
-            {/* From Meta */}
-            <div className="meta-logo mt-5">
-              <span className="small-text" style={{ overflow: "hidden" }}>
-                from
-              </span>
-              <div className="meta me-1">
-                <img
-                  className="contained-meta-img"
-                  src="https://scontent.fpnq2-2.fna.fbcdn.net/v/t39.8562-6/252294889_575082167077436_6034106545912333281_n.svg/meta-logo-primary_standardsize.svg?_nc_cat=1&amp;ccb=1-7&amp;_nc_sid=e280be&amp;_nc_ohc=Ls8R1KqboTkAb7C0G8l&amp;_nc_ht=scontent.fpnq2-2.fna&amp;oh=00_AfBtvwWNkU5wkCQnvAzoCKgnDVhw4rYncGqhuClCflHvTw&amp;oe=661FFD79"
-                  width="89"
-                  height="18"
-                  alt="Meta logo, back to home"
-                />
-              </div>
+            {/* Login credentials */}
+            <div className="form-div w-100% text-center">
+              <form onSubmit={handleLogIn}>
+                <div className="form-elements">
+                  <div className="form-group  mb-2">
+                    <input
+                      type="email"
+                      name="email"
+                      onChange={handleChange}
+                      value={formData.email}
+                      className="form-control small-text"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Email or username"
+                    />
+                  </div>
+                  <div className="form-group  mb-2">
+                    <input
+                      type="password"
+                      name="password"
+                      onChange={handleChange}
+                      value={formData.password}
+                      onFocus={() => setPasswordFocus(!isPasswordFocused)}
+                      onBlur={() => setPasswordFocus(!isPasswordFocused)}
+                      className="form-control small-text"
+                      id="exampleInputPassword1"
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+
+                <div className="text-center d-grid">
+                  <button
+                    type="submit"
+                    role="button"
+                    className="btn btn-primary mt-3"
+                    style={{ overflow: "hidden", color: "white" }}
+                  >
+                    <span
+                      className="small-text text-center"
+                      style={{ color: "white" }}
+                    >
+                      Log In
+                    </span>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
 
-          {/* !main */}
-        </div>
-        <div className="sign-up-shortcut mt-2">
-          <span style={{ fontSize: "14px" }}>
-            Don't have an account? &nbsp;
-          </span>
-          <Link to="/register" className="nav-link">
-            <span style={{ fontSize: "14px" }}>Sign up</span>
-          </Link>
+          {/* From Meta */}
+          <div className="meta-logo mt-5">
+            <span className="small-text" style={{ overflow: "hidden" }}>
+              from
+            </span>
+            <div className="meta me-1">
+              <img
+                className="contained-meta-img"
+                src="/src/assets/Meta logos/Meta_Company Lockup/1 Positive Primary/RGB/Meta_lockup_positive primary_RGB.png"
+                width="75"
+                height="182"
+                alt="Meta logo, back to home"
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Get the app */}
-        <GetTheApp />
-
-        {/* !top */}
+        {/* !main */}
+      </div>
+      <div className="sign-up-shortcut mt-2">
+        <span style={{ fontSize: "14px" }}>Don't have an account? &nbsp;</span>
+        <Link to="/register" className="nav-link">
+          <span style={{ fontSize: "14px" }}>Sign up</span>
+        </Link>
       </div>
 
-      {/* FOOTER */}
+      <GetTheApp />
+
       <Footer />
-    </>
+
+      {/* !login-mount */}
+    </div>
   );
 };

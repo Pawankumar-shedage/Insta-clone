@@ -9,6 +9,7 @@ import "/src/index.css";
 import { ProfileHeader } from "./ProfileHeader";
 // import { StoryHighlights } from "./StoryHighlights";
 import { ProfilePosts } from "./ProfilePosts";
+import { LoadingScreen } from "../Common/Loading-Splash Screen/LoadingScreen";
 
 export const Profile = () => {
   const { currentUser } = useAuth();
@@ -36,7 +37,12 @@ export const Profile = () => {
   }, []);
 
   // Loading screen
-  if (loading) return <div className="text-center">Loading profile</div>;
+  if (loading)
+    return (
+      <div className="text-center">
+        <LoadingScreen />
+      </div>
+    );
 
   console.log(user);
 

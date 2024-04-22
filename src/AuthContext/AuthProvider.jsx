@@ -4,6 +4,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 import { onAuthStateChanged } from "firebase/auth";
 
+import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
+
 const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -44,7 +46,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return (
+      <div className="text-center">
+        <LoadingScreen />
+      </div>
+    );
   }
 
   // -------------------------------------------------

@@ -10,11 +10,12 @@ import { useAuth } from "./AuthContext/AuthProvider";
 import { Profile } from "./Components/Profile/Profile";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
 import { CreateNewPost } from "./Components/Posts/CreateNewPost";
+import { LoadingScreen } from "./Components/Common/Loading-Splash Screen/LoadingScreen";
 
 function App() {
   return (
     <>
-      <Suspense fallback={<div>Loading content...</div>}>
+      <Suspense fallback={LoadingScreen}>
         <Routes>
           {/* Default */}
           <Route path="/*" element={<Navigate to={"/login"} />} />
