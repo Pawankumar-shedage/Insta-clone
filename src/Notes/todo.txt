@@ -1,6 +1,10 @@
 
 ⭐Current-Priority: 🚩
-    🔴 Create Post (upload images with captions)✅
+    🔴 Create Post (upload images with 
+                            -title 
+                            - img ✅ 
+                            -btns(like,comment) 
+                            - captions)
          ->  Storing posts on DB (Firebase) Storage Buckets for images.
                 Home->  Fetch Posts and show,Action Buttons)
     🔴Profile Page - 
@@ -14,14 +18,14 @@ Responsive layout
     home page,(sidebar) : 
 
 ⭐To add:➕🔼
-    4.Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐
-    //Modals for message,settings...
 
 ⭐Done                                      Date
     1.Authentication ✅                     22 - Dec
     3.To add Private Routes.
     2.Home UI (Base Structure) ✅           25 - Dec
     3.Messages Page/Chat Component BASE ✅  12 - Jan 2024
+    4.Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐ ✅
+    5.Modals for message,settings... ✅
 
 
 ---------------------------------------------------------------
