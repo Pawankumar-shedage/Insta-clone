@@ -1,5 +1,7 @@
 
 .modal-container{
+    display: flex;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
     position: fixed;
@@ -7,25 +9,12 @@
     top: 0;
     background-color: #000;
     background-color: rgba(0,0,0, 0.6);
-    z-index: 2;
-}
-
-.modal-content{
-    margin: 8% auto;
-    width: 40%;
-    height: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    background-color: #393939;
-    border-radius: 5px;
+    z-index: 1;
 }
 
 .close-modal{
     display: flex;
-    justify-content: right;
+    justify-content: left;
 }
 
 .close-modal-btn{
@@ -37,62 +26,6 @@
     background-color: #000;
 }
 
-/* Header */
-.modal-header{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-/* body */
-.modal-body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* footer */
-.modal-footer{
-    display: flex;
-    justify-content: center;
-}
 
 
 
-/* Media query */
-
-/* Mobile <= 320px */
-@media screen and (min-width:200px) {
-    .modal-content{
-        margin: 20% auto;
-        width: 80%;
-        height: 60%;
-        border: 1px solid black;
-        background-color: #393939;
-    }
-}
-
-/* tablet  <=768px*/
-@media screen and (min-width:768px) {
-    .modal-content{
-        margin: 15% auto;
-        width: 80%;
-        height: 60%;
-        border: 1px solid black;
-        background-color: #393939;
-    }
-}
-
-/* lapptop <=1024px */
-@media screen and (min-width:1024px) {
-    .modal-content{
-        margin: 4% auto;
-        width: 30%;
-        height: 70%;
-        border: 1px solid black;
-        background-color: #393939;
-    }
-}

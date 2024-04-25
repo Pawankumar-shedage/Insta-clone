@@ -73,6 +73,10 @@
 }
 
 
+.sidebar-profile-logo{
+    background-color: #fff;
+}
+
 
 .sidebar-settings-pop-up>div{
     display: flex;

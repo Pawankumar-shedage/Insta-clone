@@ -16,15 +16,14 @@ export const Modal = ({ closeModal, children }) => {
           }
         }}
       >
+        {children}
+
         {/* Close-Btn */}
         <div className="close-modal">
           <span className="close-modal-btn" onClick={() => closeModal()}>
             <RxCross1 />
           </span>
         </div>
-
-        {/* Content -  must-include divs(header,body,footer)*/}
-        <div className="modal-content">{children}</div>
       </div>
     </>
   );

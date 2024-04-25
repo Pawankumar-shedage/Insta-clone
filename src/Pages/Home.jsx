@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext/AuthProvider";
 import { Footer } from "../Components/Common/Footer/Footer";
 
@@ -6,13 +7,19 @@ import { Sidebar } from "../Components/Sidebar/Sidebar";
 import Stories from "../Components/Stories/Stories";
 import "/src/index.css";
 import "/src/Styles/Home/Home.css";
+import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
 
 export const Home = () => {
   const { currentUser } = useAuth();
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  // if (!pageLoaded)
+  //   return (
+  //     <div>
+  //       <LoadingScreen />
+  //     </div>
+  //   );
 
   // --------------------RETURN-----
   return (

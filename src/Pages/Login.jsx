@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 // style
 import "/src/Styles/Login/LoginPage.css";
@@ -10,6 +10,7 @@ import { Register } from "./Register";
 import { Footer } from "../Components/Common/Footer/Footer";
 import { GetTheApp } from "../Components/Common/Footer/GetTheApp";
 import { useAuth } from "../AuthContext/AuthProvider";
+import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -74,98 +75,112 @@ export const Login = () => {
     }
   };
 
+  // Page Loading
+  // const [pageLoaded, setPageLoaded] = useState(false);
+
+  // Theme
+  const light = "white";
+
+  // -------------------------------------------------------------------
+
   return (
-    <div className="login-mount">
-      <div className="main">
-        <div className="container-parent">
-          {/* main login container with fields */}
-          <div className="login-div text-center">
-            {/* insta-Logo-words */}
-            <div className="logo-div text-center mb-5 ">
-              <i className="contained-img" />
-            </div>
+    <>
+      <div className="login-mount">
+        <div className="main">
+          <div className="container-parent">
+            {/* main login container with fields */}
+            <div className="login-div text-center">
+              {/* insta-Logo-words */}
+              <div className="logo-div text-center mb-5 ">
+                <i className="contained-img" />
+              </div>
 
-            {/* Login credentials */}
-            <div className="form-div w-100% text-center">
-              <form onSubmit={handleLogIn}>
-                <div className="form-elements">
-                  <div className="form-group  mb-2">
-                    <input
-                      type="email"
-                      name="email"
-                      onChange={handleChange}
-                      value={formData.email}
-                      className="form-control small-text"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Email or username"
-                    />
+              {/* Login credentials */}
+              <div className="form-div w-100% text-center">
+                <form onSubmit={handleLogIn}>
+                  <div className="form-elements">
+                    <div className="form-group  mb-2">
+                      <input
+                        type="email"
+                        name="email"
+                        onChange={handleChange}
+                        value={formData.email}
+                        className="form-control small-text"
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        placeholder="Email or username"
+                      />
+                    </div>
+                    <div className="form-group  mb-2">
+                      <input
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={formData.password}
+                        onFocus={() => setPasswordFocus(true)}
+                        onBlur={() => setPasswordFocus(false)}
+                        className="form-control small-text"
+                        id="exampleInputPassword1"
+                        placeholder="Password"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="form-group  mb-2">
-                    <input
-                      type="password"
-                      name="password"
-                      onChange={handleChange}
-                      value={formData.password}
-                      onFocus={() => setPasswordFocus(!isPasswordFocused)}
-                      onBlur={() => setPasswordFocus(!isPasswordFocused)}
-                      className="form-control small-text"
-                      id="exampleInputPassword1"
-                      placeholder="Password"
-                    />
-                  </div>
-                </div>
 
-                <div className="text-center d-grid">
-                  <button
-                    type="submit"
-                    role="button"
-                    className="btn btn-primary mt-3"
-                    style={{ overflow: "hidden", color: "white" }}
-                  >
-                    <span
-                      className="small-text text-center"
-                      style={{ color: "white" }}
+                  <div className="text-center d-grid">
+                    <button
+                      type="submit"
+                      role="button"
+                      className="btn btn-primary mt-3"
+                      style={{ overflow: "hidden", color: "white" }}
                     >
-                      Log In
-                    </span>
-                  </button>
-                </div>
-              </form>
+                      <span
+                        className="small-text text-center"
+                        style={{ color: "white" }}
+                      >
+                        Log In
+                      </span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            {/* From Meta */}
+            <div className="meta-logo mt-5">
+              <span className="small-text" style={{ overflow: "hidden" }}>
+                from
+              </span>
+              <div className="meta me-1">
+                <img
+                  className="contained-meta-img"
+                  src="src/assets/Meta logos/Meta_Company Lockup/1 Positive Primary/RGB/Meta_lockup_positive primary_RGB.png"
+                  width="75px"
+                  height="182px"
+                  alt="Meta logo, back to home"
+                />
+              </div>
             </div>
           </div>
 
-          {/* From Meta */}
-          <div className="meta-logo mt-5">
-            <span className="small-text" style={{ overflow: "hidden" }}>
-              from
-            </span>
-            <div className="meta me-1">
-              <img
-                className="contained-meta-img"
-                src="/src/assets/Meta logos/Meta_Company Lockup/1 Positive Primary/RGB/Meta_lockup_positive primary_RGB.png"
-                width="75"
-                height="182"
-                alt="Meta logo, back to home"
-              />
-            </div>
-          </div>
+          {/* !main */}
         </div>
 
-        {/* !main */}
+        <div className="sign-up-shortcut mt-2">
+          <span style={{ fontSize: "14px" }}>
+            Don't have an account? &nbsp;
+          </span>
+          <Link to="/register" className="nav-link">
+            <span style={{ fontSize: "14px" }}>Sign up</span>
+          </Link>
+        </div>
+
+        <GetTheApp />
+
+        <Footer theme={light} />
+
+        {/* !login-mount */}
       </div>
-      <div className="sign-up-shortcut mt-2">
-        <span style={{ fontSize: "14px" }}>Don't have an account? &nbsp;</span>
-        <Link to="/register" className="nav-link">
-          <span style={{ fontSize: "14px" }}>Sign up</span>
-        </Link>
-      </div>
-
-      <GetTheApp />
-
-      <Footer />
-
-      {/* !login-mount */}
-    </div>
+    </>
   );
 };

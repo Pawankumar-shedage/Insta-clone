@@ -1,16 +1,20 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Link, useNavigate } from "react-router-dom";
-import "./sidebarStyle.css";
-import "/src/index.css";
 // icons
 import { AiFillHome } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
 import { CreateNewPost } from "../Posts/CreateNewPost";
-import { createPortal } from "react-dom";
+// import { createPortal } from "react-dom";
+import { ImSwitch } from "react-icons/im";
+
+// files
+import { Link, useNavigate } from "react-router-dom";
+import "./sidebarStyle.css";
+import "/src/index.css";
 import { Modal } from "../Modal/Modal";
+import { LogoutModal } from "../Logout/LogoutModal";
 
 export const Sidebar = () => {
   const { currentUser } = useAuth();
@@ -27,16 +31,22 @@ export const Sidebar = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const onOpen = () => {
+  const openModal = () => {
     setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  // Logout
-  const handleLogout = (e) => {
-    console.log(e.target);
+  // Logout Modal
+  const [isLogoutModalOpen, setIsLogoutModal] = useState(false);
+
+  const openLogoutModal = () => {
+    setIsLogoutModal(true);
+  };
+
+  const closeLogoutModal = (e) => {
+    setIsLogoutModal(false);
   };
 
   // -----------------------------------RETURN--------------------------------------------------------
@@ -382,7 +392,7 @@ export const Sidebar = () => {
               <div
                 className="navigation-logo-div"
                 role="button"
-                onClick={onOpen}
+                onClick={openModal}
               >
                 {/* Logo */}
                 <div>
@@ -464,13 +474,24 @@ export const Sidebar = () => {
                 {/* Logo */}
                 <div>
                   <Link className="sidebar-link">
-                    <span
-                      className="profile-logo"
-                      role="link"
-                      tabIndex="-1"
-                      style={{ height: "24px", width: "24px" }}
-                    >
-                      <svg></svg>
+                    <span>
+                      {/* Temp */}
+                      <svg
+                        width="100"
+                        height="100"
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <title>Profile</title>
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="28"
+                          fill="none"
+                          stroke="white"
+                          strokeWidth="1"
+                        />
+                      </svg>
                     </span>
                   </Link>
                 </div>
@@ -492,57 +513,14 @@ export const Sidebar = () => {
           <div
             className="sidebar-settings-pop-up "
             role="button"
-            onClick={handleLogout}
+            onClick={openLogoutModal}
           >
             {/* More : logout. */}
             <div>
               <div>
                 <Link className="sidebar-link">
                   <span>
-                    <svg
-                      aria-label="Settings"
-                      className="x1lliihq x1n2onr6 x5n08af"
-                      fill="currentColor"
-                      height="24"
-                      role="img"
-                      viewBox="0 0 24 24"
-                      width="24"
-                    >
-                      <title>Settings</title>
-                      <line
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        x1="3"
-                        x2="21"
-                        y1="4"
-                        y2="4"
-                      ></line>
-                      <line
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        x1="3"
-                        x2="21"
-                        y1="12"
-                        y2="12"
-                      ></line>
-                      <line
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        x1="3"
-                        x2="21"
-                        y1="20"
-                        y2="20"
-                      ></line>
-                    </svg>
+                    <ImSwitch title="Logout" />
                   </span>
                 </Link>
               </div>
@@ -550,12 +528,18 @@ export const Sidebar = () => {
               {/* Title */}
               <div>
                 <div>
-                  <span id="nav-text">More</span>
+                  <span id="nav-text">Logout</span>
                 </div>
               </div>
             </div>
             {/* Bootom Btns */}
           </div>
+
+          {isLogoutModalOpen && (
+            <Modal closeModal={closeLogoutModal}>
+              <LogoutModal />
+            </Modal>
+          )}
 
           {/* end */}
         </div>

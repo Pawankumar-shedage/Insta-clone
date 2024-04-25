@@ -1,14 +1,21 @@
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 import "/src/index.css";
 import "./Footer.css";
 
-export const Footer = () => {
+export const Footer = ({ theme }) => {
   const date = new Date();
   const currYear = date.getFullYear();
 
+  console.log("Theme ", theme);
+
   return (
     <>
-      <footer role="content-info" className="mt-5">
+      <footer
+        role="content-info"
+        className="mt-5"
+        style={{ backgroundColor: `${theme === "white" ? "#fff" : "000"}` }}
+      >
         <div className="footer-content-frame">
           {/* Tags */}
           <div className="footer-tags small-text">

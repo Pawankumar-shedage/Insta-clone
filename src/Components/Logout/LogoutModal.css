@@ -1,0 +1,50 @@
+
+.logout-modal-content{
+    margin: 13% auto;
+    width: 40%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background-color: #393939;
+    border-radius: 5px;
+    color: white;
+}
+
+/* Header */
+.logout-modal-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+}
+
+.logout-modal-header>div{
+    width: 100%;
+}
+/* body */
+.logout-modal-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+
+
+.logout-action{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;   
+}
+
+.logout-action>div>button{
+    background-color: rgb(var(--ig--primary-button));
+}

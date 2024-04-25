@@ -190,27 +190,51 @@ export const FirebaseContext = ({ children }) => {
 
   const [postUploadDate, setPostUploadDate] = useState(" ");
 
-  const uploadPhotos = async (file, userId, username) => {
-    //db location
-    const storageRef = ref(
-      storage,
-      `user-posts/${username}/${userId}/${file.name}`
-    );
+  const uploadPhotos = async (files, userId, username) => {
+    const storageRef = ref(storage, `user-posts/${username}/${userId}/`);
 
-    //file config(format, info)
     const metadata = {
       contentType: "image/jpeg,image/png,image/jpg,image/JPEG",
     };
 
     try {
-      const snapshot = await uploadBytes(storageRef, file, metadata);
-      console.log("Upload successfull @", snapshot);
+      for (const file of files) {
+        const snapshot = await uploadBytes(storageRef, file, metadata);
+        console.log("Upload successfull @", snapshot);
+      }
 
-      console.log("Uploaded at ", snapshot.metadata.timeCreated);
+      const imgUrls = [];
+
+      const filesRef = ref(storage, `user-posts/${username}/${userId}/`);
+
+      const result = await listAll(filesRef);
+
+      const imgDownloadUrls = await Promise.all(
+        result.items.map(async (itemRef) => {
+          const url = await getDownloadURL(itemRef);
+          imgUrls.push(url);
+        })
+      );
+
+      return imgUrls;
       //upload time
-      setPostUploadDate(snapshot.metadata.timeCreated);
+      // setPostUploadDate(snapshot.metadata.timeCreated);
     } catch (error) {
       console.log(error, " occurred while uploading photos");
+    }
+  };
+
+  const uploadUserPostData = async (postData, username, userId) => {
+    const storageRef = ref(db, `user-post-data/${username}/${userId}/`);
+
+    const metadata = {
+      contentType: "application/json",
+    };
+
+    try {
+      await doc(db, "user-posts");
+    } catch (error) {
+      console.log("Error posting user posts ", error);
     }
   };
 

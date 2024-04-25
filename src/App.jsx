@@ -13,9 +13,45 @@ import { CreateNewPost } from "./Components/Posts/CreateNewPost";
 import { LoadingScreen } from "./Components/Common/Loading-Splash Screen/LoadingScreen";
 
 function App() {
+  // const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // useEffect(() => {
+  //   const imageElements = document.querySelectorAll("img");
+
+  //   const images = Array.from(imageElements);
+
+  //   const imagesLength = images.length;
+
+  //   let loadedImages = 0;
+  //   const handleImageLoad = () => {
+  //     loadedImages++;
+  //     if (loadedImages === imagesLength) {
+  //       setImagesLoaded(true);
+  //     }
+  //   };
+
+  //   images.forEach((image) => {
+  //     if (image.complete) {
+  //       handleImageLoad();
+  //     } else {
+  //       //for every image.
+  //       image.addEventListener("load", handleImageLoad); //browser is currently loading the image
+  //     }
+  //   });
+
+  //   console.log(images);
+
+  //   // return () => {
+  //   //   images.forEach((image) => {
+  //   //     image.removeEventListner("load", handleImageLoad);
+  //   //   });
+  //   // };
+  // }, []);
+
   return (
     <>
-      <Suspense fallback={LoadingScreen}>
+      <Suspense fallback={<LoadingScreen />}>
+        {/* {imagesLoaded && ( */}
         <Routes>
           {/* Default */}
           <Route path="/*" element={<Navigate to={"/login"} />} />
@@ -38,6 +74,7 @@ function App() {
             element={<ProtectedRoute component={CreateNewPost} />}
           />
         </Routes>
+        {/* // )} */}
       </Suspense>
     </>
   );
