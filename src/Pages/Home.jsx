@@ -8,18 +8,10 @@ import Stories from "../Components/Stories/Stories";
 import "/src/index.css";
 import "/src/Styles/Home/Home.css";
 import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
+import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 
 export const Home = () => {
-  const { currentUser } = useAuth();
-
-  const [pageLoaded, setPageLoaded] = useState(false);
-
-  // if (!pageLoaded)
-  //   return (
-  //     <div>
-  //       <LoadingScreen />
-  //     </div>
-  //   );
+  const { getUserPosts } = useFirebase();
 
   // --------------------RETURN-----
   return (
@@ -34,13 +26,20 @@ export const Home = () => {
           {/* Right section (header + posts) */}
           <section>
             <div className="section-stories-posts-footer">
-              <div className="stories-header">
+              {/* <div className="stories-header">
                 <Stories />
-              </div>
+              </div> */}
 
               <div className="main-feed-section">
                 <div className="feed">
                   {/* Posts = posts + reels videos.. */}
+                  <div>
+                    <div className="post-header">Header</div>
+                    <div className="post-body">Body</div>
+
+                    {/* footer -> div - like,comment,share ,div- Add comments */}
+                    <div className="post-footer">Footer</div>
+                  </div>
                 </div>
 
                 {/* Footer */}

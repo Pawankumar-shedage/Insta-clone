@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import "./Profile.css";
@@ -11,7 +12,7 @@ export const ProfilePosts = () => {
   const { currentUser } = useAuth();
 
   const [user, setUser] = useState(null);
-
+  const [caption, setCaption] = useState("");
   const [imgUrls, setImgUrls] = useState([]);
 
   const [reloadPage, setReloadPage] = useState(false);
@@ -33,17 +34,18 @@ export const ProfilePosts = () => {
     if (user) getPosts(user);
   };
 
-  // console.log("USER", user);
-
-  // Fetching photos.
-
+  // Posts
   const getPosts = async (user) => {
-    console.log("getPosts called", user);
-    const imgUrls = await getUserPosts(user.uid, user.username);
-    console.log("Img urls ", imgUrls);
+    const posts = await getUserPosts(user.uid, user.username);
 
-    setImgUrls(imgUrls);
+    //  Extracting img arrays from each post {}
+    const imgUrlsForEachPost = posts.map((post, index) => post.images).flat();
+
+    console.log("img per post", imgUrlsForEachPost);
+    setImgUrls(imgUrlsForEachPost);
   };
+
+  console.log("imgUrls", imgUrls);
 
   //refresh profile page if new photo is new img is uploaded.
   useEffect(() => {
@@ -73,6 +75,7 @@ export const ProfilePosts = () => {
         </div>
       </div>
       {/* to add posts,saved,archived options bar */}
+
       <div className="user-posts">
         {imgUrls.map((imgUrl, index) => {
           return (

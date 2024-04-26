@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext/AuthProvider";
 import { ChatComponent } from "../Components/Messages/ChatComponent";
 import { serverTimestamp } from "firebase/firestore";
+import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
 
 export const Messages = (props) => {
   console.log(props);
@@ -113,7 +114,7 @@ export const Messages = (props) => {
   // ***IMP ***
   // Wait until users are initially loaded
   if (loading) {
-    return <div>Loading users...</div>;
+    return <LoadingScreen />;
   }
 
   //-------------------------------------------------RETURN MESSAGES.jsx---------------------------------------------------

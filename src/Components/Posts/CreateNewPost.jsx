@@ -10,11 +10,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdNavigateNext } from "react-icons/md";
 import { MdNavigateBefore } from "react-icons/md";
+import { serverTimestamp } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export const CreateNewPost = () => {
-  const { uploadPhotos, getUserById, getUserPosts } = useFirebase();
+  const { uploadPhotos, getUserById, uploadUserPostData } = useFirebase();
 
   const { currentUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [step, setStep] = useState(1);
@@ -111,14 +115,19 @@ export const CreateNewPost = () => {
     const imgUrls = await uploadPhotos(images, user.uid, user.username);
 
     console.log(imgUrls);
-    // Upload  Post = img + caption ... other details
 
     const postData = {
       images: imgUrls,
       caption: captionInput,
-      // time:
+      time: new Date(),
     };
 
+    await uploadUserPostData(postData, user.uid, user.username);
+
+    //TO do error handling.
+
+    // if post is successfulll navigate user to home
+    navigate("/home");
     setImages([]);
     setCaptionInput("");
   };

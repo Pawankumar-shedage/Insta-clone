@@ -21,6 +21,7 @@ import {
   updateDoc,
   orderBy,
   collectionGroup,
+  serverTimestamp,
 } from "firebase/firestore";
 import {
   connectStorageEmulator,
@@ -188,77 +189,62 @@ export const FirebaseContext = ({ children }) => {
 
   // STORING POSTS of user
 
-  const [postUploadDate, setPostUploadDate] = useState(" ");
-
   const uploadPhotos = async (files, userId, username) => {
-    const storageRef = ref(storage, `user-posts/${username}/${userId}/`);
-
-    const metadata = {
-      contentType: "image/jpeg,image/png,image/jpg,image/JPEG",
-    };
+    const imgUrls = [];
 
     try {
       for (const file of files) {
+        const storageRef = ref(
+          storage,
+          `user-posts/${username}/${userId}/${file.name}`
+        );
+
+        const metadata = {
+          contentType: "image/jpeg,image/png,image/jpg,image/JPEG",
+          timeAndData: serverTimestamp(),
+        };
+
         const snapshot = await uploadBytes(storageRef, file, metadata);
+
         console.log("Upload successfull @", snapshot);
+
+        const downloadUrl = await getDownloadURL(snapshot.ref);
+        imgUrls.push(downloadUrl);
       }
 
-      const imgUrls = [];
-
-      const filesRef = ref(storage, `user-posts/${username}/${userId}/`);
-
-      const result = await listAll(filesRef);
-
-      const imgDownloadUrls = await Promise.all(
-        result.items.map(async (itemRef) => {
-          const url = await getDownloadURL(itemRef);
-          imgUrls.push(url);
-        })
-      );
-
       return imgUrls;
-      //upload time
-      // setPostUploadDate(snapshot.metadata.timeCreated);
     } catch (error) {
       console.log(error, " occurred while uploading photos");
     }
   };
 
-  const uploadUserPostData = async (postData, username, userId) => {
-    const storageRef = ref(db, `user-post-data/${username}/${userId}/`);
-
-    const metadata = {
-      contentType: "application/json",
-    };
+  const uploadUserPostData = async (postData, userId, username) => {
+    const collectionRef = collection(db, `Posts/${userId}/${username}`);
 
     try {
-      await doc(db, "user-posts");
+      const docRef = await addDoc(collectionRef, postData);
+      console.log("Post uploaded successfully! ");
     } catch (error) {
       console.log("Error posting user posts ", error);
     }
   };
 
-  // Fetch User Posts
+  // obj{caption,img,time}
   const getUserPosts = async (userId, username) => {
-    const filesRef = ref(storage, `user-posts/${username}/${userId}`);
+    const q = query(collection(db, `Posts/${userId}/${username}`));
 
-    const imgUrls = [];
+    //all documents (posts) of a single user
 
-    //images list result.
-    const result = await listAll(filesRef);
+    const posts = [];
+    const querySnaphot = await getDocs(q);
+    querySnaphot.forEach((doc) => {
+      console.log("Id: ", doc.id, "data ", doc.data());
+      posts.push(doc.data());
+    });
 
-    const imgDownloadUrls = await Promise.all(
-      result.items.map(async (itemRef) => {
-        const url = await getDownloadURL(itemRef);
-        imgUrls.push(url);
-      })
-    );
-
-    return imgUrls;
-    // console.log();
+    return posts;
   };
 
-  // SENDING CONVERSATIONS (MESSAGES):returns convId
   const sendConversation = async (conversationData) => {
     try {
       console.log(
@@ -389,6 +375,7 @@ export const FirebaseContext = ({ children }) => {
           getUser,
           uploadProfilePhotos,
           uploadPhotos,
+          uploadUserPostData,
           getUserPosts,
           logInUser,
           updateUserInFirestore,
