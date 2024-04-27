@@ -24,7 +24,7 @@ export const ProfilePosts = () => {
 
     console.log("Fetching user data and posts");
     if (!user) fetchData();
-  }, [user, reloadPage]);
+  });
 
   const getUserDetails = async () => {
     const user = await getUserById(currentUser.uid);
@@ -34,19 +34,6 @@ export const ProfilePosts = () => {
     if (user) getPosts(user);
   };
 
-  // Posts
-  const getPosts = async (user) => {
-    const posts = await getUserPosts(user.uid, user.username);
-
-    //  Extracting img arrays from each post {}
-    const imgUrlsForEachPost = posts.map((post, index) => post.images).flat();
-
-    console.log("img per post", imgUrlsForEachPost);
-    setImgUrls(imgUrlsForEachPost);
-  };
-
-  console.log("imgUrls", imgUrls);
-
   //refresh profile page if new photo is new img is uploaded.
   useEffect(() => {
     if (imgUrls.length > 0) {
@@ -55,10 +42,50 @@ export const ProfilePosts = () => {
     console.log("Page reloaded");
   }, [imgUrls]);
 
-  // Img Click (Post view -> enlarge.)
-  const handleImgClick = (e) => {
+  const handlePostClick = (e) => {
     console.log(e.target, " Image Clicked");
   };
+
+  // Posts
+
+  const [timeStamp, setTimeStamp] = useState({});
+  const [posts, setPosts] = useState([]);
+
+  const getPosts = async (user) => {
+    const posts = await getUserPosts(user.uid, user.username);
+
+    setPosts(posts);
+
+    posts.map((post) => {
+      setTimeStamp(post.time);
+    });
+  };
+
+  // Date
+
+  const date = new Date(timeStamp.timestampValue);
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  // Time
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const weekDayArr = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const weekDay = weekDayArr[date.getDay()]; //0-6 starting from sunday -0 to saturday - 6
+
+  console.log("Date ", `${day}-${month}-${year}`);
+  console.log("time ", `${hours}-${minutes}-${seconds} Day: ${weekDay}`);
 
   // ---------------------------------
   return (
@@ -77,13 +104,12 @@ export const ProfilePosts = () => {
       {/* to add posts,saved,archived options bar */}
 
       <div className="user-posts">
-        {imgUrls.map((imgUrl, index) => {
-          return (
-            <div key={index}>
-              <img src={imgUrl} alt="image" onClick={handleImgClick} />
-            </div>
-          );
-        })}
+        {posts.map((post, index) => (
+          <div key={{ index }}>
+            <img src={post.images[0]} alt="img" />
+            <p>{post.caption}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

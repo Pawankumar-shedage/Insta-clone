@@ -1,17 +1,13 @@
 
 ⭐Current-Priority: 🚩
-    🔴 Create Post (upload images with 
-                            -title 
-                            - img ✅ 
-                            -btns(like,comment) 
-                            - captions)
-         ->  Storing posts on DB (Firebase) Storage Buckets for images.
-                Home->  Fetch Posts and show,Action Buttons)
+    
     🔴Profile Page - 
+        **View Post (Modal) full post view with caption
+        add like button, caption feature. 
         followers count
         Profile picture.
         bio fetch.
-        posts fetch.
+        posts fetch.✅
 
 Responsive layout
     create-post: 
@@ -26,6 +22,13 @@ Responsive layout
     3.Messages Page/Chat Component BASE ✅  12 - Jan 2024
     4.Loading screen with Instagram logo at center. (ON every Page, navigation..) ⭐ ✅
     5.Modals for message,settings... ✅
+    6. Create Post (upload images with 
+                            -title 
+                            - img ✅ 
+                            -btns(like,comment) 
+                            - captions)
+         ->  Storing posts on DB (Firebase) Storage Buckets for images.
+                Home->  Fetch Posts and show,Action Buttons)
 
 
 ---------------------------------------------------------------

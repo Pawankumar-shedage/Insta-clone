@@ -12,6 +12,7 @@ import { MdNavigateNext } from "react-icons/md";
 import { MdNavigateBefore } from "react-icons/md";
 import { serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { EmojiDrawer } from "../Messages/EmojiDrawer";
 
 export const CreateNewPost = () => {
   const { uploadPhotos, getUserById, uploadUserPostData } = useFirebase();
@@ -25,6 +26,9 @@ export const CreateNewPost = () => {
   const [images, setImages] = useState([]);
   const [captionInput, setCaptionInput] = useState("");
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+
+  // Emoji
+  const [showEmojiWindow, setEmojiWindow] = useState(false);
 
   const getUserDetails = useCallback(async () => {
     const user = await getUserById(currentUser.uid);
@@ -116,10 +120,12 @@ export const CreateNewPost = () => {
 
     console.log(imgUrls);
 
+    const timeStamp = new Date();
+
     const postData = {
       images: imgUrls,
       caption: captionInput,
-      time: new Date(),
+      time: timeStamp,
     };
 
     await uploadUserPostData(postData, user.uid, user.username);
@@ -131,6 +137,11 @@ export const CreateNewPost = () => {
     setImages([]);
     setCaptionInput("");
   };
+
+  const semiColonKeyEvent = new KeyboardEvent("keydown", {
+    key: ";",
+    code: "Semicolon",
+  });
 
   // ------------------------------------------------------------------------
   return (
@@ -273,7 +284,7 @@ export const CreateNewPost = () => {
                     </div>
                   </div>
 
-                  {/* Caption */}
+                  {/* Add-caption */}
                   <div className="add-caption mt-3">
                     <textarea
                       id="caption-area"
@@ -286,12 +297,23 @@ export const CreateNewPost = () => {
 
                   <div className="caption-footer">
                     <div className="caption-emoji">
-                      <span>😊</span>
+                      <span role="button" onClick={() => setEmojiWindow(true)}>
+                        😊
+                      </span>
                     </div>
                     <div className="max-text-length">
                       <span>{captionInput.length}/2000</span>
                     </div>
                   </div>
+
+                  {/* Emoji Drawer */}
+                  {showEmojiWindow && (
+                    <div className="caption-emoji-drawer-container">
+                      <div className="caption-emoji-drawer">
+                        <EmojiDrawer />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

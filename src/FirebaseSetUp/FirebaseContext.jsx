@@ -236,10 +236,18 @@ export const FirebaseContext = ({ children }) => {
     //all documents (posts) of a single user
 
     const posts = [];
+
     const querySnaphot = await getDocs(q);
+
     querySnaphot.forEach((doc) => {
-      console.log("Id: ", doc.id, "data ", doc.data());
-      posts.push(doc.data());
+      const time = doc._document.data.value.mapValue.fields.time;
+
+      // assigning doc.data() object properties to detailedPostData obj{}
+      const detailedPostData = Object.assign({}, doc.data());
+
+      detailedPostData.time = time;
+
+      posts.push(detailedPostData);
     });
 
     return posts;
