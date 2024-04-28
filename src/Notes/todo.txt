@@ -8,12 +8,14 @@
         Profile picture.
         bio fetch.
         posts fetch.✅
+     
 
 Responsive layout
     create-post: 
     home page,(sidebar) : 
 
 ⭐To add:➕🔼
+    like & comment  count on post hover on profile page.
 
 ⭐Done                                      Date
     1.Authentication ✅                     22 - Dec

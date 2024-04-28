@@ -4,6 +4,8 @@ import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import "./Profile.css";
 import "/src/index.css";
 import { useAuth } from "../../AuthContext/AuthProvider";
+import { ViewPostModal } from "./ViewPostModal/ViewPostModal";
+import { Modal } from "../Modal/Modal";
 
 export const ProfilePosts = () => {
   // User Posts (Images)
@@ -62,7 +64,6 @@ export const ProfilePosts = () => {
   };
 
   // Date
-
   const date = new Date(timeStamp.timestampValue);
 
   const day = date.getDate();
@@ -87,30 +88,55 @@ export const ProfilePosts = () => {
   console.log("Date ", `${day}-${month}-${year}`);
   console.log("time ", `${hours}-${minutes}-${seconds} Day: ${weekDay}`);
 
-  // ---------------------------------
-  return (
-    <div className="user-posts-container d-flex flex-column justify-content-center">
-      <div className="posts-title">
-        <div>
-          <span role="button">POSTS</span>
-        </div>
-        <div>
-          <span role="button">SAVED</span>
-        </div>
-        <div>
-          <span role="button">TAGGED</span>
-        </div>
-      </div>
-      {/* to add posts,saved,archived options bar */}
+  // View Post Modal
+  const [viewPost, setViewPost] = useState(false);
+  const [clickedPost, setClickedPost] = useState({});
 
-      <div className="user-posts">
-        {posts.map((post, index) => (
-          <div key={{ index }}>
-            <img src={post.images[0]} alt="img" />
-            <p>{post.caption}</p>
+  const closeModal = () => {
+    setViewPost(false);
+  };
+  // ---------------------------------
+
+  return (
+    <>
+      {viewPost && (
+        <Modal closeModal={closeModal}>
+          <ViewPostModal post={clickedPost} />
+        </Modal>
+      )}
+
+      <div className="user-posts-container d-flex flex-column justify-content-center">
+        {/* Header -> Posts,Saved,Reels */}
+        <div className="posts-title">
+          <div>
+            <span role="button">POSTS</span>
           </div>
-        ))}
+          <div>
+            <span role="button">SAVED</span>
+          </div>
+          <div>
+            <span role="button">TAGGED</span>
+          </div>
+        </div>
+        {/* to add posts,saved,archived options bar */}
+
+        <div className="user-posts">
+          {posts.map((post, index) => (
+            <div className="up-img-div" key={index}>
+              <img
+                src={post.images[0]}
+                onClick={() => {
+                  setViewPost(!viewPost);
+                  setClickedPost(post);
+                }}
+                alt="img"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* View Post Modal */}
       </div>
-    </div>
+    </>
   );
 };
