@@ -1,48 +1,55 @@
-:root{
-  --ig-seperator:38,38,38;
-  --sidebar-narrow-width:72px;
-  --sidebar-medium-width:244px;
-  --ig-primary-color:0,0,0;
-  --ig-light-bg:255,255,255;
-  --ig-dark-bg:0,0,0;
-  --ig--secondary-color:18,18,18;
-  --ig--primary-button:0,149,246;
+:root {
+  --ig-seperator: 38, 38, 38;
+  --sidebar-narrow-width: 72px;
+  --sidebar-medium-width: 244px;
+  --ig-primary-color: 0, 0, 0;
+  --ig-light-bg: 255, 255, 255;
+  --ig-dark-bg: 0, 0, 0;
+  --ig--secondary-color: 18, 18, 18;
+  --ig--primary-button: 0, 149, 246;
   --ig--modal-bg-color: #393939;
+  --ig--secondary-font-color: 163, 160, 160;
 }
 
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-
-
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   /* This will hide the horizontal scrollbar */
-  overflow-x: hidden; 
+  overflow-x: hidden;
   background: #fff;
 }
-body, h1, h2, p, ul, li {
+body,
+h1,
+h2,
+p,
+ul,
+li {
   margin: 0;
   padding: 0;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 16px;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
   background-color: rgb(87, 87, 87);
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background-color: rgb(122, 122, 122);
 }

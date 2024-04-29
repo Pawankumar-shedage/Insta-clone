@@ -55,6 +55,9 @@ export const Register = () => {
     console.log("data sub", dataSent);
   };
 
+  // Theme (footer)
+  const light = "light";
+
   // Return
   return (
     <>
@@ -198,7 +201,7 @@ export const Register = () => {
 
         <div className="sign-up-shortcut mt-2">
           <span className="" style={{ fontSize: "14px" }}>
-            Have an account? &nbsp;
+            Have an account ? &nbsp;
           </span>
           <Link to="/login" className="nav-link" style={{ fontSize: "14px" }}>
             Log in
@@ -212,7 +215,7 @@ export const Register = () => {
       </div>
 
       {/* Footer */}
-      <Footer />
+      <Footer theme={light} />
     </>
   );
 };

@@ -14,7 +14,7 @@ export const Footer = ({ theme }) => {
       <footer
         role="content-info"
         className="mt-5"
-        style={{ backgroundColor: `${theme === "white" ? "#fff" : "000"}` }}
+        style={{ backgroundColor: `${theme === "light" ? "#fff" : "000"}` }}
       >
         <div className="footer-content-frame">
           {/* Tags */}

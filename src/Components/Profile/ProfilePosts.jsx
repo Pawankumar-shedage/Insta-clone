@@ -122,7 +122,7 @@ export const ProfilePosts = () => {
 
         <div className="user-posts">
           {posts.map((post, index) => (
-            <div className="up-img-div" key={index}>
+            <div className="up-img-div" key={index} role="button">
               <img
                 src={post.images[0]}
                 onClick={() => {

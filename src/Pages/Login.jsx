@@ -79,7 +79,7 @@ export const Login = () => {
   // const [pageLoaded, setPageLoaded] = useState(false);
 
   // Theme
-  const light = "white";
+  const light = "light";
 
   // -------------------------------------------------------------------
 
@@ -168,7 +168,7 @@ export const Login = () => {
 
         <div className="sign-up-shortcut mt-2">
           <span style={{ fontSize: "14px" }}>
-            Don't have an account? &nbsp;
+            Don't have an account ? &nbsp;
           </span>
           <Link to="/register" className="nav-link">
             <span style={{ fontSize: "14px" }}>Sign up</span>
