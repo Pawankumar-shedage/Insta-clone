@@ -3,7 +3,7 @@
   height: 90vh;
   position: relative;
   margin: 2% auto;
-  background-color: blue;
+  /* background-color: blue; */
   z-index: 4;
 }
 
@@ -61,9 +61,12 @@
   width: 100%;
 }
 
+.vpcs-header-profile-username {
+  width: 100%;
+}
 .vpcs-header-profile-postSettings {
-  position: absolute;
-  left: 90%;
+  /* position: absolute; */
+  /* left: 90%; */
 }
 
 .vpcs-header-profile-photo,
@@ -121,4 +124,257 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+}
+
+#post-likeBtn:hover,
+#post-commentBtn:hover,
+#post-shareBtn :hover,
+#post-bookmarkBtn :hover {
+  color: rgb(var(--ig--secondary-font-color));
+}
+
+.vp-cs-likedBy {
+  display: flex;
+  flex-direction: column;
+}
+
+.vpcs-likedBy-likes {
+  /* background-color: red; */
+  /* margin-left: 10%; */
+}
+
+/* Add comment */
+.vp-cs-addComment {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* background-color: red; */
+  width: 100%;
+  position: relative;
+}
+
+.vpcs-addComment-userDp {
+  margin: 2% 5%;
+}
+
+.vpcs-addComment-comment {
+  width: 100%;
+  height: 100%;
+  /* background: blue; */
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+.vpcs-addComment-comment > #post-addComment {
+  background-color: var(--ig-modal-bg-color);
+  outline: none;
+  border: none;
+  /* background-color: rgb(255, 255, 255); */
+  width: 100%;
+  height: 100%;
+  resize: none;
+  color: white;
+  line-height: 100%;
+  padding-top: 8%;
+}
+
+/* Post comment */
+#addComment-postCommentBtn {
+  background: none;
+  background-color: #000;
+  outline: none;
+  font-size: smaller;
+  color: rgb(var(--ig--primary-button));
+}
+
+.vpcs-addComment-emojiDrawer {
+  /* background-color: red; */
+  height: 100%;
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vpcs-addComment-emojiDrawer > #addComment-emoji {
+  font-size: 150%;
+}
+
+/* Emoji Drawer */
+.addComment-select-Emoji {
+  position: absolute;
+  right: 5%;
+  bottom: 80%;
+  z-index: 5;
+}
+
+/* Media Query */
+
+/* Mobile */
+@media screen and (min-width: 200px), (max-width: 768px) {
+  .view-post-mount {
+    width: 70vw;
+    height: 70vh;
+    position: relative;
+    left: 5%;
+    margin: 15% auto;
+    /* background-color: blue; */
+    z-index: 4;
+  }
+
+  .view-post-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+    border-bottom: 1px solid rgb(var(--ig--secondary-font-color));
+    border-radius: 10px;
+  }
+
+  /* Header */
+  .vp-cs-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin: 5% 2%;
+    /* background-color: red; */
+  }
+
+  .vpcs-headerUserDetail {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    /* background-color: red; */
+    width: 100%;
+  }
+
+  /* Img Section (left)*/
+  .vp-img-section {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgb(var(--ig--secondary-font-color));
+  }
+
+  .vp-img-section > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Comment section(right) */
+  .vp-comment-section {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+    font-size: 80%;
+    /* color: red; */
+    margin-bottom: 5%;
+  }
+
+  .vpcs-addComment-comment > #post-addComment {
+    background-color: var(--ig-modal-bg-color);
+    outline: none;
+    border: none;
+    width: 100%;
+    /* height: 100%; */
+    resize: none;
+    color: rgb(222, 21, 21);
+    /* line-height: 100%; */
+    padding-top: 4%;
+  }
+
+  .addComment-select-Emoji {
+    width: 500px;
+    height: 200px;
+    position: absolute;
+    top: -50;
+    left: 0;
+    /* right: 0; */
+    background-color: green;
+    overflow: auto;
+  }
+
+  .addComment-select-Emoji > div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+}
+
+/*----------- Laptop--------------------------- */
+
+@media screen and (min-width: 768px) {
+  .view-post-mount {
+    width: 98vw;
+    height: 70vh;
+    position: relative;
+    margin: 5% auto;
+    right: 50%;
+    /* background-color: blue; */
+    z-index: 4;
+  }
+
+  .view-post-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 20%;
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+    border: none;
+  }
+
+  /* Img Section (left)*/
+  .vp-img-section {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgb(var(--ig--secondary-font-color));
+  }
+
+  .vp-img-section > img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .vp-cs-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    margin: 2% auto 0;
+
+    /* background-color: red; */
+  }
+
+  /* Comment section(right) */
+  .vp-comment-section {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: 100%;
+  }
 }

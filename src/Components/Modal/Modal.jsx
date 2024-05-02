@@ -19,11 +19,11 @@ export const Modal = ({ closeModal, children }) => {
         {children}
 
         {/* Close-Btn */}
-        <div className="close-modal">
-          <span className="close-modal-btn" onClick={() => closeModal()}>
+        <span className="close-modal-btn" onClick={() => closeModal()}>
+          <span>
             <RxCross1 />
           </span>
-        </div>
+        </span>
       </div>
     </>
   );

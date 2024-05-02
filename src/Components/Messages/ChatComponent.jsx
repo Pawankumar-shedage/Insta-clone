@@ -192,9 +192,25 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
 
   // EMOJI WINDOW
   const [showEmojiWindow, setShowEmojiWindow] = useState(false);
+
   const handleEmojiWindow = () => {
     setShowEmojiWindow((prevData) => !prevData);
     console.log(showEmojiWindow);
+  };
+
+  // later - on click outside the emoji drawer
+  // useEffect(() => {
+  //   document
+  //     .querySelector(".emojiWindow")
+  //     .addEventListener("click", handleEmojiWindow);
+  //   return () => {
+  //     document.removeEventListener("click", handleEmojiWindow);
+  //   };
+  // }, []);
+
+  const handleEmoji = (data) => {
+    const emoji = data.native;
+    setTextMessage((prevMsg) => prevMsg + emoji);
   };
 
   // ---------------------------------Return
@@ -336,11 +352,15 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
               <div
                 className={`${showEmojiWindow ? "ew-visible" : "ew-hidden"}`}
               >
-                <EmojiDrawer />
+                <EmojiDrawer sendEmoji={handleEmoji} />
               </div>
 
               <div>
-                <span onClick={handleEmojiWindow} role="button">
+                <span
+                  className="emojiWindow"
+                  onClick={handleEmojiWindow}
+                  role="button"
+                >
                   <svg
                     aria-label="Choose an emoji"
                     className="x1lliihq x1n2onr6 x5n08af"

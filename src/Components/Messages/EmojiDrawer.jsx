@@ -1,6 +1,14 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { useState } from "react";
 
-export const EmojiDrawer = () => {
-  return <Picker data={data} onEmojiSelect={console.log} />;
+export const EmojiDrawer = ({ sendEmoji }) => {
+  const handleEmoji = (data) => {
+    sendEmoji(data);
+  };
+  // console.log("Emoji-> ", selectedEmoji.native);
+
+  return <Picker data={data} onEmojiSelect={handleEmoji} />;
 };
