@@ -109,6 +109,10 @@ export const CreateNewPost = () => {
     }
   };
 
+  const addEmoji = (data) => {
+    setCaptionInput((prevCaption) => prevCaption + data.native);
+  };
+
   // Sending Post Data
   const handlePostData = async (e, user) => {
     e.preventDefault();
@@ -126,6 +130,7 @@ export const CreateNewPost = () => {
       images: imgUrls,
       caption: captionInput,
       time: timeStamp,
+      username: user.username,
     };
 
     await uploadUserPostData(postData, user.uid, user.username);
@@ -310,7 +315,7 @@ export const CreateNewPost = () => {
                   {showEmojiWindow && (
                     <div className="caption-emoji-drawer-container">
                       <div className="caption-emoji-drawer">
-                        <EmojiDrawer />
+                        <EmojiDrawer sendEmoji={addEmoji} />
                       </div>
                     </div>
                   )}

@@ -57,7 +57,6 @@ export const FirebaseContext = ({ children }) => {
 
   // ADDING DATA TO USERS COLLECTIONS
   const addUser = async ({ username, email, fullName, password }) => {
-    // console.log(email);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -77,7 +76,8 @@ export const FirebaseContext = ({ children }) => {
       };
 
       const userCollection = collection(db, "Users");
-      const docRef = await doc(userCollection, user.uid);
+
+      const docRef = doc(userCollection, user.uid);
 
       await setDoc(docRef, additionalData);
 
@@ -223,13 +223,14 @@ export const FirebaseContext = ({ children }) => {
 
     try {
       const docRef = await addDoc(collectionRef, postData);
-      console.log("Post uploaded successfully! ");
+
+      console.log("Post uploaded successfully! ", docRef);
     } catch (error) {
       console.log("Error posting user posts ", error);
     }
   };
 
-  // obj{caption,img,time}
+  // obj{caption,img,time} of single user
   const getUserPosts = async (userId, username) => {
     const q = query(collection(db, `Posts/${userId}/${username}`));
 
@@ -240,7 +241,9 @@ export const FirebaseContext = ({ children }) => {
     const querySnaphot = await getDocs(q);
 
     querySnaphot.forEach((doc) => {
+      console.log(doc);
       const time = doc._document.data.value.mapValue.fields.time;
+      // const time = "time";
 
       // assigning doc.data() object properties to detailedPostData obj{}
       const detailedPostData = Object.assign({}, doc.data());
@@ -253,6 +256,43 @@ export const FirebaseContext = ({ children }) => {
     return posts;
   };
 
+  const getPostsForHomePg = async (users) => {
+    console.log("For Every User");
+
+    const posts = [];
+
+    // Because there is asynchronous map () , that returns array of promises. if we don't wait for these Promises then the getPostsForHomePg() return empty posts[]
+    await Promise.all(
+      users.map(async (user) => {
+        const postCollectionRef = collection(
+          db,
+          `Posts/${user.uid}/${user.username}`
+        );
+
+        // console.log("POSTS ", postCollectionRef);
+        try {
+          const querySnapshot = await getDocs(postCollectionRef);
+
+          querySnapshot.forEach((doc) => {
+            const postData = Object.assign({}, doc.data());
+
+            postData.time = doc._document.data.value.mapValue.fields.time;
+            postData.username = user.username;
+            postData.userId = user.uid;
+
+            posts.push(postData);
+            // console.log(doc.id, " => ", doc.data());
+          });
+        } catch (error) {
+          console.error("Error getting documents: ", error);
+        }
+      })
+    );
+
+    return posts;
+  };
+
+  // --------------------------MESSAGES------------------
   const sendConversation = async (conversationData) => {
     try {
       console.log(
@@ -385,6 +425,7 @@ export const FirebaseContext = ({ children }) => {
           uploadPhotos,
           uploadUserPostData,
           getUserPosts,
+          getPostsForHomePg,
           logInUser,
           updateUserInFirestore,
           sendConversation,

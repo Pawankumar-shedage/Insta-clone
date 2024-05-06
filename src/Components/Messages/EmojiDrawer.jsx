@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export const EmojiDrawer = ({ sendEmoji }) => {
   const handleEmoji = (data) => {
+    console.log(data.native);
     sendEmoji(data);
   };
   // console.log("Emoji-> ", selectedEmoji.native);

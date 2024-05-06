@@ -26,6 +26,7 @@
   /* background-color: yellow; */
 }
 
+/* ------------------------------------Profile Header */
 .profile-header {
   display: flex;
   flex-direction: row;
@@ -37,28 +38,35 @@
 }
 
 .profile-pic-div {
-  /* background-color: rgb(0, 255, 13); */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border: 2px solid black; */
+  /* background-color: red; */
+  width: 30%;
 }
-.profile-pic-div > img {
+#profile-image {
+  height: 50%;
+  width: 80%;
   border-radius: 100%;
 }
 
 .profile-user-details {
-  /* background-color: red; */
-  margin-left: 15%;
-  /* height: 100%; */
-  width: 100%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: start;
+  /* background-color: blue; */
+  padding: 15%;
+}
+
+.user-main-info {
+  display: flex;
+  flex-direction: row;
 }
 
 .user-name {
   margin-right: 3%;
+  font-size: large;
 }
 .user-action-btns {
   width: 100%;
@@ -87,14 +95,14 @@
   display: flex;
   flex-direction: row;
   justify-content: start;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .user-info > div {
   margin-right: 5%;
 }
 
-/* HIGHLIGHTS */
+/*--------------------------------- HIGHLIGHTS-----------------*/
 
 .highlights {
   overflow: hidden;
@@ -202,7 +210,9 @@
 }
 
 /* ---MEDIA QUERIES */
-@media screen and (max-width: 768px) {
+
+/*--------------------- Mobile */
+@media screen and (max-width: 425px) {
   .user-posts {
     /* 2 cols */
     grid-template-columns: 1fr 1fr 1fr;
@@ -211,8 +221,91 @@
   .profile-sidebar {
     display: none;
   }
+
+  .profile-header {
+    width: 100%;
+    font-size: small;
+  }
+
+  .profile-pic-div {
+    margin-left: 2%;
+  }
+
+  #profile-image {
+    /* width: 1%;
+    height: 2%; */
+  }
+
+  .profile-user-details {
+    width: 70%;
+    padding-left: 5%;
+  }
+
+  .user-main-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .user-name {
+    width: 100%;
+    font-size: medium;
+  }
+
+  .user-action-btns {
+    width: 100%;
+    margin-top: 5%;
+  }
+
+  /* Posts-followers-following */
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* DIV 2  */
+  .user-posts-container {
+    width: 100%;
+  }
+
+  .posts-title > div {
+    font-size: x-small;
+  }
 }
 
+/* --------------Tablet */
+@media screen and (max-width: 768px) {
+  .user-posts {
+    /* 2 cols */
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .profile-sidebar {
+    /* display: none; */
+  }
+
+  .profile-header {
+    font-size: small;
+  }
+  .user-main-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #profile-image {
+    height: 60%;
+    width: 100%;
+  }
+  .user-name {
+    font-size: medium;
+  }
+
+  .user-action-btns {
+    margin-top: 5%;
+  }
+}
+
+/* ---------------Laptop and above */
 @media screen and (min-width: 768px) {
   .user-posts {
     /* 3 cols */

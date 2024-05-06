@@ -14,12 +14,13 @@
 /* span */
 .close-modal-btn {
   position: relative;
-}
-.close-modal-btn > span {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 3%;
   cursor: pointer;
   font-size: 25px;
   color: white;
-  background-color: #000;
+  /* background-color: #000; */
 }
 
 /* Media query */

@@ -11,7 +11,34 @@ import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/Loadin
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 
 export const Home = () => {
-  const { getUserPosts } = useFirebase();
+  const { getPostsForHomePg, getUser } = useFirebase();
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const users = await getUser();
+
+        const fetchedPosts = await getPostsForHomePg(users);
+
+        setPosts(fetchedPosts);
+
+        setLoading(false); // Set loading to false once data is fetched
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false in case of error
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  console.log("Posts ", posts);
 
   // --------------------RETURN-----
   return (
@@ -33,13 +60,29 @@ export const Home = () => {
               <div className="main-feed-section">
                 <div className="feed">
                   {/* Posts = posts + reels videos.. */}
-                  <div>
-                    <div className="post-header">Header</div>
-                    <div className="post-body">Body</div>
 
-                    {/* footer -> div - like,comment,share ,div- Add comments */}
-                    <div className="post-footer">Footer</div>
-                  </div>
+                  {posts.map((post, index) => (
+                    <div className="feed-post" key={index}>
+                      {/* Header */}
+                      <div className="fp-header">
+                        <div className="fp-header-user-info">
+                          <div className="fph-profile-photo">DP</div>
+                          <div className="fph-username">{post.username}</div>
+                        </div>
+                        <div className="fp-settings">
+                          <span>Settings</span>
+                        </div>
+                      </div>
+
+                      {/* Image */}
+                      <div className="fp-image-container">
+                        <img src={post.images[0]} alt=" image" />
+                      </div>
+
+                      {/* Action btns footer -> div - like,comment,share ,div- Add comments */}
+                      <div className="fp-footer">{post.caption}</div>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Footer */}
@@ -51,19 +94,6 @@ export const Home = () => {
               </div>
             </div>
           </section>
-
-          {/* Suggested profile section for desktop view */}
-          {/* <suggest-section>
-            <div className="suggested-profile-section">
-              <div className="user-prof-current">
-                <div className="current-user-profile-pic"></div>
-                <div className="username-name"></div>
-                <div className="switch">
-                  <span>Switch</span>
-                </div>
-              </div>
-            </div>
-          </suggest-section> */}
 
           {/* !home container */}
         </div>
