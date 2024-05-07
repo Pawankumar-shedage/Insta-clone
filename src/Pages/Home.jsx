@@ -9,10 +9,13 @@ import "/src/index.css";
 import "/src/Styles/Home/Home.css";
 import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
+import { MobileHomePage } from "./Mobile/Home/MobileHomePage";
 
 export const Home = () => {
   const { getPostsForHomePg, getUser } = useFirebase();
+
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -31,7 +34,21 @@ export const Home = () => {
       }
     };
 
+    // Initial check
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 425); // Adjust this value as needed for your mobile breakpoint
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
     fetchData();
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   if (loading) {
@@ -44,59 +61,63 @@ export const Home = () => {
   return (
     <>
       <div className="home-mount-0">
-        <div className="home-container">
-          {/* Action buttons section */}
-          <div className="sidebar">
-            <Sidebar />
-          </div>
+        {isMobile ? (
+          <MobileHomePage posts={posts} />
+        ) : (
+          <div className="home-container">
+            {/* Action buttons section */}
+            <div className="sidebar">
+              <Sidebar />
+            </div>
 
-          {/* Right section (header + posts) */}
-          <section>
-            <div className="section-stories-posts-footer">
-              {/* <div className="stories-header">
+            {/* Right section (header + posts) */}
+            <section>
+              <div className="section-stories-posts-footer">
+                {/* <div className="stories-header">
                 <Stories />
               </div> */}
 
-              <div className="main-feed-section">
-                <div className="feed">
-                  {/* Posts = posts + reels videos.. */}
+                <div className="main-feed-section">
+                  <div className="feed">
+                    {/* Posts = posts + reels videos.. */}
 
-                  {posts.map((post, index) => (
-                    <div className="feed-post" key={index}>
-                      {/* Header */}
-                      <div className="fp-header">
-                        <div className="fp-header-user-info">
-                          <div className="fph-profile-photo">DP</div>
-                          <div className="fph-username">{post.username}</div>
+                    {posts.map((post, index) => (
+                      <div className="feed-post" key={index}>
+                        {/* Header */}
+                        <div className="fp-header">
+                          <div className="fp-header-user-info">
+                            <div className="fph-profile-photo">DP</div>
+                            <div className="fph-username">{post.username}</div>
+                          </div>
+                          <div className="fp-settings">
+                            <span>Settings</span>
+                          </div>
                         </div>
-                        <div className="fp-settings">
-                          <span>Settings</span>
+
+                        {/* Image */}
+                        <div className="fp-image-container">
+                          <img src={post.images[0]} alt=" image" />
                         </div>
+
+                        {/* Action btns footer -> div - like,comment,share ,div- Add comments */}
+                        <div className="fp-footer">{post.caption}</div>
                       </div>
+                    ))}
+                  </div>
 
-                      {/* Image */}
-                      <div className="fp-image-container">
-                        <img src={post.images[0]} alt=" image" />
-                      </div>
+                  {/* Footer */}
+                  <div className="footer">
+                    <Footer />
+                  </div>
 
-                      {/* Action btns footer -> div - like,comment,share ,div- Add comments */}
-                      <div className="fp-footer">{post.caption}</div>
-                    </div>
-                  ))}
+                  {/* !Main feed */}
                 </div>
-
-                {/* Footer */}
-                <div className="footer">
-                  <Footer />
-                </div>
-
-                {/* !Main feed */}
               </div>
-            </div>
-          </section>
+            </section>
 
-          {/* !home container */}
-        </div>
+            {/* !home container */}
+          </div>
+        )}
       </div>
     </>
   );
