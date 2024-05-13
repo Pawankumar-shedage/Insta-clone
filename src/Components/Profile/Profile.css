@@ -34,7 +34,7 @@
   /* align-items: center; */
   height: max-content;
   width: 70%;
-  margin: 3% auto;
+  margin: 2% auto;
 }
 
 .profile-pic-div {
@@ -45,23 +45,28 @@
   width: 30%;
 }
 #profile-image {
-  height: 50%;
+  height: 70%;
   width: 80%;
   border-radius: 100%;
+  background-color: white;
 }
 
 .profile-user-details {
   width: 60%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
+  align-items: start;
   /* background-color: blue; */
-  padding: 15%;
+  padding-left: 15%;
+  /* padding-top: 10%; */
 }
 
 .user-main-info {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .user-name {
@@ -260,7 +265,7 @@
   /* Posts-followers-following */
   .user-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   /* DIV 2  */

@@ -1,18 +1,21 @@
-footer{
-    background: rgb(var(--ig-dark-bg));
+footer {
+  background: rgb(var(--ig-dark-bg));
 }
 
-.footer-content-frame{
-    display: none;
-    width: 100%;
-    flex-direction: row;
+.footer-content-frame {
+  display: none;
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+  flex-direction: row;
+  padding: 0 auto;
 }
 
-select>option{
-    background-color: rgb(255, 255, 255);
-    color: #000;
+select > option {
+  background-color: rgb(255, 255, 255);
+  color: #000;
 }
 
-.copyright{
-    color: #6d6c6c;
+.copyright {
+  color: #6d6c6c;
 }

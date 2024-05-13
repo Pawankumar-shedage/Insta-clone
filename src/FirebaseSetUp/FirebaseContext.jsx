@@ -20,7 +20,6 @@ import {
   setDoc,
   updateDoc,
   orderBy,
-  collectionGroup,
   serverTimestamp,
 } from "firebase/firestore";
 import {
@@ -31,7 +30,7 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useId, useState } from "react";
 
 // FIREBASE CONFIG/SET-UP
 const firebaseConfig = {
@@ -169,21 +168,31 @@ export const FirebaseContext = ({ children }) => {
   };
 
   // UPLOADING PROFILE PIC (DP)
-  const uploadProfilePhotos = async (file) => {
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-    const storageRef = ref(storage, `profilePics/${file.name}}`);
-    try {
-      const snapshot = await uploadBytes(storageRef, file, metadata);
-      console.log("File uploaded successfully!", snapshot);
 
-      // Retrieve the download url of uploaded file.
-      const url = await getDownloadURL(storageRef);
-      console.log("image download url: ", url);
-      return url;
+  const uploadProfilePhotos = async (file, userId) => {
+    const imgUrls = [];
+
+    console.log("FIle ", file.name);
+
+    try {
+      const storageRef = ref(storage, `profilePics/${userId}/${file.name}`);
+
+      const metadata = {
+        contentType: "image/jpeg,image/png,image/jpg,image/JPEG",
+        timeAndData: serverTimestamp(),
+      };
+
+      const snapshot = await uploadBytes(storageRef, file, metadata);
+
+      console.log("Upload successfull @", snapshot);
+
+      const downloadUrl = await getDownloadURL(snapshot.ref);
+
+      imgUrls.push(downloadUrl);
+
+      return imgUrls;
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.log(error, " occurred while uploading profile photo");
     }
   };
 
@@ -209,6 +218,7 @@ export const FirebaseContext = ({ children }) => {
         console.log("Upload successfull @", snapshot);
 
         const downloadUrl = await getDownloadURL(snapshot.ref);
+
         imgUrls.push(downloadUrl);
       }
 
@@ -290,6 +300,18 @@ export const FirebaseContext = ({ children }) => {
     );
 
     return posts;
+  };
+
+  // Update each Post
+
+  const updateProfilePhoto = async (profileUrl, userId, username) => {
+    const q = query(collection(db, `Posts/${userId}/${username}`));
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      console.log("posts--", doc);
+    });
   };
 
   // --------------------------MESSAGES------------------
@@ -422,6 +444,7 @@ export const FirebaseContext = ({ children }) => {
           addUser,
           getUser,
           uploadProfilePhotos,
+          updateProfilePhoto,
           uploadPhotos,
           uploadUserPostData,
           getUserPosts,

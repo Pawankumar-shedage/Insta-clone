@@ -143,21 +143,10 @@ export const CreateNewPost = () => {
     setCaptionInput("");
   };
 
-  const semiColonKeyEvent = new KeyboardEvent("keydown", {
-    key: ";",
-    code: "Semicolon",
-  });
-
   // ------------------------------------------------------------------------
   return (
     <>
-      <div
-        style={{
-          height: "70%",
-          width: "100%",
-          margin: "6% auto",
-        }}
-      >
+      <div className="create-new-post-container">
         {step === 1 && (
           // Step 1 Select Img
           <div className="modal-content">
@@ -203,9 +192,7 @@ export const CreateNewPost = () => {
                     ></path>
                   </svg>
                 </div>
-                <span style={{ fontSize: " 20px" }}>
-                  Drag Photos and videos here.
-                </span>
+                <span>Drag Photos and videos here.</span>
               </div>
 
               <div className="select-media ">

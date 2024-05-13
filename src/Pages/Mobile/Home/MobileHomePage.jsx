@@ -298,6 +298,7 @@ export const MobileHomePage = ({ posts }) => {
               </div>
 
               {/* Add comment */}
+              {/* ON comment btn click */}
             </div>
           </div>
         ))}

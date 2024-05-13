@@ -1,6 +1,13 @@
+.create-new-post-container {
+  height: 70%;
+  width: 120%;
+  margin: 6% auto;
+  margin-right: 20%;
+}
+
 .modal-content {
+  width: 100%;
   margin: 4% auto;
-  width: 50%;
 
   height: 100%;
   /* left: %; */
@@ -36,6 +43,10 @@
 .media-info > .drag-images {
   display: flex;
   justify-content: center;
+}
+
+.media-info > span {
+  font-size: large;
 }
 
 .select-media > button {
@@ -195,9 +206,13 @@
   .modal-content {
     margin: 20% auto;
     width: 80%;
-    height: 60%;
+    height: 80%;
     border: 1px solid black;
     background-color: #393939;
+  }
+
+  .media-info > span {
+    font-size: small;
   }
 }
 
@@ -209,6 +224,10 @@
     height: 60%;
     border: 1px solid black;
     background-color: #393939;
+  }
+
+  .media-info > span {
+    font-size: medium;
   }
 }
 

@@ -18,7 +18,7 @@ section {
 .section-stories-posts-footer {
   /* background-color: aqua; */
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -26,48 +26,79 @@ section {
 .stories-header {
   margin-bottom: 20px;
 }
+
+/* Container */
 .main-feed-section {
-  /* background-color: blue; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   width: 100%;
+  height: 100vh;
   margin: 0px auto;
 }
+
+.main-feed-section::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
 /*-----------Feed-Posts------ */
 
 .feed {
-  /* background-color: red; */
   width: 100%;
-  height: 100%;
-  margin: 0px auto;
+  max-height: 100%;
+  padding: 2% auto;
   color: white;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
 .feed-post {
-  width: 30%;
+  width: 40%;
+  height: 100%;
   margin: 2% auto;
-  /* height: 60%; */
-  /* overflow: scroll; */
 }
 
+/* ---Header */
+
 .fp-header {
+  width: 100%;
+  /* padding: 2% 5%; */
+  font-weight: bold;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .fp-header-user-info {
+  width: 70%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: start;
+  align-items: center;
 }
 
-.fp-image-contaier {
+.fph-profile-photo {
+  margin: 2% 3%;
+}
+
+.fp-header-settings {
+  width: 10%;
+  height: 40px;
+  position: relative;
+}
+
+.fp-header-settings > svg {
+  width: 50%;
+  height: 100%;
+  position: absolute;
+  right: 5%;
+}
+
+/* ----image */
+
+.fp-image-container {
   width: 100%;
   height: 70%;
 }
@@ -75,11 +106,19 @@ section {
 .fp-image-container > img {
   width: 100%;
   height: 100%;
+  /* margin: 0% auto; */
   object-fit: cover;
 }
 
+/* Post-Footer */
+
 /* -------Footer---------------- */
 
-.footer {
+.home-footer {
   width: 100%;
+  margin: 0% auto;
+}
+
+.fp-footer {
+  border: 1px solid red;
 }
