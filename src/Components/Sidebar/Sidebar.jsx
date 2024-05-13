@@ -15,17 +15,31 @@ import "./sidebarStyle.css";
 import "/src/index.css";
 import { Modal } from "../Modal/Modal";
 import { LogoutModal } from "../Logout/LogoutModal";
+import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 
 export const Sidebar = () => {
   const { currentUser } = useAuth();
+  const { getProfilePhoto } = useFirebase();
+
+  const [profileImg, setProfileImg] = useState(null);
 
   useEffect(() => {
+    const getDp = async (userId) => {
+      await getProfilePhotoByID(userId);
+    };
+
+    getDp(currentUser.uid);
+
     console.log(currentUser.uid);
   }, [currentUser]);
 
-  const navigate = useNavigate();
+  const getProfilePhotoByID = async (userId) => {
+    const dp = await getProfilePhoto(userId);
 
-  const [profileImg, setProfileImg] = useState("");
+    setProfileImg(dp);
+  };
+
+  const navigate = useNavigate();
 
   // Create new  post modal
 
@@ -475,23 +489,32 @@ export const Sidebar = () => {
                 <div>
                   <Link className="sidebar-link">
                     <span>
-                      {/* Temp */}
-                      <svg
-                        width="100"
-                        height="100"
-                        viewBox="0 0 100 100"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <title>Profile</title>
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="28"
-                          fill="none"
-                          stroke="white"
-                          strokeWidth="1"
+                      {profileImg ? (
+                        <img
+                          src={profileImg}
+                          alt="profile-pic"
+                          width={"60%"}
+                          height={"60%"}
+                          style={{ borderRadius: "50%" }}
                         />
-                      </svg>
+                      ) : (
+                        <svg
+                          width="100"
+                          height="100"
+                          viewBox="0 0 100 100"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <title>Profile</title>
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="28"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="1"
+                          />
+                        </svg>
+                      )}
                     </span>
                   </Link>
                 </div>

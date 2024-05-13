@@ -190,7 +190,7 @@ export const FirebaseContext = ({ children }) => {
 
       imgUrls.push(downloadUrl);
 
-      return imgUrls;
+      return imgUrls[0];
     } catch (error) {
       console.log(error, " occurred while uploading profile photo");
     }
@@ -302,18 +302,38 @@ export const FirebaseContext = ({ children }) => {
     return posts;
   };
 
-  // Update each Post
+  const setProfilePhoto = async (profileUrl, userId) => {
+    const collectionRef = collection(db, "ProfilePics");
+    const docRef = doc(collectionRef, userId);
 
-  const updateProfilePhoto = async (profileUrl, userId, username) => {
-    const q = query(collection(db, `Posts/${userId}/${username}`));
+    const profilePhoto = {
+      url: profileUrl,
+    };
 
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      console.log("posts--", doc);
-    });
+    try {
+      await setDoc(docRef, profilePhoto);
+    } catch (error) {
+      console.log("Error ", error);
+    }
   };
 
+  const getProfilePhoto = async (userId) => {
+    const docRef = doc(db, "ProfilePics", userId);
+
+    const querySnapshot = await getDoc(docRef);
+
+    console.log("de", querySnapshot);
+
+    let profilePhoto = null;
+
+    if (querySnapshot.exists()) {
+      profilePhoto = querySnapshot.data().url;
+    } else {
+      console.log("Profile Photo doesnt exists");
+    }
+
+    return profilePhoto;
+  };
   // --------------------------MESSAGES------------------
   const sendConversation = async (conversationData) => {
     try {
@@ -444,7 +464,8 @@ export const FirebaseContext = ({ children }) => {
           addUser,
           getUser,
           uploadProfilePhotos,
-          updateProfilePhoto,
+          setProfilePhoto,
+          getProfilePhoto,
           uploadPhotos,
           uploadUserPostData,
           getUserPosts,

@@ -58,10 +58,12 @@
   width: 100%;
 }
 .vpmbcs-header-profile-photo {
+  width: 10%;
   margin: 2% 3%;
 }
 
 .vpmbcs-header-profile-username {
+  width: 90%;
   display: flex;
   justify-content: start;
   align-items: center;

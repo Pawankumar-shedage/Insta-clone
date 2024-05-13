@@ -12,7 +12,7 @@ import { EmojiDrawer } from "../../Messages/EmojiDrawer";
 // eslint-disable-next-line no-unused-vars
 export const ViewPostModal = ({ post }) => {
   const { currentUser } = useAuth();
-  const { getUserById } = useFirebase();
+  const { getUserById, getProfilePhoto } = useFirebase();
 
   const [user, setUser] = useState(null);
 
@@ -29,7 +29,13 @@ export const ViewPostModal = ({ post }) => {
       await getUserDetails();
     };
 
+    const getDp = async (userId) => {
+      await getProfilePhotoByID(userId);
+    };
+
     if (!user) fetchData();
+
+    if (user) getDp(user.uid);
   }, [getUserDetails, user]);
 
   // console.log("CLickedpost", user);
@@ -98,6 +104,17 @@ export const ViewPostModal = ({ post }) => {
     };
   }, []);
 
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
+  const getProfilePhotoByID = async (userId) => {
+    const dp = await getProfilePhoto(userId);
+
+    console.log(dp);
+    setProfilePhoto(dp);
+  };
+
+  console.log("pp", profilePhoto);
+
   //   ------------------------------------------------------
   return (
     <div className="view-post-mount">
@@ -108,7 +125,17 @@ export const ViewPostModal = ({ post }) => {
             <div className="vpmb-cs-header">
               {/* User info */}
               <div className="vpmb-headerUserDetail">
-                <div className="vpmbcs-header-profile-photo">DP</div>
+                <div className="vpmbcs-header-profile-photo">
+                  <img
+                    src={profilePhoto && profilePhoto}
+                    alt="profile-photo"
+                    style={{
+                      width: "100%",
+                      // height: "2%",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </div>
                 <div className="vpmbcs-header-profile-username">
                   <span>{user && user.username}</span>
                 </div>
@@ -316,6 +343,7 @@ export const ViewPostModal = ({ post }) => {
         // Laptop
         <div className="view-post-container">
           <div className="vp-img-section">
+            {/* temp, to add carousel. */}
             <img src={post.images[0]} alt="post" />
           </div>
 
@@ -325,7 +353,16 @@ export const ViewPostModal = ({ post }) => {
             <div className="vp-cs-header">
               {/* User info */}
               <div className="vpcs-headerUserDetail">
-                <div className="vpcs-header-profile-photo">DP</div>
+                <div className="vpcs-header-profile-photo">
+                  <span>
+                    <img
+                      src={profilePhoto}
+                      alt="profile-photo"
+                      width={"50px"}
+                      style={{ borderRadius: "50%" }}
+                    />
+                  </span>
+                </div>
                 <div className="vpcs-header-profile-username">
                   <span>{user && user.username}</span>
                 </div>

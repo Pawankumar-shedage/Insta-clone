@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 import "/src/index.css";
 // icons
@@ -8,13 +8,12 @@ import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import { useAuth } from "../../AuthContext/AuthProvider";
 
 export const ProfileHeader = ({ user }) => {
-  const { uploadProfilePhotos, updateProfilePhoto } = useFirebase();
+  const { uploadProfilePhotos, setProfilePhoto, getProfilePhoto } =
+    useFirebase();
   const { currentUser } = useAuth();
 
   const [dpUrl, setDPUrl] = useState(null);
   const profilePhotoRef = useRef();
-
-  console.log(currentUser.uid);
 
   const handleProfileImage = () => {
     if (profilePhotoRef.current) {
@@ -40,16 +39,35 @@ export const ProfileHeader = ({ user }) => {
       if (file && currentUser) {
         const imgUrl = await uploadProfilePhotos(file, currentUser.uid);
 
-        setDPUrl(imgUrl);
-
         // now to set this url , accessible. ..
-        await updateProfilePhoto(imgUrl, user.uid, user.username);
+        await setProfilePhoto(imgUrl, user.uid);
+
+        // get Updated/Uploaded photo
+
+        getProfilePhotoByID(user.uid);
+
         console.log("Url", imgUrl);
       }
     } catch (e) {
       console.log("error", e);
     }
   };
+
+  useEffect(() => {
+    const getDp = async (userId) => {
+      await getProfilePhotoByID(userId);
+    };
+
+    getDp(user.uid);
+  }, []);
+
+  const getProfilePhotoByID = async (userId) => {
+    const dp = await getProfilePhoto(userId);
+
+    setDPUrl(dp);
+  };
+
+  console.log("DPURL", dpUrl);
 
   // --------------------------------------------------------
   return (
@@ -58,7 +76,7 @@ export const ProfileHeader = ({ user }) => {
         <img
           id="profile-image"
           title="upload picture"
-          src={dpUrl ? dpUrl : " "}
+          src={dpUrl ? dpUrl : "/src/assets/Images/User i/user.png"}
           alt="profile-pic"
           role="button"
           onClick={handleProfileImage}
