@@ -108,15 +108,21 @@ export const ProfileHeader = ({ user }) => {
 
         <div className="user-info">
           <div>
-            <span>23 posts</span>
+            <span>
+              <b>23</b> posts
+            </span>
           </div>
 
           <div>
-            <span>23 followers</span>
+            <span>
+              <b>23</b> followers
+            </span>
           </div>
 
           <div>
-            <span>23 following</span>
+            <span>
+              <b>23</b> following
+            </span>
           </div>
         </div>
 

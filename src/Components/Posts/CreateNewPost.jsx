@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { EmojiDrawer } from "../Messages/EmojiDrawer";
 
 export const CreateNewPost = () => {
-  const { uploadPhotos, getUserById, uploadUserPostData } = useFirebase();
+  const { uploadPhotos, getUserById, uploadUserPostData, getProfilePhoto } =
+    useFirebase();
 
   const { currentUser } = useAuth();
 
@@ -23,6 +24,8 @@ export const CreateNewPost = () => {
 
   const [user, setUser] = useState(null);
   const [step, setStep] = useState(1);
+
+  const [profilePhoto, setProfilePhoto] = useState(null);
   const [images, setImages] = useState([]);
   const [captionInput, setCaptionInput] = useState("");
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
@@ -41,8 +44,22 @@ export const CreateNewPost = () => {
       await getUserDetails();
     };
 
+    const getDp = async (userId) => {
+      await getProfilePhotoByID(userId);
+    };
+
     if (!user) fetchData();
+
+    if (user) getDp(user.uid);
   }, [getUserDetails, user]);
+
+  // DP
+  const getProfilePhotoByID = async (userId) => {
+    const dp = await getProfilePhoto(userId);
+
+    console.log(dp);
+    setProfilePhoto(dp);
+  };
 
   const imgFileRef = useRef(null);
 
@@ -131,6 +148,8 @@ export const CreateNewPost = () => {
       caption: captionInput,
       time: timeStamp,
       username: user.username,
+      profilePhoto: profilePhoto,
+      likedBy: [],
     };
 
     await uploadUserPostData(postData, user.uid, user.username);

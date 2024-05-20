@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { useFirebase } from "./FirebaseSetUp/FirebaseContext";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./Pages/Home";
@@ -13,6 +13,8 @@ import { CreateNewPost } from "./Components/Posts/CreateNewPost";
 import { LoadingScreen } from "./Components/Common/Loading-Splash Screen/LoadingScreen";
 
 function App() {
+  const { isAuthenticated } = useAuth();
+  const { currentUser } = useAuth();
   // const [imagesLoaded, setImagesLoaded] = useState(false);
 
   // useEffect(() => {
@@ -48,13 +50,22 @@ function App() {
   //   // };
   // }, []);
 
+  console.log("ss", isAuthenticated);
+
   return (
     <>
       <Suspense fallback={<LoadingScreen />}>
         {/* {imagesLoaded && ( */}
         <Routes>
           {/* Default */}
-          <Route path="/*" element={<Navigate to={"/login"} />} />
+
+          {isAuthenticated ? (
+            <Route path="/*" element={<Navigate to={"/home"} />} />
+          ) : (
+            <Route path="/*" element={<Navigate to={"/login"} />} />
+          )}
+
+          {/* <Route path="/*" element={<Navigate to={"/login"} />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" Component={Register} />
 

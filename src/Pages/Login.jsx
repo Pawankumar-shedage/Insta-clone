@@ -11,6 +11,11 @@ import { Footer } from "../Components/Common/Footer/Footer";
 import { GetTheApp } from "../Components/Common/Footer/GetTheApp";
 import { useAuth } from "../AuthContext/AuthProvider";
 import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
+import {
+  browserSessionPersistence,
+  setPersistence,
+  signOut,
+} from "firebase/auth";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +29,7 @@ export const Login = () => {
     logInUser,
     getUser: getUserData,
     updateUserInFirestore,
+    auth,
   } = useFirebase();
 
   // auth provider
@@ -41,6 +47,27 @@ export const Login = () => {
   };
 
   // **Main
+
+  let loginTime = null;
+
+  let logoutTimer;
+
+  const startLogoutTimer = () => {
+    const logoutTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+    console.log("Time", logoutTime);
+
+    logoutTimer = setTimeout(() => {
+      signOut(auth)
+        .then(() => {
+          console.log("User automatically logged out after 24 hours.");
+        })
+        .catch((error) => {
+          console.error("Error logging out:", error);
+        });
+    }, logoutTime);
+  };
+
   const handleLogIn = async (e) => {
     e.preventDefault();
 
@@ -70,13 +97,28 @@ export const Login = () => {
           // Handle the case where user data is not found
         }
       }
+
+      // Setting login window ()
+      if (logoutTimer) {
+        // If the timer is already set, clear it
+        clearTimeout(logoutTimer);
+      }
+      // Start the timer again
+      startLogoutTimer();
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Page Loading
-  // const [pageLoaded, setPageLoaded] = useState(false);
+  const handleLogout = () => {
+    clearTimeout(logoutTimer);
+    signOut(auth)
+      .then(() => {
+        console.log("User logged out");
+        loginTime = null;
+      })
+      .catch((error) => console.log("Error occurred while logging out", error));
+  };
 
   // Theme
   const light = "light";

@@ -134,7 +134,16 @@ export const MobileHomePage = ({ posts }) => {
           <div className="mb-home-post mt-3" key={index}>
             <div className="mbhome-post-header">
               <div className="mbhph-user-info">
-                <div className="mbhph-dp">DP</div>
+                <div className="mbhph-dp">
+                  <img
+                    src={
+                      post.profilePhoto
+                        ? post.profilePhoto
+                        : `/src/assets/Images/User i/user.png`
+                    }
+                    alt="profile-photo"
+                  />
+                </div>
                 <div className="mbhph-username">{post.username}</div>
               </div>
 

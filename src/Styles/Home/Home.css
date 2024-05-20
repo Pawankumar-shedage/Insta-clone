@@ -63,6 +63,7 @@ section {
 
 .fp-header {
   width: 100%;
+  height: 10%;
   /* padding: 2% 5%; */
   font-weight: bold;
   display: flex;
@@ -73,6 +74,7 @@ section {
 
 .fp-header-user-info {
   width: 70%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -80,7 +82,17 @@ section {
 }
 
 .fph-profile-photo {
+  width: 20%;
+  height: 100%;
   margin: 2% 3%;
+  display: flex;
+  align-items: center;
+}
+
+.fph-profile-photo > img {
+  width: 80%;
+  height: 50%;
+  border-radius: 50%;
 }
 
 .fp-header-settings {
@@ -111,6 +123,9 @@ section {
 }
 
 /* Post-Footer */
+.fp-footer {
+  /* border: 1px solid red; */
+}
 
 /* -------Footer---------------- */
 
@@ -119,6 +134,31 @@ section {
   margin: 0% auto;
 }
 
-.fp-footer {
-  border: 1px solid red;
+.fphome-post-actionBtns {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fphome-post-actionBtns-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.fphome-likedBy-likes {
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+/* post-user-caption */
+.fphome-post-caption {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  /* border: 1px solid red; */
 }

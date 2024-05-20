@@ -1,8 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
-import { onAuthStateChanged } from "firebase/auth";
+import {
+  browserSessionPersistence,
+  onAuthStateChanged,
+  setPersistence,
+  signOut,
+} from "firebase/auth";
 
 import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/LoadingScreen";
 
@@ -10,6 +16,9 @@ const authContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const { auth } = useFirebase();
+
+  // Persistance , 24 hour window.
+  // setPersistence(auth, browserSessionPersistence);
 
   // user object
   const [currentUser, setCurrentUser] = useState(null);
@@ -19,6 +28,10 @@ export const AuthProvider = ({ children }) => {
 
   // Loading state
   const [loading, setLoading] = useState(true);
+
+  const signOutUser = () => {
+    signOut(auth);
+  };
 
   const handleAuthStateChange = (user) => {
     if (user) {
@@ -57,7 +70,12 @@ export const AuthProvider = ({ children }) => {
   return (
     <>
       <authContext.Provider
-        value={{ currentUser, handleAuthStateChange, isAuthenticated }}
+        value={{
+          currentUser,
+          handleAuthStateChange,
+          isAuthenticated,
+          signOutUser,
+        }}
       >
         {children}
       </authContext.Provider>

@@ -240,6 +240,27 @@ export const FirebaseContext = ({ children }) => {
     }
   };
 
+  const updateUserPostData = async (postId, postData, userId, username) => {
+    const collectionRef = collection(db, `Posts/${userId}/${username}`);
+
+    const docRef = doc(collectionRef, postId);
+    try {
+      await setDoc(docRef, postData, { merge: true });
+      // console.log("Post doc", docRef.data());
+      const updatedPostDoc = await getDoc(docRef);
+
+      console.log("Updated Post Data: ", updatedPostDoc);
+
+      if (updatedPostDoc.exists()) {
+        return updatedPostDoc.data();
+      } else {
+        throw new Error("Post doesn't exists");
+      }
+    } catch (error) {
+      console.log("Error updating post: ", error);
+    }
+  };
+
   // obj{caption,img,time} of single user
   const getUserPosts = async (userId, username) => {
     const q = query(collection(db, `Posts/${userId}/${username}`));
@@ -251,7 +272,7 @@ export const FirebaseContext = ({ children }) => {
     const querySnaphot = await getDocs(q);
 
     querySnaphot.forEach((doc) => {
-      console.log(doc);
+      console.log("Post doc", doc);
       const time = doc._document.data.value.mapValue.fields.time;
       // const time = "time";
 
@@ -284,11 +305,14 @@ export const FirebaseContext = ({ children }) => {
           const querySnapshot = await getDocs(postCollectionRef);
 
           querySnapshot.forEach((doc) => {
+            // console.log("Post Doc", doc.data(), doc);
+
             const postData = Object.assign({}, doc.data());
 
             postData.time = doc._document.data.value.mapValue.fields.time;
             postData.username = user.username;
             postData.userId = user.uid;
+            postData.postId = doc.id;
 
             posts.push(postData);
             // console.log(doc.id, " => ", doc.data());
@@ -322,7 +346,7 @@ export const FirebaseContext = ({ children }) => {
 
     const querySnapshot = await getDoc(docRef);
 
-    console.log("de", querySnapshot);
+    // console.log("de", querySnapshot);
 
     let profilePhoto = null;
 
@@ -468,6 +492,7 @@ export const FirebaseContext = ({ children }) => {
           getProfilePhoto,
           uploadPhotos,
           uploadUserPostData,
+          updateUserPostData,
           getUserPosts,
           getPostsForHomePg,
           logInUser,

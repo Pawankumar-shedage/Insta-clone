@@ -126,15 +126,7 @@ export const ViewPostModal = ({ post }) => {
               {/* User info */}
               <div className="vpmb-headerUserDetail">
                 <div className="vpmbcs-header-profile-photo">
-                  <img
-                    src={profilePhoto && profilePhoto}
-                    alt="profile-photo"
-                    style={{
-                      width: "100%",
-                      // height: "2%",
-                      borderRadius: "50%",
-                    }}
-                  />
+                  <img src={profilePhoto && profilePhoto} alt="profile-photo" />
                 </div>
                 <div className="vpmbcs-header-profile-username">
                   <span>{user && user.username}</span>
@@ -285,7 +277,9 @@ export const ViewPostModal = ({ post }) => {
 
               {/* ADD COMMENT  DIV Last*/}
               <div className="vpmb-addComment mt-5">
-                <div className="vpmb-addComment-userDp">DP</div>
+                <div className="vpmb-addComment-userDp">
+                  <img src={profilePhoto} alt="" />
+                </div>
                 <div className="vpmb-addComment-comment">
                   <div>
                     <textarea
@@ -358,7 +352,6 @@ export const ViewPostModal = ({ post }) => {
                     <img
                       src={profilePhoto}
                       alt="profile-photo"
-                      width={"50px"}
                       style={{ borderRadius: "50%" }}
                     />
                   </span>
@@ -376,12 +369,14 @@ export const ViewPostModal = ({ post }) => {
               </div>
             </div>
 
-            <hr />
+            <hr id="horizontalLine" />
 
             {/* Post Caption */}
             <div className="vp-cs-postCaption">
               <div className="vpcs-postCaptionUserDetails">
-                <div className="vpcs-postCaption-profilePhoto">DP</div>
+                <div className="vpcs-postCaption-profilePhoto">
+                  <img src={profilePhoto} alt="profile-photo" />
+                </div>
                 <div className="vpcs-postCaption-userName">
                   <span>{user && user.username} </span>
                 </div>
@@ -525,7 +520,9 @@ export const ViewPostModal = ({ post }) => {
 
             {/* Add comment */}
             <div className="vp-cs-addComment mt-3">
-              <div className="vpcs-addComment-userDp">DP</div>
+              <div className="vpcs-addComment-userDp">
+                <img src={profilePhoto} alt="profile-photo" />
+              </div>
               <div className="vpcs-addComment-comment">
                 <textarea
                   id="post-addComment"

@@ -3,11 +3,14 @@ import "./LogoutModal.css";
 import { useAuth } from "../../AuthContext/AuthProvider";
 
 export const LogoutModal = () => {
-  const { handleAuthStateChange } = useAuth();
+  const { handleAuthStateChange, signOutUser } = useAuth();
 
-  const handleLogout = () => {
-    handleAuthStateChange(null);
+  const handleLogout = async () => {
+    await signOutUser(); //Firebase auth state change.
+    handleAuthStateChange(null); //Local auth state change.
   };
+
+  // -------------------------
   return (
     <div className="logout-modal-content">
       <div className="logout-modal-header mt-3 ">
