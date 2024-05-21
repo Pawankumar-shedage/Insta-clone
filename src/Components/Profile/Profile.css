@@ -43,12 +43,21 @@
   justify-content: center;
   /* background-color: red; */
   width: 30%;
+  /* border: 1px solid red; */
+}
+
+#profile-image-loading {
+  height: 70%;
+  width: 80%;
+  border-radius: 100%;
+  object-fit: cover;
 }
 #profile-image {
   height: 70%;
   width: 80%;
   border-radius: 100%;
   background-color: white;
+  object-fit: cover;
 }
 
 .profile-user-details {

@@ -249,7 +249,7 @@ export const FirebaseContext = ({ children }) => {
       // console.log("Post doc", docRef.data());
       const updatedPostDoc = await getDoc(docRef);
 
-      console.log("Updated Post Data: ", updatedPostDoc);
+      // console.log("Updated Post Data: ", updatedPostDoc);
 
       if (updatedPostDoc.exists()) {
         return updatedPostDoc.data();
@@ -288,7 +288,7 @@ export const FirebaseContext = ({ children }) => {
   };
 
   const getPostsForHomePg = async (users) => {
-    console.log("For Every User");
+    // console.log("For Every User");
 
     const posts = [];
 
@@ -335,7 +335,7 @@ export const FirebaseContext = ({ children }) => {
     };
 
     try {
-      await setDoc(docRef, profilePhoto);
+      await setDoc(docRef, profilePhoto, { merge: true });
     } catch (error) {
       console.log("Error ", error);
     }

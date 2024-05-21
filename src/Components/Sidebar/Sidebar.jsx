@@ -16,12 +16,14 @@ import "/src/index.css";
 import { Modal } from "../Modal/Modal";
 import { LogoutModal } from "../Logout/LogoutModal";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
+import { useProfilePhotoOfCurrUser } from "../Profile/ProfilePhotoContext/ProfilePhotoContext";
 
 export const Sidebar = () => {
   const { currentUser } = useAuth();
   const { getProfilePhoto } = useFirebase();
+  const { dpCurrUser } = useProfilePhotoOfCurrUser();
 
-  const [profileImg, setProfileImg] = useState(null);
+  // const [profileImg, setProfileImg] = useState(null);
 
   useEffect(() => {
     const getDp = async (userId) => {
@@ -30,13 +32,13 @@ export const Sidebar = () => {
 
     getDp(currentUser.uid);
 
-    console.log(currentUser.uid);
-  }, [currentUser]);
+    // console.log(currentUser.uid);
+  }, []);
 
   const getProfilePhotoByID = async (userId) => {
     const dp = await getProfilePhoto(userId);
 
-    setProfileImg(dp);
+    // setProfileImg(dp);
   };
 
   const navigate = useNavigate();
@@ -489,9 +491,9 @@ export const Sidebar = () => {
                 <div>
                   <Link className="sidebar-link">
                     <span>
-                      {profileImg ? (
+                      {dpCurrUser ? (
                         <img
-                          src={profileImg}
+                          src={dpCurrUser}
                           alt="profile-pic"
                           width={"60%"}
                           height={"60%"}

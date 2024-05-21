@@ -6,15 +6,27 @@ import "/src/index.css";
 import { BsGearWide } from "react-icons/bs";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import { useAuth } from "../../AuthContext/AuthProvider";
+import { useProfilePhotoOfCurrUser } from "./ProfilePhotoContext/ProfilePhotoContext";
 
 export const ProfileHeader = ({ user }) => {
   const { uploadProfilePhotos, setProfilePhoto, getProfilePhoto } =
     useFirebase();
   const { currentUser } = useAuth();
+  const { dpCurrUser, setDpCurrUser: setGlobalProfilePhoto } =
+    useProfilePhotoOfCurrUser();
 
-  const [dpUrl, setDPUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
   const profilePhotoRef = useRef();
 
+  useEffect(() => {
+    const getDp = async (userId) => {
+      setLoading(true);
+      await getProfilePhotoByID(userId);
+      setLoading(false);
+    };
+
+    getDp(user.uid);
+  }, []);
   const handleProfileImage = () => {
     if (profilePhotoRef.current) {
       profilePhotoRef.current.click();
@@ -35,6 +47,7 @@ export const ProfileHeader = ({ user }) => {
   };
 
   const uploadProfilePhoto = async (file) => {
+    setLoading(true);
     try {
       if (file && currentUser) {
         const imgUrl = await uploadProfilePhotos(file, currentUser.uid);
@@ -42,45 +55,48 @@ export const ProfileHeader = ({ user }) => {
         // now to set this url , accessible. ..
         await setProfilePhoto(imgUrl, user.uid);
 
+        setGlobalProfilePhoto(imgUrl);
         // get Updated/Uploaded photo
 
-        getProfilePhotoByID(user.uid);
+        await getProfilePhotoByID(user.uid);
 
         console.log("Url", imgUrl);
       }
     } catch (e) {
       console.log("error", e);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    const getDp = async (userId) => {
-      await getProfilePhotoByID(userId);
-    };
-
-    getDp(user.uid);
-  }, []);
-
   const getProfilePhotoByID = async (userId) => {
     const dp = await getProfilePhoto(userId);
-
-    setDPUrl(dp);
+    setGlobalProfilePhoto(dp);
   };
 
-  console.log("DPURL", dpUrl);
+  // console.log("DPURL", dpUrl);
 
   // --------------------------------------------------------
   return (
     <div className="profile-header">
       <div className="profile-pic-div">
-        <img
-          id="profile-image"
-          title="upload picture"
-          src={dpUrl ? dpUrl : "/src/assets/Images/User i/user.png"}
-          alt="profile-pic"
-          role="button"
-          onClick={handleProfileImage}
-        />
+        {loading ? (
+          <img
+            id="profile-image-loading"
+            title="loading profile picture"
+            src="/src/assets/Images/Loading images/loading_circles_blue_gradient.jpg"
+            alt="profile-pic"
+          />
+        ) : (
+          <img
+            id="profile-image"
+            title="upload picture"
+            src={dpCurrUser ? dpCurrUser : "/src/assets/Images/User i/user.png"}
+            alt="profile-pic"
+            role="button"
+            onClick={handleProfileImage}
+          />
+        )}
 
         <input
           type="file"
