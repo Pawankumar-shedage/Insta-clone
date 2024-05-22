@@ -1,0 +1,71 @@
+/* ----Footer---navbar */
+.mb-home-footer {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  bottom: 0;
+  padding: 0% 5%;
+  background-color: #000;
+  border-top: 1px solid rgb(var(--ig--secondary-font-color));
+  /* background-color: blue; */
+}
+
+.mb-home-footer > div {
+  width: 15.66%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  /* margin: 0 3%; */
+}
+
+.mb-home-footer > div > svg {
+  width: 100%;
+}
+
+/* NAVBAR - item */
+
+/* Messages */
+
+.mb-footer-message-btn {
+  position: relative;
+}
+
+.mb-footer-messages-count {
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  top: 10%;
+  right: 20%;
+}
+
+.mb-msg-count-badge {
+  background-color: red;
+  border-radius: 100%;
+  width: 15px;
+  height: 15px;
+  position: relative;
+}
+
+.span-msg-count {
+  color: #fff;
+  background-color: red;
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  width: fit-content;
+  height: 100%;
+  font-size: 10px;
+}
+
+/* ---Profile */
+.mb-footer-profile-btn > span {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

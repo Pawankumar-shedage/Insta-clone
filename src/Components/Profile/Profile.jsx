@@ -10,6 +10,7 @@ import { ProfileHeader } from "./ProfileHeader";
 // import { StoryHighlights } from "./StoryHighlights";
 import { ProfilePosts } from "./ProfilePosts";
 import { LoadingScreen } from "../Common/Loading-Splash Screen/LoadingScreen";
+import { MobileNavbar } from "../../Pages/Mobile/Navbar/MobileNavbar";
 
 export const Profile = () => {
   const { currentUser } = useAuth();
@@ -72,6 +73,9 @@ export const Profile = () => {
 
           <ProfilePosts />
         </div>
+
+        {/* If screen width is <= 435px */}
+        <MobileNavbar />
       </div>
     </div>
   );

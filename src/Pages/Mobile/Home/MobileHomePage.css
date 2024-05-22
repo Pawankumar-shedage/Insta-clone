@@ -9,15 +9,18 @@
   overflow-y: scroll;
   box-sizing: border-box;
   font-size: small;
+  position: relative;
 }
 
 .mb-home-container::-webkit-scrollbar {
   display: none; /* Hide scrollbar */
 }
 
-/* -------Header */
+/* -------container-Header */
 .mb-home-header {
   width: 100%;
+  height: 50px;
+  /* background-color: red; */
   padding: 2% 5%;
   display: flex;
   flex-direction: row;
@@ -28,18 +31,19 @@
 
 .mbhh-logo {
   width: 10%;
+  height: 100%;
   /* background-color: red; */
 }
 
 .mbhh-logo > img {
-  width: 60%;
+  width: 70%;
   height: 100%;
 }
 
 .mbhh-search {
   width: 70%;
+  height: 100%;
   position: relative;
-
   /* background-color: red; */
   color: white;
 }
@@ -81,6 +85,7 @@
 
 .mbhh-notifications {
   width: 5%;
+  height: 100%;
 }
 
 .mbhh-notifications > span > svg {
@@ -89,25 +94,32 @@
   /* background-color: red; */
 }
 
-/* ---POST */
+/* ---POST container */
 
 .mbhome-post-container {
-  width: 100vw;
+  width: 100%;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+}
+
+.mbhome-post-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
 }
 
 .mb-home-post {
   width: 100%;
-  /* height: 100%; */
+  height: 100%;
 }
 
 /* ---Post Header */
 
 .mbhome-post-header {
   width: 100%;
-  /* height: 10%; */
-  padding: 2% 5%;
+  height: 8%;
+  /* background-color: green; */
+  padding: 2% 3%;
   font-weight: bold;
   display: flex;
   flex-direction: row;
@@ -122,33 +134,45 @@
   flex-direction: row;
   justify-content: start;
   align-items: center;
+  /* background-color: yellow; */
 }
 
 .mbhph-dp {
-  width: 10%;
+  width: 15%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   /* margin: 2% 3%; */
 }
 
 .mbhph-dp > img {
-  width: 100%;
-  height: 120%;
+  width: 86.44%;
+  height: 91.69%;
   border-radius: 50%;
 }
 
 .mbhph-username {
   margin-left: 2%;
+  flex-grow: 1;
 }
 
 .mbhph-post-settings {
   width: 10%;
-  height: 20px;
-  position: relative;
+  /* flex-grow: 1; */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  /* position: relative; */
+  /* background-color: blue; */
 }
 .mbhph-post-settings > svg {
   width: 80%;
-  position: absolute;
-  right: 5%;
+  height: 80%;
+  font-size: larger;
+  /* position: absolute; */
+  right: 0%;
   /* bottom: 5%; */
 }
 
@@ -156,18 +180,20 @@
 
 .mbhome-post-image {
   width: 100%;
-  /* height: 100%; */
+  height: 70%;
 }
 
 .mbhome-post-image > img {
   width: 100%;
+  height: 100%;
 }
 
 /* ---------Post-Footer */
 .mbhome-post-footer {
   width: 100%;
+  height: 20%;
   /* border: 1px solid red; */
-  margin-top: 2%;
+  margin-top: 3%;
   overflow: hidden;
 }
 
@@ -199,8 +225,9 @@
 /* --------Caption */
 .mbhome-post-caption {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
   margin: 0% 5%;
 }
 

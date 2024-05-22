@@ -10,6 +10,7 @@ import { EmojiDrawer } from "../../../Components/Messages/EmojiDrawer";
 import { useFirebase } from "../../../FirebaseSetUp/FirebaseContext";
 import { useAuth } from "../../../AuthContext/AuthProvider";
 import { useProfilePhotoOfCurrUser } from "../../../Components/Profile/ProfilePhotoContext/ProfilePhotoContext";
+import { MobileNavbar } from "../Navbar/MobileNavbar";
 
 export const MobileHomePage = ({ posts }) => {
   const { updateUserPostData } = useFirebase();
@@ -199,10 +200,11 @@ export const MobileHomePage = ({ posts }) => {
           );
           return (
             <div
-              className="mb-home-post mt-3"
+              className="mb-home-post mb-3"
               key={index}
               onClick={() => console.log("post clicked", post)}
             >
+              {/* 1-post-header */}
               <div className="mbhome-post-header">
                 <div className="mbhph-user-info">
                   <div className="mbhph-dp">
@@ -218,12 +220,14 @@ export const MobileHomePage = ({ posts }) => {
                   <div className="mbhph-username">{post.username}</div>
                 </div>
 
-                <div className="mbhph-post-settings">
+                <div className="mbhph-post-settings" role="button">
                   <svg
                     aria-label="More options"
                     fill="currentColor"
+                    height="24"
                     role="img"
                     viewBox="0 0 24 24"
+                    width="24"
                   >
                     <title>More options</title>
                     <circle cx="12" cy="12" r="1.5"></circle>
@@ -232,6 +236,8 @@ export const MobileHomePage = ({ posts }) => {
                   </svg>
                 </div>
               </div>
+
+              {/* 2-post-image */}
               <div className="mbhome-post-image">
                 <img src={post.images[0]} alt="image" width={"100%"} />
               </div>
@@ -387,9 +393,8 @@ export const MobileHomePage = ({ posts }) => {
       </div>
 
       {/* Footer */}
-
-      {/* Sidebar-horizontal (mobile) */}
-      <div className="mb-home-bottom-sidebar">ff</div>
+      {/* Mobile Navbar  */}
+      <MobileNavbar />
     </div>
   );
 };
