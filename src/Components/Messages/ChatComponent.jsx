@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ChatComponent.css";
 import "/src/index.css";
 import { useEffect, useRef, useState } from "react";
@@ -10,14 +10,14 @@ import { collection, serverTimestamp } from "firebase/firestore";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import { EmojiDrawer } from "./EmojiDrawer";
 
-export const ChatComponent = ({ selectedUser, conversationId }) => {
+export const ChatComponent = ({
+  selectedUser,
+  conversationId,
+  profilePicSrc,
+}) => {
   // get current logged in user
   const { currentUser } = useAuth();
-
-  const [messages, setMessages] = useState([]);
-
-  const [showTimestamp, setShowTimestamp] = useState(false);
-
+  const navigate = useNavigate();
   // FIREBASE 🦺
   const {
     sendConversation,
@@ -25,6 +25,9 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     fetchMessagesFromAConversation: fetchMessages,
   } = useFirebase();
 
+  const [messages, setMessages] = useState([]);
+  const [showTimestamp, setShowTimestamp] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [textMessage, setTextMessage] = useState("");
 
   const textareaRef = useRef();
@@ -40,6 +43,18 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
       // Loading Screen
       console.log("Loading Messages");
     }
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 426);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [conversationId, setMessages]);
 
   // adding messages in conversation.
@@ -84,7 +99,7 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
         conversationId,
         messageData
       );
-      console.log("Message sent successfully,Message doc id ", message);
+      // console.log("Message sent successfully,Message doc id ", message);
 
       return message;
     } catch (error) {
@@ -97,7 +112,7 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     try {
       const result = await fetchMessages(conversationId);
 
-      console.log("Fetched Messages", result);
+      // console.log("Fetched Messages", result);
 
       setMessages(result);
       return result;
@@ -213,21 +228,61 @@ export const ChatComponent = ({ selectedUser, conversationId }) => {
     setTextMessage((prevMsg) => prevMsg + emoji);
   };
 
-  // ---------------------------------Return
+  console.log("PROFILE pic", profilePicSrc);
+
+  // ---------------------------------Return CHAT COMPONENT
   return (
     <>
       <div className="chat-mount">
         {/* user-name */}
         <div className="chat-header">
           <div className="d-flex flex-row">
+            {/* Back button Mobile */}
+            {isMobile && (
+              <div
+                className="go-back d-flex align-items-center me-3"
+                onClick={() => navigate(-1)}
+              >
+                <span id="back-arrow">
+                  <svg
+                    aria-label="Back"
+                    fill="currentColor"
+                    height="24"
+                    role="img"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <title>Back</title>
+                    <line
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      x1="2.909"
+                      x2="22.001"
+                      y1="12.004"
+                      y2="12.004"
+                    ></line>
+                    <polyline
+                      fill="none"
+                      points="9.276 4.726 2.001 12.004 9.276 19.274"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                    ></polyline>
+                  </svg>
+                </span>
+              </div>
+            )}
+
             {/* profile-pic */}
             <div className="msg-prof-profile-pic me-1">
-              <Link className="">
+              <Link className="chat-profile-pic">
                 <img
-                  src="/src/assets/Images/French-Croissants.jpg"
+                  src={profilePicSrc || "/src/assets/Images/User i/user.png"}
                   alt="profile-pic"
-                  width="80%"
-                  height="80%"
                   className="rounded-circle"
                 />
               </Link>

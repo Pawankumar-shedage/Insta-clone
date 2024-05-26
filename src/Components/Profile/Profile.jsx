@@ -18,8 +18,8 @@ export const Profile = () => {
   const { getUserById } = useFirebase();
 
   const [loading, setLoading] = useState(true);
-
   const [user, setUser] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const getUser = async () => {
     try {
@@ -33,8 +33,20 @@ export const Profile = () => {
   };
 
   useEffect(() => {
-    console.log("Function called");
     getUser();
+    // Initial check
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 425); // Adjust this value as needed for your mobile breakpoint
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    // Cleanup function
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   // Loading screen
@@ -61,9 +73,7 @@ export const Profile = () => {
   return (
     <div className="profile-mount">
       <div className="profile-container">
-        <div className="profile-sidebar">
-          <Sidebar />
-        </div>
+        <div className="profile-sidebar">{!isMobile && <Sidebar />}</div>
 
         {/* MAIN */}
         <div className="profile-display ">
@@ -75,7 +85,8 @@ export const Profile = () => {
         </div>
 
         {/* If screen width is <= 435px */}
-        <MobileNavbar />
+
+        {isMobile && <MobileNavbar />}
       </div>
     </div>
   );

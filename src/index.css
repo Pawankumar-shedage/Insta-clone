@@ -47,10 +47,18 @@ li {
   width: 16px;
 }
 
+::-webkit-scrollbar-corner {
+  border-radius: 50%;
+}
+
 ::-webkit-scrollbar-track {
   background-color: rgb(87, 87, 87);
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: rgb(122, 122, 122);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the scrollbar handle on hover */
 }

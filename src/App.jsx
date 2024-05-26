@@ -11,6 +11,8 @@ import { Profile } from "./Components/Profile/Profile";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
 import { CreateNewPost } from "./Components/Posts/CreateNewPost";
 import { LoadingScreen } from "./Components/Common/Loading-Splash Screen/LoadingScreen";
+import { ChatComponent } from "./Components/Messages/ChatComponent";
+import { MobileMsgChat } from "./Components/Messages/Mb_Chat/MobileMsgChat";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -70,12 +72,20 @@ function App() {
           <Route path="/register" Component={Register} />
 
           {/* Protected */}
+
           <Route path="/home" element={<ProtectedRoute component={Home} />} />
 
           <Route
             path="/messages/:userId"
             element={<ProtectedRoute component={Messages} />}
           />
+
+          {/* Mb-chat-component */}
+          <Route
+            path="/messages/chat"
+            element={<ProtectedRoute component={MobileMsgChat} />}
+          />
+
           <Route
             path="/profile"
             element={<ProtectedRoute component={Profile} />}

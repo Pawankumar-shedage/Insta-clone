@@ -1,9 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { useProfilePhotoOfCurrUser } from "../../../Components/Profile/ProfilePhotoContext/ProfilePhotoContext";
 import "./MbNavbar.css";
+import { useAuth } from "../../../AuthContext/AuthProvider";
+import { useState } from "react";
+import { CreateNewPost } from "../../../Components/Posts/CreateNewPost";
+import { Modal } from "../../../Components/Modal/Modal";
 
 export const MobileNavbar = () => {
   const { dpCurrUser } = useProfilePhotoOfCurrUser();
+  const { currentUser } = useAuth();
+
+  // CreatePost Modal
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const navigate = useNavigate();
   // /----------------------------
@@ -125,7 +140,7 @@ export const MobileNavbar = () => {
       </div>
 
       {/* New Post */}
-      <div>
+      <div className="mb-footer-createPost-btn" onClick={openModal}>
         <svg
           aria-label="New post"
           fill="currentColor"
@@ -168,8 +183,21 @@ export const MobileNavbar = () => {
         </svg>
       </div>
 
+      {/* Create Post Modal */}
+      {modalOpen && (
+        <Modal closeModal={closeModal}>
+          <CreateNewPost />
+        </Modal>
+      )}
+
       {/* Messages */}
-      <div className="mb-footer-message-btn">
+      <div
+        className="mb-footer-message-btn"
+        onClick={() => {
+          const userId = currentUser.uid;
+          navigate(`/messages/${userId}`);
+        }}
+      >
         <svg
           aria-label="Messenger"
           fill="currentColor"

@@ -342,21 +342,27 @@ export const FirebaseContext = ({ children }) => {
   };
 
   const getProfilePhoto = async (userId) => {
+    console.log("UserId ", userId);
+    if (!userId) throw new Error("userId is required");
+
     const docRef = doc(db, "ProfilePics", userId);
 
     const querySnapshot = await getDoc(docRef);
 
     // console.log("de", querySnapshot);
+    try {
+      let profilePhoto = null;
 
-    let profilePhoto = null;
-
-    if (querySnapshot.exists()) {
-      profilePhoto = querySnapshot.data().url;
-    } else {
-      console.log("Profile Photo doesnt exists");
+      if (querySnapshot.exists()) {
+        // console.log(querySnapshot.data().url);
+        return querySnapshot.data().url || "/src/assets/Images/User i/user.png";
+      } else {
+        const defaultProfilePhoto = "/src/assets/Images/User i/user.png";
+        return defaultProfilePhoto;
+      }
+    } catch (error) {
+      console.log("Error", error);
     }
-
-    return profilePhoto;
   };
   // --------------------------MESSAGES------------------
   const sendConversation = async (conversationData) => {
