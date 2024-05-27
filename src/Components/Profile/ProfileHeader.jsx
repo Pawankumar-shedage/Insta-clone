@@ -84,14 +84,16 @@ export const ProfileHeader = ({ user }) => {
           <img
             id="profile-image-loading"
             title="loading profile picture"
-            src="/src/assets/Images/Loading images/loading_circles_blue_gradient.jpg"
+            src="/public/assets/Images/Loading images/loading_circles_blue_gradient.jpg"
             alt="profile-pic"
           />
         ) : (
           <img
             id="profile-image"
             title="upload picture"
-            src={dpCurrUser ? dpCurrUser : "/src/assets/Images/User i/user.png"}
+            src={
+              dpCurrUser ? dpCurrUser : "/public/assets/Images/User i/user.png"
+            }
             alt="profile-pic"
             role="button"
             onClick={handleProfileImage}

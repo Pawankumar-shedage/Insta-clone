@@ -69,3 +69,8 @@
   align-items: center;
   justify-content: center;
 }
+
+/* Create Post */
+.mb-home-footer .mb-footer-createPost-btn {
+  /* width: 100vw; */
+}

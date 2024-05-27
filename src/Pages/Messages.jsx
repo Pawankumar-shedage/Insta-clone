@@ -60,7 +60,7 @@ export const Messages = (props) => {
     getUsers();
 
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 425);
+      setIsMobile(window.innerWidth <= 768);
       console.log("isMobile", isMobile);
     };
 
@@ -298,7 +298,7 @@ export const Messages = (props) => {
                       <img
                         src={
                           uidProfilePicMap.current.get(user.uid) ||
-                          "/src/assets/Images/User i/user.png"
+                          "/public/assets/Images/User i/user.png"
                         }
                         alt="profile-pic"
                         width="100%"

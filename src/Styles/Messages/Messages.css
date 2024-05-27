@@ -149,13 +149,17 @@
 @media screen and (min-width: 426px) and (max-width: 768px) {
   /* [2] */
   .message-profiles {
-    width: 20%;
+    width: 100%;
   }
   .m-prof-container {
     /* width: 20%; */
   }
   .msg-profile-names {
-    display: none;
+    /* display: none; */
     /* background-color: yellow; */
+  }
+
+  .message-chat {
+    display: none;
   }
 }

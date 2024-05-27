@@ -99,7 +99,7 @@ export const Sidebar = () => {
                   </span>
                   <span className="image-container">
                     <img
-                      src="/src/assets/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/Instagram_Glyph_White.png"
+                      src="/public/assets/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/Instagram_Glyph_White.png"
                       width={"24px"}
                       height={"24px"}
                       alt=""

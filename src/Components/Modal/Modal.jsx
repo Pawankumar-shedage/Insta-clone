@@ -17,16 +17,15 @@ export const Modal = ({ closeModal, children }) => {
         }}
       >
         {children}
-
-        {/* Close-Btn */}
-        <span
-          role="button"
-          className="close-modal-btn"
-          onClick={() => closeModal()}
-        >
-          <RxCross1 />
-        </span>
       </div>
+      {/* Close-Btn */}
+      <span
+        role="button"
+        className="close-modal-btn"
+        onClick={() => closeModal()}
+      >
+        <RxCross1 />
+      </span>
     </>
   );
 };

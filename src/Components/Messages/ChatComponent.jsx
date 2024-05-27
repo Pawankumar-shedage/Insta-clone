@@ -45,7 +45,7 @@ export const ChatComponent = ({
     }
 
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 426);
+      setIsMobile(window.innerWidth < 768);
     };
 
     handleResize();
@@ -238,50 +238,49 @@ export const ChatComponent = ({
         <div className="chat-header">
           <div className="d-flex flex-row">
             {/* Back button Mobile */}
-            {isMobile && (
-              <div
-                className="go-back d-flex align-items-center me-3"
-                onClick={() => navigate(-1)}
-              >
-                <span id="back-arrow">
-                  <svg
-                    aria-label="Back"
-                    fill="currentColor"
-                    height="24"
-                    role="img"
-                    viewBox="0 0 24 24"
-                    width="24"
-                  >
-                    <title>Back</title>
-                    <line
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      x1="2.909"
-                      x2="22.001"
-                      y1="12.004"
-                      y2="12.004"
-                    ></line>
-                    <polyline
-                      fill="none"
-                      points="9.276 4.726 2.001 12.004 9.276 19.274"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                    ></polyline>
-                  </svg>
-                </span>
-              </div>
-            )}
+
+            <div
+              className="go-back d-flex align-items-center me-3"
+              onClick={() => navigate(-1)}
+            >
+              <span id="back-arrow">
+                <svg
+                  aria-label="Back"
+                  fill="currentColor"
+                  height="24"
+                  role="img"
+                  viewBox="0 0 24 24"
+                  width="24"
+                >
+                  <title>Back</title>
+                  <line
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    x1="2.909"
+                    x2="22.001"
+                    y1="12.004"
+                    y2="12.004"
+                  ></line>
+                  <polyline
+                    fill="none"
+                    points="9.276 4.726 2.001 12.004 9.276 19.274"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                  ></polyline>
+                </svg>
+              </span>
+            </div>
 
             {/* profile-pic */}
             <div className="msg-prof-profile-pic me-1">
               <Link className="chat-profile-pic">
                 <img
-                  src={profilePicSrc || "/src/assets/Images/User i/user.png"}
+                  src={profilePicSrc || "/public/assets/Images/User i/user.png"}
                   alt="profile-pic"
                   className="rounded-circle"
                 />
@@ -370,7 +369,7 @@ export const ChatComponent = ({
               ) : null}
 
               {/* rendering text message, message-div */}
-              <div className="message-div">
+              <div className="message-div ms-2">
                 {message.data.sender !== selectedUser.author_uid ? (
                   <div id="msg-sender-text">
                     <div>
@@ -383,7 +382,12 @@ export const ChatComponent = ({
                   <div id="msg-receiver-text">
                     <div>
                       <div className="msg-receiver-profile-pic">
-                        <img src="/src/assets/Images/French-Croissants.jpg"></img>
+                        <img
+                          src={
+                            profilePicSrc ||
+                            "/public/assets/Images/French-Croissants.jpg"
+                          }
+                        ></img>
                       </div>
                       <div className="msg-receiver-content">
                         <div>{message.data.content}</div>

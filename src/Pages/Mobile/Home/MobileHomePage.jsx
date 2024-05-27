@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./MobileHomePage.css";
 import "/src/index.css";
 
@@ -13,22 +14,81 @@ import { useProfilePhotoOfCurrUser } from "../../../Components/Profile/ProfilePh
 import { MobileNavbar } from "../Navbar/MobileNavbar";
 
 export const MobileHomePage = ({ posts }) => {
-  const { updateUserPostData } = useFirebase();
+  const { updateUserPostData, getUser, getProfilePhoto } = useFirebase();
   const { currentUser } = useAuth();
   const { dpLoading, dpCurrUser } = useProfilePhotoOfCurrUser();
 
   const [allPosts, setAllPosts] = useState(posts);
-
-  // -----------Search bar - header
+  const [allUsers, setAllUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchInput, setSearchInput] = useState(" ");
   const inputRef = useRef();
   const [showSearchItem, setShowSearchItem] = useState(true);
+  const debounceTimer = useRef(null);
+
+  useEffect(() => {
+    console.log("INput change", searchInput);
+
+    const getUsers = async () => {
+      const users = await getUser();
+      setAllUsers(users);
+
+      await setUidProfilePicMap(users);
+
+      console.log(allUsers);
+    };
+
+    getUsers();
+  }, []);
+
+  // -----------Search bar - header
+
+  // () call when search-input Or users change.
+  useEffect(() => {
+    // clearing previous debounce timer
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+
+    debounceTimer.current = setTimeout(() => {
+      // Filter  users acc to search input
+      const filterUsers = async () => {
+        if (searchInput.trim() === "") {
+          setFilteredUsers([]);
+          return;
+        }
+        const filtered = allUsers.filter(
+          (user) =>
+            (user.fullName &&
+              user.fullName
+                .toLowerCase()
+                .startsWith(searchInput.toLowerCase())) ||
+            user.fullName.toLowerCase().includes(searchInput.toLowerCase()) ||
+            (user.username &&
+              user.username
+                .toLowerCase()
+                .startsWith(searchInput.toLowerCase())) ||
+            user.username.toLowerCase().includes(searchInput.toLowerCase())
+        );
+
+        setFilteredUsers(filtered);
+
+        console.log("Filtered users", filtered);
+      };
+
+      filterUsers();
+    }, 300); //Debouncing.
+
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, [searchInput, allUsers]);
 
   const handleSearchInput = (e) => {
     setSearchInput(e.target.value);
   };
 
-  const handleSearchBarClick = () => {
+  console.log("USers fil", filteredUsers);
+
+  const handleSearchBarClick = (e) => {
     setShowSearchItem(false);
     inputRef.current.focus();
   };
@@ -95,7 +155,29 @@ export const MobileHomePage = ({ posts }) => {
   };
 
   // Profile Photo(DP)
-  const defaultDp = "/src/assets/Images/User i/user.png";
+  const defaultDp = "/public/assets/Images/User i/user.png";
+
+  const uidProfilePicMap = useRef(new Map());
+
+  const fetchProfilePic = async (userId) => {
+    return await getProfilePhoto(userId);
+  };
+
+  const setUidProfilePicMap = async (users) => {
+    try {
+      const promises = users.map(async (user) => {
+        const profilePic = await fetchProfilePic(user.author_uid);
+
+        console.log(profilePic);
+        if (profilePic)
+          uidProfilePicMap.current.set(user.author_uid, profilePic);
+      });
+
+      await Promise.all(promises);
+    } catch (error) {
+      console.error("Error setting profile pictures: ", error);
+    }
+  };
 
   //   ------------Posts---------
 
@@ -106,7 +188,7 @@ export const MobileHomePage = ({ posts }) => {
       <div className="mb-home-header">
         <div className="mbhh-logo">
           <img
-            src="/src/assets/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/Instagram_Glyph_White.png"
+            src="/public/assets/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/Instagram_Glyph_White.png"
             alt="Insta logo"
           />
         </div>
@@ -121,6 +203,9 @@ export const MobileHomePage = ({ posts }) => {
             onBlur={() => {
               if (searchInput.length === 0) setShowSearchItem(true);
             }}
+            onFocus={() =>
+              searchInput.trim() !== "" && setFilteredUsers(filteredUsers)
+            }
           />
 
           <div
@@ -188,6 +273,25 @@ export const MobileHomePage = ({ posts }) => {
             </svg>
           </span>
         </div>
+      </div>
+
+      {/* Search Users result */}
+      <div className="mb-home-filtered-users">
+        {filteredUsers.map((user) => (
+          <div className="mbh-filtered-user-div" key={user.author_uid}>
+            <div className="filtered-user-dp">
+              <img
+                src={uidProfilePicMap.current.get(user.author_uid) || defaultDp}
+                className="rounded-circle"
+                alt="Dp"
+              />
+            </div>
+            <div className="filtered-user-name">
+              <div className="filtered-user-full-name">{user.fullName}</div>
+              <div className="filtered-user-username">{user.username}</div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Stories */}

@@ -94,6 +94,57 @@
   /* background-color: red; */
 }
 
+/* Filtered Users */
+.mb-home-filtered-users {
+  position: absolute;
+  width: 96%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  background-color: rgb(var(--ig-secondary-bg-color));
+  top: 8%;
+  left: 2%;
+  z-index: 3;
+  border-radius: 2%;
+  /* padding-bottom: 5%; */
+  /* left: 20%; */
+}
+
+.mb-home-filtered-users > .mbh-filtered-user-div {
+  padding: 2% 5% 2% 5%;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  /* border: 1px solid gray; */
+}
+
+.filtered-user-dp {
+  width: 60px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: 1px solid red; */
+  /* background-color: red; */
+}
+
+.filtered-user-dp > img {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rebeccapurple;
+}
+
+.filtered-user-name {
+  width: 100%;
+  margin-left: 3%;
+  display: flex;
+  flex-direction: column;
+}
+.filtered-user-name > .filtered-user-full-name {
+  font-weight: bold;
+}
+
 /* ---POST container */
 
 .mbhome-post-container {
