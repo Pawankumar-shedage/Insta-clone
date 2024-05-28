@@ -7,7 +7,8 @@ export const LoadingScreen = () => {
         <div className="loading-screen-container d-flex flex-column justify-content-center align-items-center">
           <div className="loading-logo">
             <img
-              src="/public/assets/IG_brand_asset_pack_2023/01 Static Glyph/01 Gradient Glyph/Instagram_Glyph_Gradient.png"
+              // src="/assets/"
+              src="/assets/IG_brand_asset_pack_2023/01 Static Glyph/01 Gradient Glyph/Instagram_Glyph_Gradient.png"
               alt="Instagram logo"
               className="insta-loading-logo"
             />

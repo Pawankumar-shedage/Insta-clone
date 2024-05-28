@@ -298,7 +298,7 @@ export const Messages = (props) => {
                       <img
                         src={
                           uidProfilePicMap.current.get(user.uid) ||
-                          "/public/assets/Images/User i/user.png"
+                          "/assets/Images/User i/user.png"
                         }
                         alt="profile-pic"
                         width="100%"

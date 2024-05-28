@@ -280,7 +280,7 @@ export const ChatComponent = ({
             <div className="msg-prof-profile-pic me-1">
               <Link className="chat-profile-pic">
                 <img
-                  src={profilePicSrc || "/public/assets/Images/User i/user.png"}
+                  src={profilePicSrc || "/assets/Images/User i/user.png"}
                   alt="profile-pic"
                   className="rounded-circle"
                 />
@@ -385,7 +385,7 @@ export const ChatComponent = ({
                         <img
                           src={
                             profilePicSrc ||
-                            "/public/assets/Images/French-Croissants.jpg"
+                            "/assets/Images/French-Croissants.jpg"
                           }
                         ></img>
                       </div>

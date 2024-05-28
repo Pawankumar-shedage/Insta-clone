@@ -113,7 +113,7 @@ export const Home = () => {
   };
 
   // Profile Photo (DP)
-  const defaultDp = "/public/assets/Images/User i/user.png";
+  const defaultDp = "/assets/Images/User i/user.png";
 
   // ------------------------------
   if (loading) {

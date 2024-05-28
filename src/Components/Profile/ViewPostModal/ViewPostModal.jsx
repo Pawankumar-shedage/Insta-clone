@@ -20,7 +20,7 @@ export const ViewPostModal = ({ post: userPost }) => {
   const [user, setUser] = useState(null);
   const [openEmojiDrawer, setOpenEmojiDrawer] = useState(false);
   const [post, setPost] = useState(userPost);
-  const defaultDp = "/public/assets/Images/User i/user.png";
+  const defaultDp = "/assets/Images/User i/user.png";
   const [addComment, setAddComment] = useState("");
 
   const getUserDetails = useCallback(async () => {

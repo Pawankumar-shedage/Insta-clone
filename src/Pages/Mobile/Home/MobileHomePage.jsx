@@ -155,7 +155,7 @@ export const MobileHomePage = ({ posts }) => {
   };
 
   // Profile Photo(DP)
-  const defaultDp = "/public/assets/Images/User i/user.png";
+  const defaultDp = "/assets/Images/User i/user.png";
 
   const uidProfilePicMap = useRef(new Map());
 
@@ -188,7 +188,7 @@ export const MobileHomePage = ({ posts }) => {
       <div className="mb-home-header">
         <div className="mbhh-logo">
           <img
-            src="/public/assets/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/Instagram_Glyph_White.png"
+            src="/assets/IG_brand_asset_pack_2023/01 Static Glyph/02 White Glyph/Instagram_Glyph_White.png"
             alt="Insta logo"
           />
         </div>

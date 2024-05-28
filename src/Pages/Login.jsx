@@ -196,7 +196,7 @@ export const Login = () => {
               <div className="meta me-1">
                 <img
                   className="contained-meta-img"
-                  src="src/assets/Meta logos/Meta_Company Lockup/1 Positive Primary/RGB/Meta_lockup_positive primary_RGB.png"
+                  src="/assets/Meta logos/Meta_Company Lockup/1 Positive Primary/RGB/Meta_lockup_positive primary_RGB.png"
                   width="75px"
                   height="182px"
                   alt="Meta logo, back to home"
