@@ -342,7 +342,7 @@ export const FirebaseContext = ({ children }) => {
   };
 
   const getProfilePhoto = async (userId) => {
-    console.log("UserId ", userId);
+    // console.log("UserId ", userId);
     if (!userId) throw new Error("userId is required");
 
     const docRef = doc(db, "ProfilePics", userId);

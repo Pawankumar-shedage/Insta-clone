@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
@@ -7,30 +8,25 @@ import { useAuth } from "../../AuthContext/AuthProvider";
 import { ViewPostModal } from "./ViewPostModal/ViewPostModal";
 import { Modal } from "../Modal/Modal";
 
-export const ProfilePosts = () => {
+export const ProfilePosts = ({ user }) => {
   // User Posts (Images)
-  const { getUserPosts, getUserById } = useFirebase();
+  const { getUserPosts } = useFirebase();
 
-  const { currentUser } = useAuth();
-
-  const [user, setUser] = useState(null);
-  const [caption, setCaption] = useState("");
   const [imgUrls, setImgUrls] = useState([]);
 
   const [reloadPage, setReloadPage] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getUserDetails();
+    const fetchData = async (user) => {
+      await getUserDetails(user);
     };
 
     console.log("Fetching user data and posts");
-    if (!user) fetchData();
-  });
+    if (user) fetchData(user);
+  }, []);
 
-  const getUserDetails = async () => {
-    const user = await getUserById(currentUser.uid);
-    setUser(user);
+  const getUserDetails = async (user) => {
+    console.log("called", user);
 
     //sending user as an argument only after it is fetched
     if (user) getPosts(user);
@@ -41,7 +37,7 @@ export const ProfilePosts = () => {
     if (imgUrls.length > 0) {
       setReloadPage(true); // Update shouldReloadPage when imgUrls changes
     }
-    console.log("Page reloaded");
+    // console.log("Page reloaded");
   }, [imgUrls]);
 
   const handlePostClick = (e) => {
@@ -54,7 +50,12 @@ export const ProfilePosts = () => {
   const [posts, setPosts] = useState([]);
 
   const getPosts = async (user) => {
-    const posts = await getUserPosts(user.uid, user.username);
+    const userId = user.uid || user.author_uid;
+    console.log("UserId posts", userId);
+    const username = user.username;
+
+    console.log("get Posts", userId, username);
+    const posts = await getUserPosts(userId, username);
 
     setPosts(posts);
 
@@ -85,8 +86,8 @@ export const ProfilePosts = () => {
   ];
   const weekDay = weekDayArr[date.getDay()]; //0-6 starting from sunday -0 to saturday - 6
 
-  console.log("Date ", `${day}-${month}-${year}`);
-  console.log("time ", `${hours}-${minutes}-${seconds} Day: ${weekDay}`);
+  // console.log("Date ", `${day}-${month}-${year}`);
+  // console.log("time ", `${hours}-${minutes}-${seconds} Day: ${weekDay}`);
 
   // View Post Modal
   const [viewPost, setViewPost] = useState(false);

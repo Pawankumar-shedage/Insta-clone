@@ -9,6 +9,8 @@ import { useAuth } from "../../AuthContext/AuthProvider";
 import { useProfilePhotoOfCurrUser } from "./ProfilePhotoContext/ProfilePhotoContext";
 
 export const ProfileHeader = ({ user }) => {
+  // console.log("Prof header user", user);
+
   const { uploadProfilePhotos, setProfilePhoto, getProfilePhoto } =
     useFirebase();
   const { currentUser } = useAuth();
@@ -25,7 +27,8 @@ export const ProfileHeader = ({ user }) => {
       setLoading(false);
     };
 
-    getDp(user.uid);
+    const userId = user.uid || user.author_uid;
+    getDp(userId);
   }, []);
   const handleProfileImage = () => {
     if (profilePhotoRef.current) {

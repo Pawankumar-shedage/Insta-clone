@@ -7,9 +7,10 @@
   color: white;
 }
 
+/* here only for laptop */
 .message-sidebar {
-  height: 100dvh;
-  width: var(--sidebar-narrow-width);
+  height: 100vh;
+  width: 150px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -20,12 +21,8 @@
   border-right: 1px solid rgb(var(--ig-seperator));
 }
 
-.message-top-btns {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-top: 5%;
-  width: 100%;
+.message-sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .upper-insta-logo {
@@ -143,6 +140,14 @@
 
   .message-chat {
     display: none;
+  }
+}
+
+/* Laptop ---++ */
+@media (min-width: 1264px) and (max-width: 1919px) {
+  .message-sidebar {
+    width: 20%;
+    border: none;
   }
 }
 

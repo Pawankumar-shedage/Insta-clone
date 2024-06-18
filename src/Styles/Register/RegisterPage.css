@@ -1,4 +1,7 @@
+.input-field::placeholder {
+  font-size: 12px;
+}
 
-.input-field::placeholder{
-    font-size: 12px;
+.small-text {
+  font-size: small;
 }

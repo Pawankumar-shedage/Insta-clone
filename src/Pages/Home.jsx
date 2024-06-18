@@ -11,6 +11,7 @@ import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/Loadin
 import { useFirebase } from "../FirebaseSetUp/FirebaseContext";
 import { MobileHomePage } from "./Mobile/Home/MobileHomePage";
 import { useProfilePhotoOfCurrUser } from "../Components/Profile/ProfilePhotoContext/ProfilePhotoContext";
+import { SearchBar } from "../Components/Sidebar/SearchBar";
 
 export const Home = () => {
   const { getPostsForHomePg, getUser, updateUserPostData } = useFirebase();
@@ -20,12 +21,14 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const users = await getUser();
 
+        setUsers(users);
         const fetchedPosts = await getPostsForHomePg(users);
 
         setPosts(fetchedPosts);
@@ -115,6 +118,14 @@ export const Home = () => {
   // Profile Photo (DP)
   const defaultDp = "/assets/Images/User i/user.png";
 
+  // Search Bar
+  const [toggleSearch, setToggleSearchBar] = useState(false);
+
+  function handleDataFromSidebar(data) {
+    console.log("data from sidebar", data);
+    setToggleSearchBar(data.searchBar);
+  }
+
   // ------------------------------
   if (loading) {
     return <LoadingScreen />;
@@ -129,14 +140,16 @@ export const Home = () => {
           <MobileHomePage posts={posts} />
         ) : (
           <div className="home-container">
-            {/* Action buttons section */}
-
-            {/* To put sibebar on left when scree-width >= 768px Tablet */}
+            {/* To put sibebar on left when screen-width >= 768px Tablet */}
             <div className="sidebar">
-              <Sidebar />
+              <Sidebar sendDataToHome={handleDataFromSidebar} />
             </div>
 
-            <section>
+            {/* Search bar - toggled */}
+            {toggleSearch && <SearchBar users={users} />}
+
+            {/* Home posts section (right) */}
+            <section className={toggleSearch ? "with-searchBar" : " "}>
               <div className="section-stories-posts-footer">
                 {/* <div className="stories-header">
                 <Stories />
@@ -152,7 +165,11 @@ export const Home = () => {
                       );
                       return (
                         <div
-                          className="feed-post"
+                          className={
+                            toggleSearch
+                              ? "feed-post-with-searchBar"
+                              : "feed-post"
+                          }
                           key={index}
                           // onClick={() => console.log("Post clicked: ", post)}
                         >

@@ -153,19 +153,24 @@ export const Register = () => {
                   <br />
                   {/* Policy Text */}
                   <div className="text-center fw-light">
-                    <p className="small-text">
-                      People who use our service may have uploaded your contact
-                      information to Instagram.
+                    <p className="small-text ">
+                      <small>
+                        People who use our service may have uploaded your
+                        contact information to Instagram.
+                      </small>
                       <Link
                         to="/"
                         style={{ color: "#254892", textDecoration: "none" }}
                       >
-                        {" "}
-                        Learn <br /> More
-                      </Link>{" "}
+                        <small>
+                          Learn <br /> More
+                        </small>
+                      </Link>
                       <br />
-                      By signing up, you agree to our Terms , Privacy Policy and
-                      Cookies Policy .
+                      <small>
+                        By signing up, you agree to our Terms , Privacy Policy
+                        and Cookies Policy .
+                      </small>
                     </p>
                   </div>
                   <div className="text-center d-grid">
@@ -189,7 +194,7 @@ export const Register = () => {
               <div className="meta">
                 <img
                   className="contained-meta-img"
-                  src="https://scontent.fpnq2-2.fna.fbcdn.net/v/t39.8562-6/252294889_575082167077436_6034106545912333281_n.svg/meta-logo-primary_standardsize.svg?_nc_cat=1&amp;ccb=1-7&amp;_nc_sid=e280be&amp;_nc_ohc=Ls8R1KqboTkAb7C0G8l&amp;_nc_ht=scontent.fpnq2-2.fna&amp;oh=00_AfBtvwWNkU5wkCQnvAzoCKgnDVhw4rYncGqhuClCflHvTw&amp;oe=661FFD79"
+                  src="/assets/Meta logos/Meta_Company Lockup/1 Positive Primary/RGB/Meta_lockup_positive primary_RGB.png"
                   width="89"
                   height="18"
                   alt="Meta logo, back to home"

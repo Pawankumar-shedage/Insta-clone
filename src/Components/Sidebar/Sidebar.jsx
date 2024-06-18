@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // icons
 import { AiFillHome } from "react-icons/ai";
 import { IoSearchOutline } from "react-icons/io5";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "../../AuthContext/AuthProvider";
 import { CreateNewPost } from "../Posts/CreateNewPost";
 // import { createPortal } from "react-dom";
@@ -18,12 +19,13 @@ import { LogoutModal } from "../Logout/LogoutModal";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import { useProfilePhotoOfCurrUser } from "../Profile/ProfilePhotoContext/ProfilePhotoContext";
 
-export const Sidebar = () => {
+export const Sidebar = ({ sendDataToHome }) => {
   const { currentUser } = useAuth();
   const { getProfilePhoto } = useFirebase();
   const { dpCurrUser } = useProfilePhotoOfCurrUser();
 
-  // const [profileImg, setProfileImg] = useState(null);
+  const [toggleSearchBar, setToggleSearchBar] = useState(false);
+  const initialRender = useRef(true);
 
   useEffect(() => {
     const getDp = async (userId) => {
@@ -64,6 +66,23 @@ export const Sidebar = () => {
   const closeLogoutModal = (e) => {
     setIsLogoutModal(false);
   };
+
+  // Search bar
+
+  const handleSearch = () => {
+    setToggleSearchBar((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    if (initialRender.current) {
+      console.log("Skip Initial Render");
+      initialRender.current = false;
+    } else {
+      console.log("searchbar-->", toggleSearchBar);
+      const data = { searchBar: toggleSearchBar };
+      sendDataToHome(data);
+    }
+  }, [toggleSearchBar]);
 
   // -----------------------------------RETURN--------------------------------------------------------
   return (
@@ -147,7 +166,11 @@ export const Sidebar = () => {
               </div>
 
               {/* Search */}
-              <div className="navigation-logo-div" role="button">
+              <div
+                className="navigation-logo-div"
+                role="button"
+                onClick={handleSearch}
+              >
                 {/* Logo */}
                 <div>
                   <Link className="sidebar-link">
@@ -485,7 +508,15 @@ export const Sidebar = () => {
               <div
                 className="navigation-logo-div"
                 role="button"
-                onClick={() => navigate("/profile")}
+                onClick={() => {
+                  const userId = currentUser.uid;
+                  try {
+                    navigate(`/profile/${userId}`);
+                    console.log("Called profile", userId);
+                  } catch (e) {
+                    console.log("Profile access", e);
+                  }
+                }}
               >
                 {/* Logo */}
                 <div>

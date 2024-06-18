@@ -224,7 +224,11 @@ export const MobileNavbar = () => {
         {/* Profile */}
         <div
           className="mb-footer-profile-btn"
-          onClick={() => navigate("/profile")}
+          onClick={() => {
+            const userId = currentUser.uid;
+            console.log();
+            navigate(`/profile/${userId}`);
+          }}
         >
           <span>
             {dpCurrUser ? (

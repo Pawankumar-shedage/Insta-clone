@@ -1,6 +1,6 @@
 .sidebar-mount {
   height: 100vh;
-  width: fit-content;
+  width: 100%;
   display: block;
   border: 1px solid rgb(var(--ig-seperator));
   background-color: rgb(var(--ig-primary-color));
@@ -13,20 +13,23 @@
 
 .button-group {
   height: 100dvh;
-  width: var(--sidebar-narrow-width);
+  /* width: var(--sidebar-medium-width); */
+  width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   overflow-x: hidden;
   padding: 8px 12px 20px 12px;
 }
 
 .top-btns {
   display: flex;
+  width: 100%;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
   margin-top: 5%;
 }
 
@@ -36,12 +39,21 @@
   margin-top: 0;
 }
 
-/*  '>' selection of cirect chinldrens */
-.insta-log-div > div {
-  width: 133px;
-  flex-grow: 1;
+/*  '>' selection of direct childrens */
+.insta-log-div {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.insta-log-div > div {
+  width: 100%;
+  /* flex-grow: 1; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   color: white;
   padding-bottom: 25px;
@@ -119,8 +131,16 @@
 
 /* For desktop */
 @media (min-width: 1264px) and (max-width: 1919px) {
+  .sidebar-mount {
+    /* background-color: red; */
+    height: 100%;
+    border: none;
+    border-right: 1px solid rgb(var(--ig-seperator));
+  }
+
   .button-group {
-    width: var(--sidebar-medium-width);
+    width: 100%;
+    height: 100%;
   }
 
   .image-container {
@@ -130,6 +150,14 @@
 
 /*for mobile*/
 @media (max-width: 1264px) {
+  .sidebar-mount {
+    border: none;
+  }
+  .button-group {
+    display: flex;
+    align-items: center;
+  }
+
   .insta-logo-max-width {
     display: none;
   }
@@ -137,7 +165,7 @@
   .image-container {
     display: block;
     color: red;
-    padding-left: 12px;
+    /* padding-left: 12px; */
   }
 
   #nav-text {

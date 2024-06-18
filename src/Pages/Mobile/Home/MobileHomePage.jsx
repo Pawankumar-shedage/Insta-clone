@@ -12,6 +12,7 @@ import { useFirebase } from "../../../FirebaseSetUp/FirebaseContext";
 import { useAuth } from "../../../AuthContext/AuthProvider";
 import { useProfilePhotoOfCurrUser } from "../../../Components/Profile/ProfilePhotoContext/ProfilePhotoContext";
 import { MobileNavbar } from "../Navbar/MobileNavbar";
+import { useNavigate } from "react-router-dom";
 
 export const MobileHomePage = ({ posts }) => {
   const { updateUserPostData, getUser, getProfilePhoto } = useFirebase();
@@ -24,7 +25,9 @@ export const MobileHomePage = ({ posts }) => {
   const [searchInput, setSearchInput] = useState(" ");
   const inputRef = useRef();
   const [showSearchItem, setShowSearchItem] = useState(true);
+  const [noResultsFound, setNoResultsFound] = useState(false);
   const debounceTimer = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("INput change", searchInput);
@@ -35,7 +38,7 @@ export const MobileHomePage = ({ posts }) => {
 
       await setUidProfilePicMap(users);
 
-      console.log(allUsers);
+      // console.log(allUsers[0].fullName.toLowerCase().trim());
     };
 
     getUsers();
@@ -43,44 +46,46 @@ export const MobileHomePage = ({ posts }) => {
 
   // -----------Search bar - header
 
-  // () call when search-input Or users change.
+  // () call when search-input Or users change. debounce filterUsers() (delay by 1sec)
   useEffect(() => {
-    // clearing previous debounce timer
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    // Filter  users acc to search input
+    const filterUsers = setTimeout(() => {
+      if (searchInput.trim() === "") {
+        setFilteredUsers([]);
+        setNoResultsFound(false); //Empty searchInput
+        return;
+      }
 
-    debounceTimer.current = setTimeout(() => {
-      // Filter  users acc to search input
-      const filterUsers = async () => {
-        if (searchInput.trim() === "") {
-          setFilteredUsers([]);
-          return;
-        }
-        const filtered = allUsers.filter(
-          (user) =>
-            (user.fullName &&
+      const filtered = allUsers.filter(
+        (user) =>
+          (user.fullName &&
+            (user.fullName
+              .toLowerCase()
+              .startsWith(searchInput.toLowerCase()) ||
               user.fullName
                 .toLowerCase()
-                .startsWith(searchInput.toLowerCase())) ||
-            user.fullName.toLowerCase().includes(searchInput.toLowerCase()) ||
-            (user.username &&
-              user.username
-                .toLowerCase()
-                .startsWith(searchInput.toLowerCase())) ||
-            user.username.toLowerCase().includes(searchInput.toLowerCase())
-        );
+                .includes(searchInput.toLowerCase()))) ||
+          (user.username &&
+            (user.username
+              .toLowerCase()
+              .startsWith(searchInput.toLowerCase()) ||
+              user.username.toLowerCase().includes(searchInput.toLowerCase())))
+      );
 
-        setFilteredUsers(filtered);
+      console.log("Filtered users callued", filtered);
 
-        console.log("Filtered users", filtered);
-      };
+      if (filtered.length === 0 && searchInput.length != 0)
+        setNoResultsFound(true);
+      else setNoResultsFound(false); //searchInput "" empty case
 
-      filterUsers();
-    }, 300); //Debouncing.
+      setFilteredUsers(filtered);
+    }, 1000);
 
     return () => {
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      // if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      clearTimeout(filterUsers);
     };
-  }, [searchInput, allUsers]);
+  }, [searchInput]);
 
   const handleSearchInput = (e) => {
     setSearchInput(e.target.value);
@@ -179,6 +184,13 @@ export const MobileHomePage = ({ posts }) => {
     }
   };
 
+  // Navigate to user profile
+  const handleUserProfile = (user) => {
+    console.log("User clicked", user);
+    const userId = user.author_uid;
+    navigate(`/profile/${userId}`);
+  };
+
   //   ------------Posts---------
 
   // ------------------------------------------------------------------------
@@ -197,7 +209,7 @@ export const MobileHomePage = ({ posts }) => {
           <input
             ref={inputRef}
             id="mbh-search-input"
-            type="text"
+            type="search"
             value={searchInput}
             onChange={handleSearchInput}
             onBlur={() => {
@@ -248,13 +260,6 @@ export const MobileHomePage = ({ posts }) => {
           >
             Search
           </div>
-          <div
-            id="mbh-clear-search-input"
-            onClick={handleClearSearch}
-            style={{ display: showSearchItem ? "none" : "block" }}
-          >
-            <RxCrossCircled />
-          </div>
         </div>
 
         <div className="mbhh-notifications">
@@ -278,7 +283,11 @@ export const MobileHomePage = ({ posts }) => {
       {/* Search Users result */}
       <div className="mb-home-filtered-users">
         {filteredUsers.map((user) => (
-          <div className="mbh-filtered-user-div" key={user.author_uid}>
+          <div
+            className="mbh-filtered-user-div"
+            key={user.author_uid}
+            onClick={() => handleUserProfile(user)}
+          >
             <div className="filtered-user-dp">
               <img
                 src={uidProfilePicMap.current.get(user.author_uid) || defaultDp}
@@ -292,6 +301,13 @@ export const MobileHomePage = ({ posts }) => {
             </div>
           </div>
         ))}
+
+        {noResultsFound && (
+          <div className="mbhome-filtered-no-results">
+            {/* <span>Sorry</span> */}
+            <span>No results found</span>
+          </div>
+        )}
       </div>
 
       {/* Stories */}

@@ -26,6 +26,26 @@
   /* background-color: yellow; */
 }
 
+.mb-prof-nav-back-top {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid rgb(var(--ig-seperator));
+}
+
+.mbprof-nav-back {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mbprofnavback-user-name {
+  /* width: auto; */
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* ------------------------------------Profile Header */
 .profile-header {
   display: flex;
@@ -42,7 +62,8 @@
   align-items: center;
   justify-content: center;
   /* background-color: red; */
-  width: 30%;
+  width: 200px;
+  height: 200px;
   /* border: 1px solid red; */
 }
 
@@ -242,7 +263,12 @@
   }
 
   .profile-pic-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 2%;
+    width: 100px;
+    height: 150px;
   }
 
   #profile-image {

@@ -7,7 +7,7 @@ export const Footer = ({ theme }) => {
   const date = new Date();
   const currYear = date.getFullYear();
 
-  console.log("Theme ", theme);
+  // console.log("Theme ", theme);
 
   return (
     <>

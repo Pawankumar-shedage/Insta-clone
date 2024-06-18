@@ -13,10 +13,9 @@ import { LoadingScreen } from "../Components/Common/Loading-Splash Screen/Loadin
 import { MobileNavbar } from "./Mobile/Navbar/MobileNavbar";
 import { MobileMsgChat } from "../Components/Messages/Mb_Chat/MobileMsgChat";
 import { Sidebar } from "../Components/Sidebar/Sidebar";
+import { SearchBar } from "../Components/Sidebar/SearchBar";
 
-export const Messages = (props) => {
-  console.log(props);
-
+export const Messages = () => {
   // Firestore 🦺
   const { getUser, sendConversation, getUserById, getProfilePhoto } =
     useFirebase();
@@ -28,6 +27,8 @@ export const Messages = (props) => {
   const [loggedUser, setLoggedUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [toggleSearch, setToggleSearchBar] = useState(false);
+
   // Fetching users from firestore
   const [selectedUser, setSelectedUser] = useState(null);
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ export const Messages = (props) => {
 
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      console.log("isMobile", isMobile);
+      // console.log("isMobile", isMobile);
     };
 
     handleResize();
@@ -154,6 +155,20 @@ export const Messages = (props) => {
 
   // --------------------------
 
+  // Send Msg btn-Filter Chat
+
+  const [openModal, setOpenModal] = useState(true);
+  const handleFilterChat = (e) => {
+    setOpenModal(true);
+
+    // --> search user, and select to start chat.
+  };
+
+  function handleDataFromSidebar(data) {
+    console.log("data from sidebar", data);
+    setToggleSearchBar(data.searchBar);
+  }
+
   // ***IMP ***
   // Wait until users are initially loaded
   if (loading) {
@@ -165,7 +180,15 @@ export const Messages = (props) => {
     <>
       <div className="messages-mount">
         {/* Sidebar [1] laptop*/}
-        {!isMobile && <Sidebar />}
+
+        {!isMobile && (
+          <div className="message-sidebar">
+            <Sidebar sendDataToHome={handleDataFromSidebar} />
+          </div>
+        )}
+
+        {/* SearchBar [1] */}
+        {toggleSearch && <SearchBar users={users} />}
 
         {/* Messages-Profiles [2]*/}
         <div className="message-profiles">
@@ -335,7 +358,6 @@ export const Messages = (props) => {
         {/* {selectedUser && isMobile && navigate("/messages/chat")} */}
 
         {/* Message-CHAT- [3] section, on click (2) */}
-
         <div className="message-chat">
           {/*  Chat Component */}
 
@@ -378,7 +400,9 @@ export const Messages = (props) => {
 
               <div>
                 {/* To open modal with select person to msg. */}
-                <button className="btn btn-primary">Send Message</button>
+                <button className="btn btn-primary" onClick={handleFilterChat}>
+                  Send Message
+                </button>
               </div>
             </div>
           )}
