@@ -22,6 +22,7 @@ export const SearchBar = ({ users }) => {
 
   useEffect(() => {
     const setUserMap = async () => {
+      console.log("Called setUserMap()");
       await setUidProfilePicMap(users);
     };
 
@@ -83,14 +84,15 @@ export const SearchBar = ({ users }) => {
     return await getProfilePhoto(userId);
   };
 
-  const setUidProfilePicMap = async (users) => {
+  const setUidProfilePicMap = async (allUsers) => {
     try {
-      const promises = users.map(async (user) => {
+      const promises = allUsers.map(async (user) => {
         const profilePic = await fetchProfilePic(user.author_uid);
 
-        // console.log(profilePic);
-        if (profilePic)
+        console.log("Mapping userId to profilePic Url");
+        if (profilePic) {
           uidProfilePicMap.current.set(user.author_uid, profilePic);
+        }
       });
 
       await Promise.all(promises);
@@ -98,6 +100,10 @@ export const SearchBar = ({ users }) => {
       console.error("Error setting profile pictures: ", error);
     }
   };
+
+  // uidProfilePicMap.current.clear();
+
+  console.log("MAP==> ", uidProfilePicMap);
 
   const handleUserProfile = (user) => {
     console.log("Clicked user in search bar->", user);
