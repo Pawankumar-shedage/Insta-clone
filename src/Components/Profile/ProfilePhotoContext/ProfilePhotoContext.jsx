@@ -18,6 +18,7 @@ export const ProfilePhotoProvider = ({ children }) => {
       if (currentUser) {
         try {
           const photoUrl = await getProfilePhoto(currentUser.uid);
+          console.log("Photo Url", photoUrl);
           setDpCurrUser(photoUrl);
         } catch (error) {
           console.error("Error fetching profile photo:", error);

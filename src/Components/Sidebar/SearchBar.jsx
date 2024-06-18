@@ -195,7 +195,7 @@ export const SearchBar = ({ users }) => {
               <img
                 src={uidProfilePicMap.current.get(user.author_uid) || defaultDp}
                 className="rounded-circle"
-                alt="Dp"
+                alt="prof-pic-11"
               />
             </div>
             <div className="sb-filtered-user-name">

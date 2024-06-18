@@ -121,20 +121,26 @@ export const ProfilePosts = ({ user }) => {
         </div>
         {/* to add posts,saved,archived options bar */}
 
-        <div className="user-posts">
-          {posts.map((post, index) => (
-            <div className="up-img-div" key={index} role="button">
-              <img
-                src={post.images[0]}
-                onClick={() => {
-                  setViewPost(!viewPost);
-                  setClickedPost(post);
-                }}
-                alt="img"
-              />
-            </div>
-          ))}
-        </div>
+        {posts.length === 0 ? (
+          <div className="user-no-posts-msg-box ">
+            <span className="fw-medium">No posts yet</span>{" "}
+          </div>
+        ) : (
+          <div className="user-posts">
+            {posts.map((post, index) => (
+              <div className="up-img-div" key={index} role="button">
+                <img
+                  src={post.images[0]}
+                  onClick={() => {
+                    setViewPost(!viewPost);
+                    setClickedPost(post);
+                  }}
+                  alt="img"
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* View Post Modal */}
       </div>

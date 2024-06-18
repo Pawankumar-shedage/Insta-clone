@@ -226,6 +226,15 @@
   grid-template-columns: 1fr;
   row-gap: 0;
 }
+
+.user-no-posts-msg-box {
+  width: 100%;
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .up-img-div {
   padding: 2px;
   height: 0; /*maintain aspect ratio 1:1*/
@@ -271,11 +280,6 @@
     height: 150px;
   }
 
-  #profile-image {
-    /* width: 1%;
-    height: 2%; */
-  }
-
   .profile-user-details {
     width: 70%;
     padding-left: 5%;
@@ -318,10 +322,6 @@
   .user-posts {
     /* 2 cols */
     grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .profile-sidebar {
-    /* display: none; */
   }
 
   .profile-header {

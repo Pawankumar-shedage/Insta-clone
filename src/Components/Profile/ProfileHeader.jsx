@@ -95,7 +95,7 @@ export const ProfileHeader = ({ user }) => {
             id="profile-image"
             title="upload picture"
             src={dpCurrUser ? dpCurrUser : "/assets/Images/User i/user.png"}
-            alt="profile-pic"
+            alt="profile-picture11"
             role="button"
             onClick={handleProfileImage}
           />
