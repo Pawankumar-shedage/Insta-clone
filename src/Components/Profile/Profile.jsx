@@ -6,6 +6,7 @@ import { useAuth } from "../../AuthContext/AuthProvider";
 import { useFirebase } from "../../FirebaseSetUp/FirebaseContext";
 import { Sidebar } from "../Sidebar/Sidebar";
 import "./Profile.css";
+import "/src/Components/Sidebar/searchBarStyle.css";
 import "/src/index.css";
 // icons
 import { ProfileHeader } from "./ProfileHeader";
@@ -32,6 +33,7 @@ export const Profile = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // For searchbar.
     const fetchUsers = async () => {
       try {
         const users = await getUser();
@@ -78,7 +80,7 @@ export const Profile = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [userId]);
 
   function handleDataFromSidebar(data) {
     console.log("data from sidebar", data);
@@ -113,7 +115,9 @@ export const Profile = () => {
           {!isMobile && <Sidebar sendDataToHome={handleDataFromSidebar} />}
         </div>
 
-        {toggleSearchBar && <SearchBar users={users} />}
+        <div className={`searchbar-container ${toggleSearchBar && "expanded"}`}>
+          {toggleSearchBar && <SearchBar users={users} />}
+        </div>
         {/* MAIN */}
         <div className="profile-display ">
           {user ? (

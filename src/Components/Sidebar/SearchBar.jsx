@@ -116,6 +116,8 @@ export const SearchBar = ({ users }) => {
         throw new Error("User ID not found");
       }
 
+      console.log("Navigating to ", user.fullName, "  profile");
+
       navigate(`/profile/${userId}`);
     } catch (e) {
       console.log("Error occ @", e);
@@ -126,7 +128,7 @@ export const SearchBar = ({ users }) => {
 
   // ------------------------RETURN
   return (
-    <div className="searchbar-container">
+    <>
       <div className="sb-top-title">
         <span className="fs-4 fw-strong">Search</span>
       </div>
@@ -222,6 +224,6 @@ export const SearchBar = ({ users }) => {
           <span>No results found</span>
         </div>
       )}
-    </div>
+    </>
   );
 };

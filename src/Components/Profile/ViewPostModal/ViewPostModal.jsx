@@ -12,22 +12,19 @@ import { EmojiDrawer } from "../../Messages/EmojiDrawer";
 import { useProfilePhotoOfCurrUser } from "../ProfilePhotoContext/ProfilePhotoContext";
 
 // eslint-disable-next-line no-unused-vars
-export const ViewPostModal = ({ post: userPost }) => {
+export const ViewPostModal = ({ post: userPost, user }) => {
   const { currentUser } = useAuth();
-  const { getUserById, updateUserPostData } = useFirebase();
+  const { updateUserPostData } = useFirebase();
   const { dpLoading, dpCurrUser } = useProfilePhotoOfCurrUser();
 
-  const [user, setUser] = useState(null);
   const [openEmojiDrawer, setOpenEmojiDrawer] = useState(false);
   const [post, setPost] = useState(userPost);
   const defaultDp = "/assets/Images/User i/user.png";
   const [addComment, setAddComment] = useState("");
 
   const getUserDetails = useCallback(async () => {
-    const user = await getUserById(currentUser.uid);
-
     setUser(user);
-  }, [currentUser.uid, getUserById]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,7 +145,7 @@ export const ViewPostModal = ({ post: userPost }) => {
 
   const checkIfPostLikedByCurrUser = (likedBy) => {
     // console.log("LikedBy [] checking before rendering post", likedBy);
-    console.log("CHECK", currentUser.uid);
+    // console.log("CHECK", currentUser.uid);
     return likedBy.includes(currentUser.uid);
   };
 

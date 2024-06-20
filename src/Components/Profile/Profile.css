@@ -1,11 +1,35 @@
 .profile-mount {
   height: 100vh;
   width: 100vw;
+
+  display: flex;
+  justify-content: center;
+  background-color: #fafafa;
 }
 
 /* sidebar */
 .profile-sidebar {
   display: block;
+}
+
+/* Searchbar */
+.searchbar-container {
+  width: 10px;
+  height: 100vh;
+  background-color: rgb(var(--ig-dark-bg));
+  display: flex;
+  flex-direction: column;
+  color: white;
+  transition: width 150ms linear 50ms;
+}
+
+.searchbar-container.expanded {
+  width: 250px;
+  border-right: 1px solid rgb(var(--ig-seperator));
+}
+
+.searchbar-container.expanded + .profile-container .profile-display {
+  width: calc(100% - 250px); /* Adjusted width when expanded */
 }
 
 .profile-container {
@@ -15,14 +39,19 @@
   display: flex;
   flex-direction: row;
   color: white;
+  transition: width 150ms linear;
 }
 
 /* profile-display */
 
 .profile-display {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 10px); /* Adjust initial width to account for search bar */
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 150ms linear;
   /* background-color: yellow; */
 }
 

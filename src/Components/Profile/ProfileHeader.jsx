@@ -13,9 +13,9 @@ export const ProfileHeader = ({ user }) => {
 
   const { uploadProfilePhotos, setProfilePhoto, getProfilePhoto } =
     useFirebase();
-  const { currentUser } = useAuth();
   const { dpCurrUser, setDpCurrUser: setGlobalProfilePhoto } =
     useProfilePhotoOfCurrUser();
+  const { currentUser } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const profilePhotoRef = useRef();
@@ -29,8 +29,14 @@ export const ProfileHeader = ({ user }) => {
 
     const userId = user.uid || user.author_uid;
     getDp(userId);
-  }, []);
+  }, [user]);
+
   const handleProfileImage = () => {
+    // Temp soln for Friend- users.
+    if (currentUser.uid !== user.author_uid) {
+      console.log("Guest");
+      return;
+    }
     if (profilePhotoRef.current) {
       profilePhotoRef.current.click();
     }
@@ -52,16 +58,16 @@ export const ProfileHeader = ({ user }) => {
   const uploadProfilePhoto = async (file) => {
     setLoading(true);
     try {
-      if (file && currentUser) {
-        const imgUrl = await uploadProfilePhotos(file, currentUser.uid);
+      if (file && user) {
+        const imgUrl = await uploadProfilePhotos(file, user.uid);
 
         // now to set this url , accessible. ..
-        await setProfilePhoto(imgUrl, user.uid);
+        await setProfilePhoto(imgUrl, user.uid || user.author_uid);
 
         setGlobalProfilePhoto(imgUrl);
         // get Updated/Uploaded photo
 
-        await getProfilePhotoByID(user.uid);
+        // await getProfilePhotoByID(user.uid);
 
         console.log("Url", imgUrl);
       }
@@ -72,9 +78,14 @@ export const ProfileHeader = ({ user }) => {
     }
   };
 
+  const [selectedUserDp, setSelectedUserDp] = useState("");
   const getProfilePhotoByID = async (userId) => {
     const dp = await getProfilePhoto(userId);
-    setGlobalProfilePhoto(dp);
+
+    setSelectedUserDp(dp);
+    console.log("DP in header ", dp);
+
+    // setGlobalProfilePhoto(dp);
   };
 
   // console.log("DPURL", dpUrl);
@@ -94,7 +105,9 @@ export const ProfileHeader = ({ user }) => {
           <img
             id="profile-image"
             title="upload picture"
-            src={dpCurrUser ? dpCurrUser : "/assets/Images/User i/user.png"}
+            src={
+              selectedUserDp ? selectedUserDp : "/assets/Images/User i/user.png"
+            }
             alt="profile-picture11"
             role="button"
             onClick={handleProfileImage}

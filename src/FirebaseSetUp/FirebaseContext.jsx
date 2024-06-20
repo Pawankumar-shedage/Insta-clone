@@ -327,7 +327,13 @@ export const FirebaseContext = ({ children }) => {
   };
 
   const setProfilePhoto = async (profileUrl, userId) => {
+    if (!userId) {
+      console.log("Error: userId is empty or invalid.", userId);
+      return;
+    }
+
     const collectionRef = collection(db, "ProfilePics");
+
     const docRef = doc(collectionRef, userId);
 
     const profilePhoto = {
@@ -355,9 +361,9 @@ export const FirebaseContext = ({ children }) => {
 
       if (querySnapshot.exists()) {
         // console.log(querySnapshot.data().url);
-        return querySnapshot.data().url || "/src/assets/Images/User i/user.png";
+        return querySnapshot.data().url || "/assets/Images/User i/user.png";
       } else {
-        const defaultProfilePhoto = "/src/assets/Images/User i/user.png";
+        const defaultProfilePhoto = "/assets/Images/User i/user.png";
         return defaultProfilePhoto;
       }
     } catch (error) {

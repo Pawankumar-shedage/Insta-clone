@@ -14,6 +14,20 @@
   width: var(--sidebar-medium-width);
 }
 
+.searchbar-container {
+  width: 10px;
+  height: 100vh;
+  background-color: rgb(var(--ig-dark-bg));
+  display: flex;
+  flex-direction: column;
+  color: white;
+  transition: width 150ms linear 50ms;
+}
+
+.searchbar-container.expanded {
+  width: 250px;
+}
+
 section {
   /* background-color: rgb(45,345,3); */
   background-color: rgb(var(--ig-primary-color));

@@ -29,17 +29,24 @@ export const Sidebar = ({ sendDataToHome }) => {
 
   useEffect(() => {
     const getDp = async (userId) => {
-      await getProfilePhotoByID(userId);
+      try {
+        const dp = await getProfilePhotoByID(userId);
+        console.log("Dp in sidebar profile div", dp);
+      } catch (e) {
+        console.log("Error", e);
+      }
     };
 
-    getDp(currentUser.uid);
-
-    // console.log(currentUser.uid);
+    if (currentUser) {
+      console.log(currentUser.uid);
+      getDp(currentUser.uid);
+    }
+    console.log("ff", currentUser.uid);
   }, []);
 
   const getProfilePhotoByID = async (userId) => {
     const dp = await getProfilePhoto(userId);
-
+    return dp;
     // setProfileImg(dp);
   };
 

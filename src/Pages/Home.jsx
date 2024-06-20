@@ -146,7 +146,12 @@ export const Home = () => {
             </div>
 
             {/* Search bar - toggled */}
-            {toggleSearch && <SearchBar users={users} />}
+
+            <div
+              className={`searchbar-container ${toggleSearch && "expanded"}`}
+            >
+              {toggleSearch && <SearchBar users={users} />}
+            </div>
 
             {/* Home posts section (right) */}
             <section className={toggleSearch ? "with-searchBar" : " "}>

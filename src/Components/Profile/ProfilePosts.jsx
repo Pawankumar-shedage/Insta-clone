@@ -21,9 +21,12 @@ export const ProfilePosts = ({ user }) => {
       await getUserDetails(user);
     };
 
-    console.log("Fetching user data and posts");
-    if (user) fetchData(user);
-  }, []);
+    console.log("Fetching user data and posts for sent user!!");
+    if (user) {
+      console.log("Fetching user details for ", user.fullName);
+      fetchData(user);
+    }
+  }, [user]);
 
   const getUserDetails = async (user) => {
     console.log("called", user);
@@ -102,7 +105,7 @@ export const ProfilePosts = ({ user }) => {
     <>
       {viewPost && (
         <Modal closeModal={closeModal}>
-          <ViewPostModal post={clickedPost} />
+          <ViewPostModal post={clickedPost} user={user} />
         </Modal>
       )}
 

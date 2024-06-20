@@ -1,7 +1,7 @@
 .view-post-mount {
   width: 80vw;
   height: 90vh;
-  position: relative;
+  /* position: relative; */
   margin: 2% auto;
   /* background-color: blue; */
   z-index: 4;
@@ -23,11 +23,12 @@
 /* ----------------MOBILE-------------------------- */
 
 .view-post-mb-container {
-  width: 100%;
+  width: 80%;
   height: 100%;
   /* overflow: hidden; */
-  position: relative;
-  right: 12%;
+  /* position: relative; */
+  right: 2%;
+  border: 1px solid red;
 }
 
 .vp-mobile {
@@ -170,7 +171,7 @@
   /* padding-top: 8%; */
 }
 
-/* ------------------LAPTOP----------------------------------------- */
+/* ------------------LAPTOP STRUCTURE----------------------------------------- */
 
 /* Img Section (left)*/
 .vp-img-section {
@@ -503,7 +504,7 @@
   }
 }
 
-/*----------- Laptop--------------------------- */
+/*----------- Laptop Screen--------------------------- */
 
 @media screen and (min-width: 768px), (max-width: 1024px) {
   .view-post-mount {
@@ -518,13 +519,16 @@
 
   .view-post-container {
     position: absolute;
-    width: 100%;
+    width: 80%;
     height: 100%;
-    right: 20%;
+    /* right: 5%; */
+
     display: flex;
     flex-direction: row;
+    justify-content: center;
     background-color: rgb(0, 0, 0);
     overflow: hidden;
+    /* border: 2px solid red; */
     border: none;
   }
 
@@ -569,11 +573,15 @@
 
   .vpcs-postCaption-profilePhoto {
     /* background-color: red; */
-    margin: 2% 0% 2% 5%;
+    margin: 2% 2% 2% 5%;
   }
   .vpcs-postCaption-profilePhoto > img {
-    width: 40%;
-    height: 40%;
+    width: 80%;
+    height: 80%;
     margin-right: 0%;
+  }
+
+  .vpcs-postCaption-userName {
+    font-size: small;
   }
 }
